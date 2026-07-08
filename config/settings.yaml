@@ -1,0 +1,24 @@
+project:
+  name: "Análisis del Discurso de Odio en Redes Sociales en El Salvador"
+  version: "0.1.0"
+  language: "es"
+  country: "SV"
+
+paths:
+  raw_data: "data/raw"
+  processed_data: "data/processed"
+  interim_data: "data/interim"
+  external_data: "data/external"
+  models: "models/checkpoints"
+  reports: "reports/figures"
+
+data:
+  text_column: "text"
+  label_column: "label"
+  test_size: 0.2
+  random_state: 42
+
+model:
+  name: "baseline"
+  max_features: 10000
+  ngram_range: [1, 2]
