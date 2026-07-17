@@ -46,13 +46,19 @@ profile_default/
 
 # Datos y modelos (no versionar datos sensibles)
 data/raw/*
+!data/raw/.gitkeep
+!data/raw/dataset_unificado.csv
+!data/raw/dataset_entrenamiento.csv
+!data/raw/dataset_pruebas.csv
 data/processed/*
 data/interim/*
 data/external/*
-!data/raw/.gitkeep
 !data/processed/.gitkeep
 !data/interim/.gitkeep
 !data/external/.gitkeep
+
+# Reporte LaTeX (no versionar)
+reports/latex/
 
 models/checkpoints/*
 !models/checkpoints/.gitkeep
