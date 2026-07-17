@@ -3,6 +3,7 @@ project:
   version: "0.1.0"
   language: "es"
   country: "SV"
+  stage: "etapa_1"
 
 paths:
   raw_data: "data/raw"
@@ -13,12 +14,33 @@ paths:
   reports: "reports/figures"
 
 data:
-  text_column: "text"
-  label_column: "label"
+  text_column: "Texto_Original"
+  label_column: "Clase_Toxicidad"
+  canonical_label_column: "label"
+  datasets:
+    unificado: "dataset_unificado.csv"
+    entrenamiento: "dataset_entrenamiento.csv"
+    pruebas: "dataset_pruebas.csv"
   test_size: 0.2
   random_state: 42
+
+taxonomy:
+  labels:
+    - no_toxico
+    - ofensivo
+    - odio
+    - amenazas
 
 model:
   name: "baseline"
   max_features: 10000
   ngram_range: [1, 2]
+  cv_folds: 5
+
+finetune:
+  sample_size: 400
+  epochs: 1
+  max_length: 128
+  models:
+    mbert: "bert-base-multilingual-cased"
+    xlmr: "xlm-roberta-base"
