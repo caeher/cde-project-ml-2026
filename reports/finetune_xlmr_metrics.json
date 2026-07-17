@@ -1,0 +1,19 @@
+{
+  "model_key": "xlmr",
+  "model_name": "xlm-roberta-base",
+  "issue": "TFM-28",
+  "train_loss": 1.3542439460754394,
+  "eval_metrics": {
+    "eval_loss": 1.342210054397583,
+    "eval_accuracy": 0.35,
+    "eval_f1_macro": 0.12962962962962962,
+    "eval_precision_macro": 0.0875,
+    "eval_recall_macro": 0.25,
+    "eval_runtime": 57.9727,
+    "eval_samples_per_second": 0.69,
+    "eval_steps_per_second": 0.052,
+    "epoch": 1.0
+  },
+  "sample_size": 200,
+  "epochs": 1
+}
