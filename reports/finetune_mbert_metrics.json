@@ -2,18 +2,18 @@
   "model_key": "mbert",
   "model_name": "bert-base-multilingual-cased",
   "issue": "TFM-27",
-  "train_loss": 1.372344970703125,
+  "train_loss": 1.05722286615027,
   "eval_metrics": {
-    "eval_loss": 1.3544422388076782,
-    "eval_accuracy": 0.375,
-    "eval_f1_macro": 0.22788074838258437,
-    "eval_precision_macro": 0.40344827586206894,
-    "eval_recall_macro": 0.28907203907203904,
-    "eval_runtime": 26.9313,
-    "eval_samples_per_second": 1.485,
-    "eval_steps_per_second": 0.111,
+    "eval_loss": 0.7650866508483887,
+    "eval_accuracy": 0.6686746987951807,
+    "eval_f1_macro": 0.6020149623566198,
+    "eval_precision_macro": 0.598391906484392,
+    "eval_recall_macro": 0.6401771741560474,
+    "eval_runtime": 307.0459,
+    "eval_samples_per_second": 1.081,
+    "eval_steps_per_second": 0.137,
     "epoch": 1.0
   },
-  "sample_size": 200,
+  "sample_size": 400,
   "epochs": 1
 }
