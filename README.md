@@ -46,9 +46,20 @@ pip install -e .
 
 Sesión Hugging Face (`hf auth whoami`) para descarga de modelos base.
 
+Verificación reproducible del entorno (TFM-21):
+
+```bash
+python scripts/verify_hf_env.py
+```
+
+### Google Colab GPU
+
+Abrir `notebooks/00_colab_setup.ipynb` en Colab con runtime **T4 GPU**. El notebook clona el repo, instala dependencias, autentica Hugging Face y ejecuta la verificación + smoke test de fine-tuning. Ver [docs/etapa1.md](docs/etapa1.md#entorno-reproducible-tfm-21).
+
 ## Pipeline de ejecución (Etapa I)
 
 ```bash
+python scripts/run_validation.py   # Validación cruzada + Kappa
 python scripts/run_eda.py              # EDA + reporte Kappa
 python scripts/run_baselines.py        # 3 baselines + métricas comparativas
 python scripts/run_tune.py             # GridSearchCV (TFM-29)
@@ -83,12 +94,14 @@ pytest
 | Preprocesamiento y features | `src/discurso_odio/features/` |
 | Baselines y métricas (≥3) | `scripts/run_baselines.py`, `reports/metricas_comparativas.csv` |
 | Interpretabilidad SHAP/LIME | `scripts/run_interpretability.py` |
-| Código reproducible | Repositorio, tests, README |
+| Código reproducible | Repositorio, tests, README, `scripts/verify_hf_env.py`, `notebooks/00_colab_setup.ipynb` |
 
 ## Documentación
 
 - [Etapa I — Alcance y pipeline](docs/etapa1.md)
+- [Colab GPU + Hugging Face (TFM-21)](notebooks/00_colab_setup.ipynb)
 - [Descripción del dataset](docs/datos.md)
+- [Reporte LaTeX Etapa I](reports/latex/reporte_etapa1.tex) — compilar con `reports/latex/build_report.ps1`
 
 ## Licencia
 

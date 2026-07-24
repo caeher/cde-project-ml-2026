@@ -35,18 +35,36 @@ Proyecto UES: clasificación multiclase de toxicidad y discurso de odio en publi
 
 ## Entorno reproducible (TFM-21)
 
+### Entorno local (Windows/Linux/macOS)
+
 ```bash
 python -m venv .venv
-.\.venv\Scripts\Activate.ps1
+.\.venv\Scripts\Activate.ps1   # Linux/macOS: source .venv/bin/activate
 pip install -r requirements.txt
 pip install -e .
+hf auth login                  # o verificar con: hf auth whoami
+python scripts/verify_hf_env.py
 ```
 
 Sesión Hugging Face activa (`hf auth whoami`). Modelos base descargados automáticamente al ejecutar fine-tuning.
 
+### Google Colab con GPU
+
+1. Abrir [notebooks/00_colab_setup.ipynb](../notebooks/00_colab_setup.ipynb) en Google Colab.
+2. Seleccionar **Runtime → Cambiar tipo de entorno de ejecución → T4 GPU**.
+3. Ejecutar todas las celdas en orden:
+   - Verificación GPU (`nvidia-smi`, `torch.cuda.is_available()`).
+   - Clonado del repositorio e instalación de dependencias.
+   - Autenticación Hugging Face (`notebook_login()`).
+   - Verificación reproducible: `python scripts/verify_hf_env.py`.
+   - Smoke test de fine-tuning ligero con mBERT.
+
+El código detecta GPU automáticamente en `src/discurso_odio/models/transformers_ft.py` (`use_cpu=not torch.cuda.is_available()`).
+
 ## Pipeline de ejecución
 
 ```bash
+python scripts/run_validation.py   # Validación cruzada + Cohen's Kappa
 python scripts/run_eda.py              # EDA + Kappa
 python scripts/run_baselines.py        # 3 baselines + métricas
 python scripts/run_tune.py             # GridSearchCV
@@ -59,9 +77,9 @@ pytest
 
 | Criterio | Puntos | Evidencia |
 |----------|--------|-----------|
-| Calidad y cantidad de datos | 20 | `data/raw/*.csv`, `docs/datos.md` |
+| Calidad y cantidad de datos | 20 | `data/raw/*.csv`, validación (`scripts/run_validation.py`), `reports/kappa_report.json` |
 | EDA completo | 20 | `notebooks/01_eda.ipynb`, `reports/figures/` |
 | Preprocesamiento y features | 20 | `src/discurso_odio/features/`, `notebooks/02_preprocesamiento.ipynb` |
 | Baselines y métricas | 20 | `scripts/run_baselines.py`, `reports/metricas_comparativas.csv` |
 | Interpretabilidad | 10 | `scripts/run_interpretability.py`, `reports/figures/06_shap_summary.png` |
-| Código reproducible | 10 | Repositorio GitHub, tests, README |
+| Código reproducible | 10 | Repositorio GitHub, tests, `scripts/verify_hf_env.py`, `notebooks/00_colab_setup.ipynb` |
