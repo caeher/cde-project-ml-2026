@@ -107,6 +107,61 @@ def plot_cooccurrence_flags(df: pd.DataFrame) -> Path:
     return _save_fig("05_flags.png")
 
 
+def plot_platform_by_class(df: pd.DataFrame) -> Path:
+    """Crosstab plataforma × clase canónica."""
+    prepared = prepare_dataset(df)
+    if "Plataforma" not in prepared.columns:
+        return _figures_dir() / "07_plataforma_clase.png"
+
+    crosstab = pd.crosstab(prepared["Plataforma"], prepared[CANONICAL_LABEL_COLUMN])
+    crosstab = crosstab.reindex(columns=CANONICAL_LABELS, fill_value=0)
+    plt.figure(figsize=(10, 5))
+    crosstab.plot(kind="bar", stacked=False, colormap="Set2")
+    plt.title("Distribución de clases por plataforma")
+    plt.xlabel("Plataforma")
+    plt.ylabel("Frecuencia")
+    plt.xticks(rotation=0)
+    plt.legend(title="Clase", bbox_to_anchor=(1.02, 1), loc="upper left")
+    return _save_fig("07_plataforma_clase.png")
+
+
+def plot_affected_groups(df: pd.DataFrame) -> Path:
+    """Distribución de grupos afectados mencionados."""
+    if "Grupos_Afectados" not in df.columns:
+        return _figures_dir() / "08_grupos_afectados.png"
+
+    prepared = prepare_dataset(df)
+    groups = (
+        prepared["Grupos_Afectados"]
+        .fillna("Ninguno")
+        .astype(str)
+        .str.strip()
+        .replace({"": "Ninguno", "nan": "Ninguno"})
+    )
+    counts = groups.value_counts().head(10)
+    plt.figure(figsize=(9, 5))
+    sns.barplot(x=counts.values, y=counts.index, palette=PALETTE)
+    plt.title("Top grupos afectados en el corpus")
+    plt.xlabel("Frecuencia")
+    return _save_fig("08_grupos_afectados.png")
+
+
+def plot_word_length_distribution(df: pd.DataFrame) -> Path:
+    """Histograma de longitud en palabras con percentil 99."""
+    prepared = preprocess_dataframe(prepare_dataset(df), TEXT_COLUMN)
+    word_lens = prepared["texto_limpio"].astype(str).str.split().map(len)
+    p99 = float(word_lens.quantile(0.99))
+
+    plt.figure(figsize=(8, 5))
+    sns.histplot(word_lens, bins=40, kde=True, color="#4C72B0")
+    plt.axvline(p99, color="crimson", linestyle="--", label=f"P99 = {p99:.0f} palabras")
+    plt.title("Distribución de longitud del texto (palabras)")
+    plt.xlabel("Palabras")
+    plt.ylabel("Frecuencia")
+    plt.legend()
+    return _save_fig("09_longitud_palabras.png")
+
+
 def run_full_eda(df: pd.DataFrame) -> list[Path]:
     """Ejecuta el EDA completo y guarda todas las figuras."""
     figures = [
@@ -115,5 +170,8 @@ def run_full_eda(df: pd.DataFrame) -> list[Path]:
         plot_text_length_by_class(df),
         plot_dialect_distribution(df),
         plot_cooccurrence_flags(df),
+        plot_platform_by_class(df),
+        plot_affected_groups(df),
+        plot_word_length_distribution(df),
     ]
     return figures

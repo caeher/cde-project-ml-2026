@@ -1,0 +1,39 @@
+{
+  "total_unificado": 2286,
+  "total_train": 2057,
+  "total_test": 229,
+  "num_columns": 25,
+  "label_counts": {
+    "no_toxico": 830,
+    "ofensivo": 486,
+    "odio": 718,
+    "amenazas": 252
+  },
+  "label_pcts": {
+    "no_toxico": 36.3,
+    "ofensivo": 21.3,
+    "odio": 31.4,
+    "amenazas": 11.0
+  },
+  "imbalance_ratio": 3.3,
+  "platform": {
+    "X": 1347,
+    "Facebook": 939
+  },
+  "dialect_pct": 30.6,
+  "sarcasm_pct": 13.6,
+  "irony_pct": 14.2,
+  "political_pct": 14.3,
+  "p99_words": 78,
+  "mean_words": 21.1,
+  "train_test_leaks": 0,
+  "amenazas_x": 252,
+  "amenazas_fb": 0,
+  "class_weights": {
+    "no_toxico": 0.69,
+    "ofensivo": 1.18,
+    "odio": 0.8,
+    "amenazas": 2.27
+  },
+  "mojibake_estimate": 1
+}
