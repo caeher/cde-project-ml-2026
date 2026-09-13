@@ -1,0 +1,40 @@
+# --- Núcleo de datos ---
+pandas>=2.2
+numpy>=1.26
+scipy>=1.13
+
+# --- NLP / Transformers ---
+torch>=2.3
+transformers>=4.44
+datasets>=2.20
+tokenizers>=0.19
+sentencepiece>=0.2
+accelerate>=0.33
+evaluate>=0.4
+
+# --- ML clásico y baselines ---
+scikit-learn>=1.5
+imbalanced-learn>=0.12
+
+# --- Optimización de hiperparámetros (Etapa II) ---
+optuna>=3.6
+
+# --- Evaluación de sesgos / fairness (Etapa II) ---
+fairlearn>=0.10
+
+# --- Visualización ---
+matplotlib>=3.9
+seaborn>=0.13
+plotly>=5.22
+
+# --- Prototipo / despliegue ---
+fastapi>=0.112
+uvicorn[standard]>=0.30
+pydantic>=2.8
+streamlit>=1.37
+
+# --- Utilidades ---
+python-dotenv>=1.0
+tqdm>=4.66
+jupyter>=1.0
+emoji>=2.12

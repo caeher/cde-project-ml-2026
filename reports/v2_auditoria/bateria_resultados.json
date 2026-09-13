@@ -1,0 +1,142 @@
+{
+  "mbert_v1": {
+    "global": "74/144",
+    "aciertos": 74,
+    "A. Ofuscación de groserías": {
+      "n": 20,
+      "aciertos": 18
+    },
+    "B. Emojis": {
+      "n": 18,
+      "aciertos": 7
+    },
+    "C. Amenazas ofuscadas": {
+      "n": 11,
+      "aciertos": 6
+    },
+    "D. Jerga salvadoreña inofensiva": {
+      "n": 14,
+      "aciertos": 2,
+      "fpr": 0.8571428571428571
+    },
+    "E. Control sin jerga": {
+      "n": 12,
+      "aciertos": 12,
+      "fpr": 0.0
+    },
+    "F. Falsos amigos dialectales": {
+      "n": 34,
+      "aciertos": 17
+    },
+    "G. Pares mínimos de emoji": {
+      "n": 35,
+      "aciertos": 12
+    },
+    "brecha_D_E": 0.8571428571428571
+  },
+  "mbert_b2": {
+    "global": "120/144",
+    "aciertos": 120,
+    "A. Ofuscación de groserías": {
+      "n": 20,
+      "aciertos": 12
+    },
+    "B. Emojis": {
+      "n": 18,
+      "aciertos": 16
+    },
+    "C. Amenazas ofuscadas": {
+      "n": 11,
+      "aciertos": 11
+    },
+    "D. Jerga salvadoreña inofensiva": {
+      "n": 14,
+      "aciertos": 13,
+      "fpr": 0.07142857142857142
+    },
+    "E. Control sin jerga": {
+      "n": 12,
+      "aciertos": 12,
+      "fpr": 0.0
+    },
+    "F. Falsos amigos dialectales": {
+      "n": 34,
+      "aciertos": 30
+    },
+    "G. Pares mínimos de emoji": {
+      "n": 35,
+      "aciertos": 26
+    },
+    "brecha_D_E": 0.07142857142857142
+  },
+  "xlmr_v1": {
+    "global": "74/144",
+    "aciertos": 74,
+    "A. Ofuscación de groserías": {
+      "n": 20,
+      "aciertos": 17
+    },
+    "B. Emojis": {
+      "n": 18,
+      "aciertos": 6
+    },
+    "C. Amenazas ofuscadas": {
+      "n": 11,
+      "aciertos": 5
+    },
+    "D. Jerga salvadoreña inofensiva": {
+      "n": 14,
+      "aciertos": 8,
+      "fpr": 0.42857142857142855
+    },
+    "E. Control sin jerga": {
+      "n": 12,
+      "aciertos": 12,
+      "fpr": 0.0
+    },
+    "F. Falsos amigos dialectales": {
+      "n": 34,
+      "aciertos": 14
+    },
+    "G. Pares mínimos de emoji": {
+      "n": 35,
+      "aciertos": 12
+    },
+    "brecha_D_E": 0.42857142857142855
+  },
+  "xlmr_mit": {
+    "global": "77/144",
+    "aciertos": 77,
+    "A. Ofuscación de groserías": {
+      "n": 20,
+      "aciertos": 11
+    },
+    "B. Emojis": {
+      "n": 18,
+      "aciertos": 10
+    },
+    "C. Amenazas ofuscadas": {
+      "n": 11,
+      "aciertos": 11
+    },
+    "D. Jerga salvadoreña inofensiva": {
+      "n": 14,
+      "aciertos": 6,
+      "fpr": 0.5714285714285714
+    },
+    "E. Control sin jerga": {
+      "n": 12,
+      "aciertos": 11,
+      "fpr": 0.08333333333333333
+    },
+    "F. Falsos amigos dialectales": {
+      "n": 34,
+      "aciertos": 17
+    },
+    "G. Pares mínimos de emoji": {
+      "n": 35,
+      "aciertos": 11
+    },
+    "brecha_D_E": 0.4880952380952381
+  }
+}

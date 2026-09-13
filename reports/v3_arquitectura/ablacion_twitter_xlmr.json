@@ -1,0 +1,200 @@
+[
+  {
+    "alias": "b2_base",
+    "modelo_hf": "cardiffnlp/twitter-xlm-roberta-base",
+    "train_csv": "/home/willian/ues/esp/proyecto/data/dataset_b2/train.csv",
+    "n_train": 3293,
+    "epochs": 4,
+    "lr": 2e-05,
+    "bs": 16,
+    "tokens_anadidos": 0,
+    "semilla": 42,
+    "peso_sintetico": null,
+    "epocas_solo_reales": 0,
+    "val_f1_macro": 0.8331242813383052,
+    "val_accuracy": 0.8344226579520697,
+    "minutos": 2.13,
+    "params": 278046724,
+    "variante": {
+      "vocab": false,
+      "peso_sintetico": null,
+      "fases_reales": 0
+    }
+  },
+  {
+    "alias": "b2_vocab",
+    "modelo_hf": "cardiffnlp/twitter-xlm-roberta-base",
+    "train_csv": "/home/willian/ues/esp/proyecto/data/dataset_b2/train.csv",
+    "n_train": 3293,
+    "epochs": 4,
+    "lr": 2e-05,
+    "bs": 16,
+    "tokens_anadidos": 189,
+    "semilla": 42,
+    "peso_sintetico": null,
+    "epocas_solo_reales": 0,
+    "val_f1_macro": 0.7756137851581373,
+    "val_accuracy": 0.7777777777777778,
+    "minutos": 2.13,
+    "params": 278184964,
+    "variante": {
+      "vocab": true,
+      "peso_sintetico": null,
+      "fases_reales": 0
+    }
+  },
+  {
+    "alias": "v3_peso1.0",
+    "modelo_hf": "cardiffnlp/twitter-xlm-roberta-base",
+    "train_csv": "/home/willian/ues/esp/proyecto/data/dataset_v3/train.csv",
+    "n_train": 6202,
+    "epochs": 4,
+    "lr": 2e-05,
+    "bs": 16,
+    "tokens_anadidos": 0,
+    "semilla": 42,
+    "peso_sintetico": null,
+    "epocas_solo_reales": 0,
+    "val_f1_macro": 0.8080420530367642,
+    "val_accuracy": 0.8082788671023965,
+    "minutos": 3.56,
+    "params": 278046724,
+    "variante": {
+      "vocab": false,
+      "peso_sintetico": null,
+      "fases_reales": 0
+    }
+  },
+  {
+    "alias": "v3_peso0.5",
+    "modelo_hf": "cardiffnlp/twitter-xlm-roberta-base",
+    "train_csv": "/home/willian/ues/esp/proyecto/data/dataset_v3/train.csv",
+    "n_train": 6202,
+    "epochs": 4,
+    "lr": 2e-05,
+    "bs": 16,
+    "tokens_anadidos": 0,
+    "semilla": 42,
+    "peso_sintetico": 0.5,
+    "epocas_solo_reales": 0,
+    "val_f1_macro": 0.8093831351448983,
+    "val_accuracy": 0.8104575163398693,
+    "minutos": 3.58,
+    "params": 278046724,
+    "variante": {
+      "vocab": false,
+      "peso_sintetico": 0.5,
+      "fases_reales": 0
+    }
+  },
+  {
+    "alias": "v3_peso0.25",
+    "modelo_hf": "cardiffnlp/twitter-xlm-roberta-base",
+    "train_csv": "/home/willian/ues/esp/proyecto/data/dataset_v3/train.csv",
+    "n_train": 6202,
+    "epochs": 4,
+    "lr": 2e-05,
+    "bs": 16,
+    "tokens_anadidos": 0,
+    "semilla": 42,
+    "peso_sintetico": 0.25,
+    "epocas_solo_reales": 0,
+    "val_f1_macro": 0.8144139186182512,
+    "val_accuracy": 0.8148148148148148,
+    "minutos": 3.72,
+    "params": 278046724,
+    "variante": {
+      "vocab": false,
+      "peso_sintetico": 0.25,
+      "fases_reales": 0
+    }
+  },
+  {
+    "alias": "v3_dosfases",
+    "modelo_hf": "cardiffnlp/twitter-xlm-roberta-base",
+    "train_csv": "/home/willian/ues/esp/proyecto/data/dataset_v3/train.csv",
+    "n_train": 6202,
+    "epochs": 4,
+    "lr": 2e-05,
+    "bs": 16,
+    "tokens_anadidos": 0,
+    "semilla": 42,
+    "peso_sintetico": null,
+    "epocas_solo_reales": 2,
+    "val_f1_macro": 0.8089514564621125,
+    "val_accuracy": 0.8082788671023965,
+    "minutos": 4.38,
+    "params": 278046724,
+    "variante": {
+      "vocab": false,
+      "peso_sintetico": null,
+      "fases_reales": 2
+    }
+  },
+  {
+    "alias": "v3_vocab_peso0.5",
+    "modelo_hf": "cardiffnlp/twitter-xlm-roberta-base",
+    "train_csv": "/home/willian/ues/esp/proyecto/data/dataset_v3/train.csv",
+    "n_train": 6202,
+    "epochs": 4,
+    "lr": 2e-05,
+    "bs": 16,
+    "tokens_anadidos": 189,
+    "semilla": 42,
+    "peso_sintetico": 0.5,
+    "epocas_solo_reales": 0,
+    "val_f1_macro": 0.801616362148596,
+    "val_accuracy": 0.8017429193899782,
+    "minutos": 3.5,
+    "params": 278184964,
+    "variante": {
+      "vocab": true,
+      "peso_sintetico": 0.5,
+      "fases_reales": 0
+    }
+  },
+  {
+    "alias": "v3_vocab_dosfases",
+    "modelo_hf": "cardiffnlp/twitter-xlm-roberta-base",
+    "train_csv": "/home/willian/ues/esp/proyecto/data/dataset_v3/train.csv",
+    "n_train": 6202,
+    "epochs": 4,
+    "lr": 2e-05,
+    "bs": 16,
+    "tokens_anadidos": 189,
+    "semilla": 42,
+    "peso_sintetico": null,
+    "epocas_solo_reales": 2,
+    "val_f1_macro": 0.7712892885967947,
+    "val_accuracy": 0.7734204793028322,
+    "minutos": 4.27,
+    "params": 278184964,
+    "variante": {
+      "vocab": true,
+      "peso_sintetico": null,
+      "fases_reales": 2
+    }
+  },
+  {
+    "alias": "v3_peso0.5_dosfases",
+    "modelo_hf": "cardiffnlp/twitter-xlm-roberta-base",
+    "train_csv": "/home/willian/ues/esp/proyecto/data/dataset_v3/train.csv",
+    "n_train": 6202,
+    "epochs": 4,
+    "lr": 2e-05,
+    "bs": 16,
+    "tokens_anadidos": 0,
+    "semilla": 42,
+    "peso_sintetico": 0.5,
+    "epocas_solo_reales": 2,
+    "val_f1_macro": 0.8045739412620929,
+    "val_accuracy": 0.8061002178649237,
+    "minutos": 4.27,
+    "params": 278046724,
+    "variante": {
+      "vocab": false,
+      "peso_sintetico": 0.5,
+      "fases_reales": 2
+    }
+  }
+]

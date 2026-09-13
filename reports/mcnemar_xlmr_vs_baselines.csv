@@ -1,0 +1,4 @@
+﻿baseline,f1,b,c,discordantes,p,sig
+LinearSVC,0.755,51,29,80,0.018316,SÍ
+LinearSVC char 3-5,0.7853,41,33,74,0.415985,no
+LogisticRegression,0.754,51,27,78,0.008772,SÍ

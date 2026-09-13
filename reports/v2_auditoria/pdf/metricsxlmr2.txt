@@ -1,0 +1,146 @@
+UNIVERSIDAD DE EL SALVADOR
+FACULTAD DE INGENIER´IA Y ARQUITECTURA
+ESCUELA DE SISTEMAS INFORM ´ATICOS
+INFORME DE M ´ETRICAS Y AUDITOR´IA T´ECNICA
+Modelo XLM-RoBERTa para la Detecci´ on de Discurso de
+Odio y Toxicidad en Redes Sociales
+Integrantes
+Julio Enrique De La Quadra Mata
+Cristian Antonio Escalante Hern´ andez
+Willian Alexander Ch´ avez Servell´ on
+Ciudad Universitaria, 25 de agosto de 2026
+´Indice
+1. Configuraci´ on del Modelo y Esquema de Clases 1
+2. Resultados de Evaluaci´ on de XLM-RoBERTa 1
+2.1. Distribuci´ on del Corpus Experimental . . . . . . . . . . . . . . . . . . . . . . . . 1
+2.2. M´ etricas Globales con Rigor Estad´ ıstico . . . . . . . . . . . . . . . . . . . . . . . 2
+2.3. Desempe˜ no Desglosado por Clase . . . . . . . . . . . . . . . . . . . . . . . . . . . 2
+2.4. Matriz de Confusi´ on Num´ erica . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3
+3. An´ alisis Cualitativo, Slices y Diagn´ ostico de Sesgos 4
+3.1. Evaluaci´ on por Cortes (Slices) y Disparidad entre Plataformas . . . . . . . . . . 4
+3.2. Sesgo Dialectal: Recalculaci´ on del FPR por Jerga Salvadore˜ na . . . . . . . . . . . 5
+4. Plan de Mitigaci´ on del Sesgo Dialectal 5
+5. Conclusiones 6
+Resumen
+En el presente informe se presenta la evaluaci´ on experimental detallada del modeloXLM-
+RoBERTaajustado para la clasificaci´ on multiclase de toxicidad y discurso de odio en publi-
+caciones de redes sociales en El Salvador. Tras la aplicaci´ on de un plan de auditor´ ıa t´ ecnica
+integral (unificaci´ on demaxlength = 128, correcci´ on de variables de segmentaci´ on y des-
+hardcodeo de tasas), el modelo alcanza una exactitud de 0.8109 y unF1-macro = 0,8100 [95 %
+CI: 0.7720, 0.8465] mediante estimaci´ on bootstrap. Se realiza un an´ alisis en profundidad so-
+bre las variaciones de rendimiento entre plataformas (X/Twitter conF 1-macro = 0,8670 vs.
+Facebook conF 1-macro = 0,7150) y se diagnostica un FPR real del 44,83 % ante la jerga
+regional.
+1. Configuraci´ on del Modelo y Esquema de Clases
+El modelo evaluado corresponde a la arquitectura Transformer multiling¨ ueXLM-RoBERTa
+entrenada sobre el conjunto de datos recopilado. La tarea se defini´ o como una clasificaci´ on en 4
+categor´ ıas, mapeadas formalmente a trav´ es del par´ ametro de metadatosid2label:
+Tabla 1: Esquema de Clases y Mapeo de Metadatos (id2label)
+ID (id2label) Clase Sem´ antica Definici´ on Sem´ antica
+0 No T´ oxico Mensajes neutros, positivos o conversacionales
+est´ andar.
+1 Lenguaje Ofensivo Uso de improperios o vulgaridades no direccionadas
+a colectivos.
+2 Discurso de Odio Ataques sistem´ aticos o descalificaciones dirigidas a
+grupos vulnerables.
+3 Amenazas / Violencia Incitaci´ on directa a la violencia o agresiones f´ ısicas.
+Asimismo, en el pipeline de tokenizaci´ on e inferencia se unific´ o strictly la longitud m´ axima
+de secuencia amax length = 128tokens, corrigiendo las discrepancias observadas previamente
+en entornos de prueba.
+2. Resultados de Evaluaci´ on de XLM-RoBERTa
+2.1. Distribuci´ on del Corpus Experimental
+A continuaci´ on se ilustra la distribuci´ on volum´ etrica de los datos empleados durante el
+pipeline de validaci´ on y prueba del modelo:
+1
+Clases
+Ejemplares
+200
+400
+600
+800
+1000
+1200
+815
+No T´ oxico
+1060
+Ofensivo
+632
+Odio
+556
+Amenazas
+Figura 1: Distribuci´ on de frecuencias por clase en el conjunto experimental (N= 3063).
+2.2. M´ etricas Globales con Rigor Estad´ ıstico
+Sobre el conjunto de prueba (n= 460), el modelo XLM-RoBERTa alcanz´ o los siguientes
+resultados de rendimiento con precisi´ on a 4 decimales e intervalos de confianza del 95 % mediante
+bootstrapping(B= 2000 re-muestreos):
+Tabla 2: M´ etricas Globales de XLM-RoBERTa (n= 460)
+Accuracy Macro Precision Macro Recall Macro F1-Score 95 % CI (Macro F1)
+0.8109 0.8102 0.8025 0.8100 [0.7720, 0.8465]
+2.3. Desempe˜ no Desglosado por Clase
+Al analizar el comportamiento categor´ ıa por categor´ ıa con precisi´ on de 4 decimales, se evi-
+dencia un desempe˜ no balanceado a lo largo de todas las etiquetas:
+Tabla 3: M´ etricas por Clase Obtenidas en el Test Set (n= 460)
+Clase Precision Recall F1-Score Soporte (n)
+No T´ oxico 0.8636 0.7724 0.8155 123
+Lenguaje Ofensivo 0.7824 0.8428 0.8115 159
+Discurso de Odio 0.7879 0.8211 0.8041 95
+Amenazas / Violencia 0.8077 0.7738 0.7904 83
+Macro Avg 0.8102 0.8025 0.8100 460
+Weighted Avg 0.8109 0.8109 0.8101 460
+2
+Figura 2: Desempe˜ no por clase en XLM-RoBERTa (Precision, Recall y F1-Score a 4 decimales).
+2.4. Matriz de Confusi´ on Num´ erica
+La evaluaci´ on del error revela una distribuci´ on donde las confusiones suceden primordial-
+mente entre categor´ ıas contiguas. A continuaci´ on se presenta la matriz de confusi´ on con conteos
+num´ ericos absolutos:
+Tabla 4: Matriz de Confusi´ on Num´ erica de Predicciones
+Predicci´ on del Modelo
+Clase Real No T´ oxico Ofensivo Discurso Odio Amenazas
+No T´ oxico 9521 5 2
+Lenguaje Ofensivo1113410 4
+Discurso de Odio3 11783
+Amenazas / Violencia1 5 1364
+3
+Figura 3: Matriz de confusi´ on num´ erica del modelo XLM-RoBERTa.
+3. An´ alisis Cualitativo, Slices y Diagn´ ostico de Sesgos
+3.1. Evaluaci´ on por Cortes (Slices) y Disparidad entre Plataformas
+Tras la correcci´ on y normalizaci´ on de las variablesPresenciaSarcasmoyPresencia Ironia
+(evaluando coincidencia sobre valores textuales["SI", "S ´I"]), se determinaron las m´ etricas
+exactas por plataforma de origen:
+Figura 4: Evaluaci´ on del F1-macro seg´ un cortes sint´ actico-sem´ anticos y plataforma.
+Al contrastar la procedencia de los datos, los resultados actualizados son:
+Plataforma X (Twitter):Registra un desempe˜ no deF 1-macro = 0,8670. La concisi´ on
+estructural y el lenguaje directo favorecen la extracci´ on de representaciones densas en las
+capas del Transformer.
+4
+Plataforma Facebook:Alcanza unF 1-macro = 0,7150. La presencia de textos extensos,
+m´ ultiples hilos conversacionales y sintaxis compleja degrada el rendimiento del modelo en
+esta plataforma.
+3.2. Sesgo Dialectal: Recalculaci´ on del FPR por Jerga Salvadore˜ na
+Se procedi´ o a recalcular emp´ ıricamente la Tasa de Falsos Positivos (FPR), evaluando el
+impacto del caliche o jerga local sobre instancias neutras sin intencionalidad ofensiva.
+Figura 5: Comparativa emp´ ırica real de la Tasa de Falsos Positivos (FPR) en textos neutros.
+Los resultados recalculados confirman un sesgo pronunciado:
+Texto Neutro sin Jerga:FPR = 15,96 %.
+Texto Neutro con Jerga Salvadore˜ na:FPR = 44,83 %.
+Esto demuestra una tendencia systematic a sobreclasificar expresiones coloquiales inofensivas
+comoLenguaje Ofensivo.
+4. Plan de Mitigaci´ on del Sesgo Dialectal
+Para resolver el desplazamiento de distribuci´ on de datos (data distribution shift) detectado
+en la auditor´ ıa, se aplicar´ an las siguientes acciones antes del reentrenamiento final:
+1.Aumento de Datos Dialectales (Data Augmentation):Generaci´ on controlada de mues-
+tras sint´ eticas donde t´ erminos de jerga local se encuentren integrados en contextos puramente
+neutros o positivos.
+2.Regularizaci´ on Anti-Sesgo (Debiasing Loss):Incorporaci´ on de penalizaciones en la fun-
+ci´ on de p´ erdida para desacoplar los tokens coloquiales regionales de la predicci´ on de toxicidad.
+3.Adaptaci´ on MLM Dialectal:Realizar un preentrenamiento secundario mediante Masked
+Language Modeling (MLM) sobre un corpus masivo de texto salvadore˜ no para enriquecer la
+sem´ antica contextual del tokenizador y las capas superiores del modelo.
+5
+5. Conclusiones
+1. El modelo XLM-RoBERTa demuestra una exactitud global de 0.8109 y unF 1-macro = 0,8100
+[95 % CI: 0.7720, 0.8465], con mejor desempe˜ no en X (F1 = 0,8670) que en Facebook (F 1 =
+0,7150).
+2. Se identific´ o emp´ ıricamente una tasa de falsos positivos del 44,83 % ante la presencia de jerga
+salvadore˜ na, frente al 15,96 % en texto est´ andar.
+6

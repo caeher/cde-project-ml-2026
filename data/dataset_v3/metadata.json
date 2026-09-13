@@ -1,0 +1,29 @@
+{
+  "n_train": 6202,
+  "n_val": 459,
+  "n_test": 460,
+  "reales": 2144,
+  "sinteticos_b2": 1142,
+  "sinteticos_v3": 2916,
+  "por_clase": {
+    "No Tóxico": 1575,
+    "Lenguaje Ofensivo": 1778,
+    "Discurso de Odio": 1682,
+    "Amenazas/Violencia": 1167
+  },
+  "pesos_clase": {
+    "No Tóxico": 0.9844,
+    "Lenguaje Ofensivo": 0.872,
+    "Discurso de Odio": 0.9218,
+    "Amenazas/Violencia": 1.3286
+  },
+  "renormalizadas": 37,
+  "duplicados_eliminados": 15,
+  "solape_eliminado": 7,
+  "sha_val": "45aabe9744711d74",
+  "sha_test": "5d1284efcc7df20f",
+  "max_length": 128,
+  "columna_texto": "texto_modelo",
+  "normalizador": "normalize_for_model v1.2 (arroba y 🔫 corregidos)",
+  "semilla": 42
+}

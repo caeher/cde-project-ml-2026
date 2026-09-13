@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Detección de toxicidad · corpus salvadoreño</title>
+<style>
+  :root{
+    --fondo:#faf9f7; --papel:#fff; --tinta:#1c1b19; --tenue:#6b6862;
+    --borde:#e4e1db; --acento:#2f5d50;
+    --c0:#2f6f4e; --c1:#b07d1a; --c2:#b4541f; --c3:#9c2b2b;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --fondo:#16150f; --papel:#1f1e19; --tinta:#efece4; --tenue:#a09c92;
+      --borde:#33302a; --acento:#7fc0a6;
+      --c0:#63b183; --c1:#dcae4e; --c2:#e08a52; --c3:#e06b6b;
+    }
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--fondo);color:var(--tinta);
+       font:16px/1.55 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+  .envoltura{max-width:860px;margin:0 auto;padding:28px 20px 72px}
+  header{border-bottom:1px solid var(--borde);padding-bottom:18px;margin-bottom:24px}
+  h1{font-size:1.45rem;margin:0 0 6px;letter-spacing:-.01em}
+  .sub{color:var(--tenue);font-size:.9rem;margin:0}
+  textarea{width:100%;min-height:110px;padding:12px 14px;border:1px solid var(--borde);
+    border-radius:10px;background:var(--papel);color:inherit;font:inherit;resize:vertical}
+  textarea:focus{outline:2px solid var(--acento);outline-offset:1px}
+  .fila{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:12px}
+  button{font:inherit;padding:9px 18px;border-radius:9px;border:1px solid var(--acento);
+    background:var(--acento);color:#fff;cursor:pointer}
+  button.sec{background:transparent;color:var(--acento)}
+  button:disabled{opacity:.5;cursor:default}
+  .ejemplos{display:flex;gap:6px;flex-wrap:wrap;margin-top:14px}
+  .ejemplos button{font-size:.8rem;padding:5px 11px;border:1px solid var(--borde);
+    background:var(--papel);color:var(--tenue);border-radius:20px}
+  .tarjeta{margin-top:26px;background:var(--papel);border:1px solid var(--borde);
+    border-radius:12px;padding:20px}
+  .veredicto{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+  .clase{font-size:1.3rem;font-weight:600}
+  .conf{color:var(--tenue);font-size:.88rem}
+  .barras{margin-top:18px;display:grid;gap:9px}
+  .barra{display:grid;grid-template-columns:150px 1fr 52px;gap:10px;align-items:center;
+    font-size:.85rem}
+  .pista{height:7px;background:var(--borde);border-radius:4px;overflow:hidden}
+  .relleno{height:100%;border-radius:4px;transition:width .35s ease}
+  .val{text-align:right;color:var(--tenue);font-variant-numeric:tabular-nums}
+  .norm{margin-top:18px;padding-top:14px;border-top:1px solid var(--borde);
+    font-size:.83rem;color:var(--tenue)}
+  .norm code{background:var(--fondo);padding:2px 6px;border-radius:5px;
+    font-family:ui-monospace,SFMono-Regular,Menlo,monospace;word-break:break-word}
+  .aviso{margin-top:30px;font-size:.8rem;color:var(--tenue);line-height:1.6}
+  .error{color:var(--c3)}
+  @media(max-width:520px){.barra{grid-template-columns:110px 1fr 46px;font-size:.78rem}}
+</style>
+</head>
+<body>
+<div class="envoltura">
+  <header>
+    <h1>Detección de toxicidad en redes sociales</h1>
+    <p class="sub">Corpus salvadoreño · cuatro niveles de gravedad · prototipo V3</p>
+  </header>
+
+  <label for="txt" style="font-size:.88rem;color:var(--tenue)">Publicación a evaluar</label>
+  <textarea id="txt" placeholder="Escribí o pegá una publicación de X o Facebook…"></textarea>
+
+  <div class="fila">
+    <button id="ir">Clasificar</button>
+    <button id="limpiar" class="sec">Limpiar</button>
+  </div>
+
+  <div class="ejemplos" id="ejemplos"></div>
+  <div id="salida"></div>
+
+  <p class="aviso">
+    Herramienta de investigación, no de moderación automatizada. El modelo fue
+    entrenado sobre 2,144 publicaciones reales recolectadas en El Salvador más
+    datos sintéticos dirigidos; su desempeño fuera de ese dominio no está
+    caracterizado. Ninguna decisión que afecte a una persona debería tomarse
+    solo con esta salida.
+  </p>
+</div>
+
+<script>
+const CLASES = ["No Tóxico","Lenguaje Ofensivo","Discurso de Odio","Amenazas/Violencia"];
+const COLOR  = ["var(--c0)","var(--c1)","var(--c2)","var(--c3)"];
+const EJEMPLOS = [
+  "Qué onda maje, todo bien por allá",
+  "Callate ya, cerote",
+  "Los nicaragüenses son una plaga",
+  "Te voy a m4t4r",
+  "Ese cerote es mi mejor amigo",
+  "Ya sabés lo que te espera 🔫",
+];
+
+const $ = s => document.querySelector(s);
+const esc = s => s.replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+EJEMPLOS.forEach(t => {
+  const b = document.createElement("button");
+  b.textContent = t.length > 34 ? t.slice(0, 33) + "…" : t;
+  b.title = t;
+  b.onclick = () => { $("#txt").value = t; clasificar(); };
+  $("#ejemplos").appendChild(b);
+});
+
+$("#limpiar").onclick = () => { $("#txt").value = ""; $("#salida").innerHTML = ""; $("#txt").focus(); };
+$("#ir").onclick = clasificar;
+$("#txt").addEventListener("keydown", e => {
+  if ((e.metaKey || e.ctrlKey) && e.key === "Enter") clasificar();
+});
+
+async function clasificar(){
+  const texto = $("#txt").value.trim();
+  if (!texto) return;
+  $("#ir").disabled = true;
+  $("#salida").innerHTML = '<div class="tarjeta">Clasificando…</div>';
+  try {
+    const r = await fetch("/clasificar", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({texto})
+    });
+    if (!r.ok) throw new Error((await r.json()).detail || r.statusText);
+    pintar(await r.json());
+  } catch (e) {
+    $("#salida").innerHTML = `<div class="tarjeta error">No se pudo clasificar: ${esc(e.message)}</div>`;
+  } finally {
+    $("#ir").disabled = false;
+  }
+}
+
+function pintar(d){
+  const barras = CLASES.map((c,i) => {
+    const p = d.probabilidades[c] ?? 0;
+    return `<div class="barra">
+      <span>${c}</span>
+      <span class="pista"><span class="relleno" style="width:${(p*100).toFixed(1)}%;background:${COLOR[i]}"></span></span>
+      <span class="val">${(p*100).toFixed(1)}%</span>
+    </div>`;
+  }).join("");
+
+  $("#salida").innerHTML = `<div class="tarjeta">
+    <div class="veredicto">
+      <span class="clase" style="color:${COLOR[d.label]}">${esc(d.clase)}</span>
+      <span class="conf">confianza ${(d.confianza*100).toFixed(1)}% · riesgo ${esc(d.nivel_de_riesgo)}</span>
+    </div>
+    <div class="barras">${barras}</div>
+    <div class="norm">Texto tal como lo recibe el modelo:<br><code>${esc(d.texto_normalizado)}</code></div>
+  </div>`;
+}
+</script>
+</body>
+</html>

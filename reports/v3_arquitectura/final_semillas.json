@@ -1,0 +1,53 @@
+[
+  {
+    "alias": "final_s42",
+    "modelo_hf": "pysentimiento/robertuito-base-cased",
+    "train_csv": "/home/willian/ues/esp/proyecto/data/dataset_v3/train.csv",
+    "n_train": 6202,
+    "epochs": 4,
+    "lr": 5.069511908694935e-05,
+    "bs": 32,
+    "tokens_anadidos": 0,
+    "semilla": 42,
+    "peso_sintetico": 1.0,
+    "epocas_solo_reales": 3,
+    "val_f1_macro": 0.8373727815147392,
+    "val_accuracy": 0.840958605664488,
+    "minutos": 1.99,
+    "params": 108790276
+  },
+  {
+    "alias": "final_s1337",
+    "modelo_hf": "pysentimiento/robertuito-base-cased",
+    "train_csv": "/home/willian/ues/esp/proyecto/data/dataset_v3/train.csv",
+    "n_train": 6202,
+    "epochs": 4,
+    "lr": 5.069511908694935e-05,
+    "bs": 32,
+    "tokens_anadidos": 0,
+    "semilla": 1337,
+    "peso_sintetico": 1.0,
+    "epocas_solo_reales": 3,
+    "val_f1_macro": 0.8409125397015802,
+    "val_accuracy": 0.8453159041394336,
+    "minutos": 1.98,
+    "params": 108790276
+  },
+  {
+    "alias": "final_s2026",
+    "modelo_hf": "pysentimiento/robertuito-base-cased",
+    "train_csv": "/home/willian/ues/esp/proyecto/data/dataset_v3/train.csv",
+    "n_train": 6202,
+    "epochs": 4,
+    "lr": 5.069511908694935e-05,
+    "bs": 32,
+    "tokens_anadidos": 0,
+    "semilla": 2026,
+    "peso_sintetico": 1.0,
+    "epocas_solo_reales": 3,
+    "val_f1_macro": 0.8554704608701007,
+    "val_accuracy": 0.8583877995642701,
+    "minutos": 1.98,
+    "params": 108790276
+  }
+]

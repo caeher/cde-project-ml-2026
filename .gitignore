@@ -1,0 +1,51 @@
+# ── Pesos y checkpoints ────────────────────────────────────────────────
+# No se versionan: el modelo final pesa 418 MB y GitHub corta en 100 MB por
+# fichero. Los scripts de src/v3/ son deterministas con semilla fija, así que
+# el modelo se reconstruye desde el código. Su SHA-256 está en el manifiesto.
+models/
+*.safetensors
+*.bin
+*.pt
+*.ckpt
+*.joblib
+
+# ── Entregas de los compañeros (9.6 GB de ZIP y pesos) ─────────────────
+Métricas de Evaluación/
+
+# ── Datos crudos, intermedios y PII ────────────────────────────────────
+data/raw/*
+data/interim/*
+data/processed/*
+data/external/*
+!data/**/.gitkeep
+data/interim/mapa_procedencia.csv
+data/interim/gold_standard_completo.csv
+
+# ── Python ─────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+.ipynb_checkpoints/
+.pytest_cache/
+.mypy_cache/
+
+# ── Entorno y secretos ─────────────────────────────────────────────────
+.env
+*.key
+
+# ── Experimentos ───────────────────────────────────────────────────────
+wandb/
+mlruns/
+runs/
+outputs/
+_run/
+_run2/
+_hpo/
+
+# ── SO y editores ──────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

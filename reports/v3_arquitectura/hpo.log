@@ -1,0 +1,29 @@
+### prueba del subconjunto dirigido
+
+RESULTADO {"alias": "dirigido_p05_2f", "modelo_hf": "pysentimiento/robertuito-base-cased", "train_csv": "data/dataset_v3/train_dirigido.csv", "n_train": 4910, "epochs": 4, "lr": 2e-05, "bs": 16, "tokens_anadidos": 0, "semilla": 42, "peso_sintetico": 0.5, "epocas_solo_reales": 2, "val_f1_macro": 0.8472157670676457, "val_accuracy": 0.8496732026143791, "minutos": 1.99, "params": 108790276}
+### HPO robertuito
+  trial  0  F1=0.8344  lr=1.70e-05 bs=8 ep=3 p_sint=0.25 fases=3 pesos=True
+  trial  1  F1=0.8223  lr=1.15e-05 bs=32 ep=4 p_sint=1.0 fases=3 pesos=False
+  trial  2  F1=0.8403  lr=2.64e-05 bs=16 ep=3 p_sint=0.25 fases=1 pesos=False
+  trial  3  F1=0.8302  lr=8.57e-06 bs=8 ep=4 p_sint=0.5 fases=3 pesos=False
+  trial  4  F1=0.8085  lr=9.56e-06 bs=32 ep=4 p_sint=0.75 fases=3 pesos=False
+  trial  5  F1=0.8464  lr=3.79e-05 bs=32 ep=5 p_sint=1.0 fases=2 pesos=True
+  trial  6  F1=0.8409  lr=1.50e-05 bs=16 ep=6 p_sint=1.0 fases=1 pesos=True
+  trial  7  F1=0.7975  lr=8.42e-06 bs=32 ep=4 p_sint=0.75 fases=0 pesos=True
+  trial  8  F1=0.8418  lr=5.21e-05 bs=32 ep=6 p_sint=0.75 fases=0 pesos=False
+  trial  9  F1=0.8253  lr=4.16e-05 bs=8 ep=4 p_sint=0.5 fases=2 pesos=False
+  trial 10  F1=0.8523  lr=5.07e-05 bs=32 ep=4 p_sint=1.0 fases=3 pesos=True
+  trial 11  F1=0.8429  lr=3.33e-05 bs=32 ep=4 p_sint=1.0 fases=3 pesos=True
+  trial 12  F1=0.8370  lr=5.40e-05 bs=32 ep=6 p_sint=1.0 fases=2 pesos=True
+  trial 13  F1=0.8206  lr=5.67e-05 bs=8 ep=5 p_sint=1.0 fases=2 pesos=True
+  trial 14  F1=0.8376  lr=4.73e-05 bs=32 ep=5 p_sint=1.0 fases=3 pesos=True
+  trial 15  F1=0.8435  lr=3.61e-05 bs=32 ep=5 p_sint=1.0 fases=1 pesos=True
+  trial 16  F1=0.8197  lr=1.92e-05 bs=32 ep=5 p_sint=1.0 fases=1 pesos=True
+  trial 17  F1=0.8338  lr=5.12e-05 bs=32 ep=5 p_sint=1.0 fases=3 pesos=True
+  trial 18  F1=0.8505  lr=4.13e-05 bs=32 ep=6 p_sint=1.0 fases=3 pesos=True
+  trial 19  F1=0.8417  lr=2.30e-05 bs=32 ep=6 p_sint=1.0 fases=3 pesos=True
+
+==================================================================
+MEJOR  F1=0.8523
+{'lr': 5.069511908694935e-05, 'bs': 32, 'epochs': 4, 'weight_decay': 0.1342454527746128, 'warmup': 0.13647045600326557, 'peso_sintetico': 1.0, 'fases_reales': 3, 'pesos_clase': True}
+=== HPO TERMINADA ===

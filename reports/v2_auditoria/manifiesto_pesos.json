@@ -1,0 +1,54 @@
+{
+  "mbert_b2": {
+    "ruta": "/home/willian/ues/esp/proyecto/Métricas de Evaluación/2v/_extraido/metricas-proyecto-ml/models/mbert-sv",
+    "sha256": "7a3ab6c53223bbdb25af688e04192867c2b87ce5e5c1eb1b3e0d2a6aa05fe8d2",
+    "arquitectura": [
+      "BertForSequenceClassification"
+    ],
+    "id2label": {
+      "0": "No Tóxico",
+      "1": "Lenguaje Ofensivo",
+      "2": "Discurso de Odio",
+      "3": "Amenazas/Violencia"
+    }
+  },
+  "mbert_v1": {
+    "ruta": "/home/willian/ues/esp/proyecto/Métricas de Evaluación/2v/_extraido/mbert_v1/mbert-sv",
+    "sha256": "b2de91405b7c094368073b9b15e5a61287a987f7a4e308e1acd414dfbf36451f",
+    "arquitectura": [
+      "BertForSequenceClassification"
+    ],
+    "id2label": {
+      "0": "No Tóxico",
+      "1": "Lenguaje Ofensivo",
+      "2": "Discurso de Odio",
+      "3": "Amenazas/Violencia"
+    }
+  },
+  "xlmr_v1": {
+    "ruta": "/home/willian/ues/esp/proyecto/Métricas de Evaluación/Para modelo XLMR/02_modelo_prototipo/modelo_entrenado",
+    "sha256": "574a513b7f9e44e8e218c5e8b94832fb529c4c15d74bb0fcdb12d7db95267794",
+    "arquitectura": [
+      "XLMRobertaForSequenceClassification"
+    ],
+    "id2label": {
+      "0": "LABEL_0",
+      "1": "LABEL_1",
+      "2": "LABEL_2",
+      "3": "LABEL_3"
+    }
+  },
+  "xlmr_mit": {
+    "ruta": "/home/willian/ues/esp/proyecto/Métricas de Evaluación/2v/_extraido/prototipoV2/02_modelo_prototipo/modelo_mitigado",
+    "sha256": "b0cd9cca4ce82d53b778850ade61d94464aac25f51f1b6d6a686cca41b93f2c8",
+    "arquitectura": [
+      "XLMRobertaForSequenceClassification"
+    ],
+    "id2label": {
+      "0": "No_Tóxico",
+      "1": "Lenguaje_Ofensivo",
+      "2": "Discurso_de_Odio",
+      "3": "Amenazas_o_Violencia"
+    }
+  }
+}

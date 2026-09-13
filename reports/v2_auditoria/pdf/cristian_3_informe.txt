@@ -1,0 +1,896 @@
+
+===== PÁGINA 1 =====
+ ANÁLISIS DEL DISCURSO DE ODIO 
+EN REDES SOCIALES EN EL 
+SALVADOR 
+INFORME DE MÉTRICAS — mBERT 
+B2 
+ 
+Julio Enrique De La Quadra Mata 
+Cristian Antonio Escalante Hernandez 
+Willian Alexander Chávez Servellón 
+Universidad de El Salvador 
+Facultad de Ingeniería y Arquitectura 
+Escuela de Sistemas Informáticos 
+Ciudad universitaria, 7 de septiembre de 2026 
+Resumen ejecutivo 
+Este informe documenta la evaluación del modelo mBERT B2  (bert-base-multilingual-cased, 
+checkpoint checkpoint-1644) reentrenado sobre el corpus ampliado con datos sintéticos dirigidos 
+(train 𝑛 = 3,293; val/test sin cambios respecto al v1). 
+Sobre el conjunto de prueba ( 𝑛 = 460), el modelo mBERT B2 alcanza un F1-macro de 0,7610  
+(intervalo bootstrap 95 %: [0,7179,  0,7981]), superando al mejor baseline TF -IDF (LinearSVC, 
+F1-macro 0,7482). El objetivo de 0,80 no se alcanza ni en el punto estimado ni en el extremo 
+superior del intervalo bootstrap. 
+Métricas globales oficiales (test, 𝑛 = 460). 
+Métrica Valor 
+Accuracy 0.7674 
+Balanced accuracy 0.7612 
+F1-macro 0.7610 
+F1-weighted 0.7674 
+MCC 0.6831 
+QWK 0.7126 
+Kappa lineal 0.6968 
+Ordinal MAE 0.3522 
+
+===== PÁGINA 2 =====
+Métrica Valor 
+Ordinal RMSE 0.7967 
+Errores grandes (%) 9.7826 
+ROC-AUC OVR 0.9193 
+Log-loss 0.8328 
+ECE 0.1640 
+Brier macro 0.0992 
+F1 bootstrap lo 0.7179 
+F1 bootstrap hi 0.7981 
+Los cortes más difíciles son ironía y sarcasmo; Facebook presenta menor F1 -macro que X. La 
+batería adversarial extendida ( 𝑛 = 144 ) mejora frente al checkpoint v1 (120/144 aciertos 
+vs. 69/144), aunque el F1-macro en test principal desciende de 0,7777 (v1) a 0,7610 (B2). 
+Introducción 
+Problema 
+El discurso de odio y la toxicidad en redes sociales constituyen un desafío creciente para la 
+moderación de contenidos, en especial en contextos dialectales poco representados en los corpus 
+de entrenamiento masivos. Este informe documenta el desarrollo y la evaluación de un sistema 
+de clasificación multiclase de toxicidad aplicado a publicaciones de redes sociales de El Salvador 
+(plataformas X/Twitter y Facebook). 
+El problema se formula como clasificación ordinal de cuatro niveles de gravedad, donde el 
+modelo debe distinguir entre contenido no tóxico, lenguaje ofensivo, discurso de odio y 
+amenazas o violencia. 
+Esquema de clases 
+Las etiquetas son ordinales (0–3) y se resumen en la Tabla 1.1. 
+Esquema de clases del corpus. 
+Label Clase 
+0 No Tóxico 
+1 Lenguaje Ofensivo 
+2 Discurso de Odio 
+3 Amenazas/Violencia 
+
+===== PÁGINA 3 =====
+Objetivos y métrica principal 
+El objetivo principal del proyecto es entrenar un modelo mBERT (bert-base-multilingual-
+cased)  mediante fine-tuning sobre el corpus local y alcanzar un F1 -macro de al menos 0,80 en el 
+conjunto de prueba, según la meta definida en la configuración del proyecto. 
+Además se buscan: 
+• Establecer baselines clásicos (TF-IDF + clasificadores lineales). 
+• Evaluar robustez por cortes (plataforma, jerga, sarcasmo, ironía). 
+• Medir transferencia zero-shot a corpora externos en español. 
+• Explorar interpretabilidad con LIME  y SHAP . 
+Resumen ejecutivo de resultados 
+Sobre el conjunto de prueba ( 𝑛 = 460), el modelo mBERT B2 alcanza un F1-macro de 0,7610  
+(intervalo bootstrap 95 %: [0,7179,  0,7981]), superando al mejor baseline TF -IDF (LinearSVC, 
+F1-macro 0,7482). El objetivo de 0,80 no se alcanza ni en el punto estimado ni en el extremo 
+superior del intervalo bootstrap. 
+En evaluación zero-shot sobre seis datasets externos, el F1-macro cae al rango 0,14–0,31, lo que 
+indica transferencia limitada fuera del dominio local. Los cortes más difíciles son ironía (F1 ≈ 
+0.58) y sarcasmo (F1 ≈ 0.61), mientras que el desempeño en la plataforma X es sólido (F1 ≈ 
+0.82). 
+Los capítulos siguientes siguen el orden de los notebooks reproducibles del proyecto (01 –07): 
+análisis exploratorio, preprocesamiento, baselines, fine -tuning, evaluación completa, benchmark 
+externo e interpretabilidad. 
+Metodología 
+Datos y particiones 
+El corpus procesado reside en data/processed/ con particiones train.csv, val.csv y test.csv, más el 
+corpus limpio completo. La versión B2 amplía el train a 3,293 instancias (2,144 reales + 1,149 
+sintéticos); val (𝑛 = 459) y test (𝑛 = 460) son byte por byte idénticos  al v1, lo que garantiza 
+comparabilidad directa de métricas. 
+Cada instancia incluye el texto de entrada del modelo ( texto_modelo), la etiqueta ordinal, 
+metadatos de plataforma, campos origen y plantilla_id (solo train B2), e indicadores de sarcasmo, 
+ironía, contexto político y conteo de jerga local (n_jerga). 
+Motivación del reentrenamiento B2 
+La auditoría del checkpoint v1 identificó cuatro huecos que no resuelve solo la arquitectura: 
+(i) atajo emoji ⇒tóxico, (ii)  emojis de ataque no vistos, (iii)  amenazas ofuscadas clasificadas 
+
+===== PÁGINA 4 =====
+como ofensivas, y (iv) sesgo dialectal (FPR elevado en jerga salvadoreña inofensiva). El train B2 
+incorpora sintéticos dirigidos para cada familia, documentados en data/raw/metadata.json. 
+Pipeline experimental 
+El flujo de trabajo es reproducible y se alinea con los notebooks 01–07: 
+1. Análisis exploratorio (distribuciones, plataformas, longitudes). 
+2. Normalización de texto y extracción de features (pesos de clase B2, indicadores 
+dialectales). 
+3. Baselines TF-IDF (Logistic Regression, LinearSVC, MultinomialNB). 
+4. Fine-tuning de mBERT  con early stopping sobre models/mbert-sv-b2. 
+5. Evaluación completa: métricas globales, por clase, por cortes, McNemar y comparación 
+de modelos. 
+6. Benchmark zero-shot sobre datasets públicos de Hugging Face. 
+7. Interpretabilidad con LIME  y SHAP . 
+Métricas de evaluación 
+Se implementa un conjunto amplio de métricas en el módulo de evaluación del proyecto: 
+• Clásicas: accuracy, balanced accuracy, precision/recall/F1 (macro y weighted), MCC. 
+• Ordinales: MAE, RMSE y porcentaje de errores grandes (|𝑦 − 𝑦̂| ≥ 2). 
+• Acuerdo: kappa lineal y Quadratic Weighted Kappa (QWK). 
+• Probabilísticas: ROC-AUC OVR macro, log-loss, ECE y Brier macro. 
+• Incertidumbre: intervalo de confianza bootstrap del F1 -macro (1000 remuestreos, 𝛼 =
+0,05). 
+• Comparación de modelos:  prueba de McNemar   pareada entre mBERT B2 y cada 
+baseline, y entre mBERT y XLM -RoBERTa v1 sobre las mismas 460 instancias de test 
+(𝛼 = 0,05). 
+La métrica de decisión principal es el F1-macro, que trata por igual las cuatro clases y es 
+adecuada ante desbalance. 
+Pisos triviales sin modelo 
+Los baselines de referencia (clase mayoritaria, azar uniforme y azar estratificado) se calculan 
+sobre la distribución del test (𝑛 = 460) con 𝑘 = 4 clases fijas. 
+
+===== PÁGINA 5 =====
+Cortes (slices) 
+Además del desempeño global, se calculan métricas sobre subconjuntos definidos en el test 
+(plataforma, jerga, sarcasmo, ironía y contexto político). Los cortes de mBERT B2 se derivan del 
+mismo vector de predicciones oficial ( mbert_test_predictions.csv) y se exportan en 
+reports/metrics/slice_metrics.csv. 
+Batería adversarial diagnóstica 
+Existen dos conjuntos adversariales: test_adversarial.csv (𝑛 = 75) y test_adversarial_144.csv (𝑛 =
+144, familias A–G). Son exclusivamente diagnósticos: no entrenan ni seleccionan el modelo, y 
+no sustituyen el F1-macro oficial sobre test.csv. 
+Contrato de inferencia 
+Entrenamiento, evaluación por lote e inferencia del prototipo XLM -R comparten un contrato 
+versionado ( inference_contract.json): max_length=128, columna texto_modelo y normalizador 
+normalize_for_model v1.1. La auditoría reportó F1 -macro 0.8058 con evaluación a 
+max_length=256; bajo el contrato oficial ( max_length=128, normalizador normalize_for_model 
+v1.1), el F1 -macro es 0.8058 (0.0% de predicciones distintas frente a la ruta diagnóstica a 256, 
+F1=0.8058). Sin normalización sobre texto crudo, 1.74% de las predicciones cambian respecto al 
+contrato. 
+Análisis exploratorio de datos 
+Este capítulo corresponde al notebook 01_eda. Se describe la distribución de clases, la 
+composición por plataforma y la longitud de los textos tokenizados. 
+Distribución de clases 
+La Figura  3.1 muestra el conteo por clase en el corpus. Existe desbalance: la clase Lenguaje 
+Ofensivo es la más frecuente, mientras que Amenazas/Violencia es minoritaria. Este desbalance 
+motiva el uso de pesos de clase y la elección de F1-macro como métrica principal. 
+
+===== PÁGINA 6 =====
+ 
+Distribución de clases en el corpus. 
+Baselines triviales 
+Antes de entrenar modelos, se estiman baselines triviales sobre el conjunto de test  (𝑛 = 460; 
+Tabla 3.1): clase mayoritaria, azar uniforme y azar estratificado. Para la clase mayoritaria se 
+simula un clasificador que siempre predice la etiqueta más frecuente: precisión 𝑝 (proporción en 
+test), recall 1,0; el F1 de las demás clases es 0. El F1-macro es la media sobre 𝑘 = 4 clases. Los 
+valores del CSV se redondean a tres decimales ( round); la tabla generada muestra cuatro. El 
+informe de preparación v1.1 reportaba ≈ 0,129 por un redondeo intermedio de 𝑝; aquí 0,128. El 
+azar se sitúa en 0,25. Cualquier modelo útil debe superar claramente estos umbrales. 
+Baselines triviales (F1-macro). 
+Baseline F1-macro 
+azar_estratificado 0.2500 
+azar_uniforme 0.2500 
+clase_mayoritaria 0.1284 
+Plataforma y longitud de tokens 
+La Figura 3.2 desglosa las clases por plataforma. X concentra más volumen; Facebook presenta 
+una distribución distinta que, como se verá en la evaluación por cortes, resulta más difícil para el 
+modelo. 
+
+
+===== PÁGINA 7 =====
+ 
+Distribución de clases por plataforma. 
+La Figura 3.3 muestra la longitud en tokens del texto de entrada. La mayoría de instancias cabe 
+cómodamente bajo el max_length de 128 tokens usado en mBERT. 
+ 
+Distribución de longitudes en tokens. 
+Preprocesamiento y baselines TF-IDF 
+Este capítulo agrupa los notebooks 02_preprocesamiento_features y 03_baselines_tfidf. 
+Normalización y features 
+El pipeline de normalización produce texto_modelo (texto limpio para el clasificador) y features 
+auxiliares: conteos de caracteres/palabras, emojis,  menciones, hashtags, ratio de mayúsculas y, 
+de forma crítica para el análisis dialectal, el conteo de jerga salvadoreña (n_jerga). 
+Para mitigar el desbalance se calculan pesos de clase (Tabla  4.1). Amenazas/Violencia y 
+Discurso de Odio reciben pesos mayores que Lenguaje Ofensivo, la clase más frecuente. 
+
+
+===== PÁGINA 8 =====
+Pesos de clase usados en el entrenamiento. 
+Clase Peso calculado Peso informe 
+No Tóxico 0.9198 0.9198 
+Lenguaje Ofensivo 0.9376 0.9376 
+Discurso de Odio 0.9720 0.9720 
+Amenazas/Violencia 1.2233 1.2233 
+Baselines TF-IDF 
+Se entrenan tres clasificadores clásicos sobre un vectorizador TF -IDF (n -gramas 1 –2, máximo 
+10 000 features, sublinear_tf): 
+• Logistic Regression (class_weight balanced). 
+• LinearSVC (class_weight balanced). 
+• MultinomialNB. 
+Los resultados en test se muestran en la Tabla  4.2. LinearSVC obtiene el mejor F1 -macro 
+(0,765), seguido de Logistic Regression ( 0,758) y MultinomialNB ( 0,648). Todos superan 
+ampliamente los baselines triviales del Capítulo 3. 
+Baselines TF-IDF en el conjunto de prueba (F1-macro). 
+Modelo F1-macro 
+LogisticRegression 0.7354 
+LinearSVC 0.7482 
+MultinomialNB 0.6932 
+Estos baselines constituyen el piso competitivo frente al cual se evalúa mBERT en el Capítulo 6. 
+Fine-tuning de mBERT B2 
+Este capítulo corresponde al notebook 04_finetuning_mbert. Se describe el reentrenamiento de 
+bert-base-multilingual-cased   sobre el corpus B2 salvadoreño. 
+Configuración de entrenamiento 
+Los hiperparámetros principales (modo CPU, según config/settings.yaml) se resumen en la 
+Tabla 5.1. 
+Hiperparámetros de fine-tuning B2 (CPU). 
+Parámetro Valor 
+Modelo base bert-base-multilingual-cased 
+Directorio de salida models/mbert-sv-b2 
+
+===== PÁGINA 9 =====
+Parámetro Valor 
+Train 3,293 (2,144 reales + 1,149 sintéticos) 
+Épocas 4 
+Batch size (train) 8 
+Batch size (eval) 16 
+Learning rate 2 × 10−5 
+Warmup ratio 0,1 
+Weight decay 0,01 
+Max length 128 
+Label smoothing (B2) 0,05 
+Early stopping patience 2 
+Semilla 42 
+Pesos de clase B2 
+Los pesos publicados en metadata.json (Tabla 4.1) mitigan el desbalance y se combinan con masa 
+efectiva ≈ 90 en amenazas sintéticas durante el entrenamiento. 
+Métricas de validación 
+Al finalizar el entrenamiento (época 4), el mejor checkpoint ( checkpoint-1644) alcanza en 
+validación un F1 -macro de 0,756 y una accuracy de 0,756 (train_metrics.json). La Figura  5.1 
+resume las métricas finales de validación; el historial completo de pérdida por step no fue 
+exportado desde Colab. 
+ 
+Curva de entrenamiento: métricas finales de validación B2. 
+
+
+===== PÁGINA 10 =====
+El checkpoint oficial se guarda en models/mbert-sv-b2/. Los pesos no se versionan en Git. El 
+contrato de inferencia ( inference_contract.json) fija max_length=128, columna texto_modelo y 
+normalizador normalize_for_model v1.1. 
+Comparación con el checkpoint v1 
+El checkpoint v1 ( checkpoint-1072, train 2,144) alcanzaba F1 -macro 0,7777 en test. El B2 
+prioriza robustez adversarial y equidad dialectal; la evaluación del Capítulo  6 cuantifica el 
+intercambio frente al v1. 
+Evaluación completa y comparación 
+Este capítulo (notebook 05_metricas_y_comparacion) concentra los resultados centrales del 
+proyecto sobre el conjunto de prueba (𝑛 = 460). 
+Métricas globales de mBERT 
+El F1-macro es 0,7610, con intervalo bootstrap 95 % [0,7179,  0,7981]. La accuracy es 0,7674 
+y el MCC 0,6831. El QWK de 0,7126 indica buen acuerdo ordinal. El ECE de 0,1640 sugiere 
+margen de mejora en calibración. 
+Métricas globales de mBERT en test. 
+Métrica Valor 
+Accuracy 0.7674 
+Balanced accuracy 0.7612 
+F1-macro 0.7610 
+F1-weighted 0.7674 
+MCC 0.6831 
+QWK 0.7126 
+Kappa lineal 0.6968 
+Ordinal MAE 0.3522 
+Ordinal RMSE 0.7967 
+Errores grandes (%) 9.7826 
+ROC-AUC OVR 0.9193 
+Log-loss 0.8328 
+ECE 0.1640 
+Brier macro 0.0992 
+F1 bootstrap lo 0.7179 
+F1 bootstrap hi 0.7981 
+
+===== PÁGINA 11 =====
+Desempeño por clase 
+Lenguaje Ofensivo obtiene el mejor F1 ( 0,7925), seguido de No Tóxico ( 0,7837). Discurso de 
+Odio es la clase más débil (0,7330), aunque el soporte es menor. 
+Métricas por clase — mBERT (test). 
+Clase Precision Recall F1 Support 
+No Tóxico 0.7869 0.7805 0.7837 123 
+Lenguaje Ofensivo 0.7925 0.7925 0.7925 159 
+Discurso de Odio 0.7292 0.7368 0.7330 95 
+Amenazas/Violencia 0.7349 0.7349 0.7349 83 
+La matriz de confusión (Figura  6.1) confirma confusiones preferentemente entre clases 
+adyacentes en la escala ordinal (p. ej. ofensivo ↔ odio), coherente con el MAE ordinal de 0,352. 
+ 
+Matriz de confusión de mBERT en el conjunto de prueba. 
+Comparación de modelos 
+La Tabla 6.3 y la Figura 6.2 ordenan los modelos por F1-macro de forma descriptiva. El ranking 
+puntual no establece por sí solo superioridad estadística entre arquitecturas transformer: la 
+comparación pareada mBERT vs.  XLM-RoBERTa se evalúa con McNemar en la sección 
+siguiente sobre las mismas 𝑛 = 460 instancias. Entre baselines TF-IDF, mBERT B2 obtiene F1-
+macro 0,7610, con LinearSVC a 0,7482. 
+Comparación de modelos (F1-macro en test). 
+Modelo F1-macro 
+
+
+===== PÁGINA 12 =====
+Modelo F1-macro 
+XLM-RoBERTa 0.8058 
+mBERT 0.7610 
+LinearSVC 0.7482 
+LogisticRegression 0.7354 
+MultinomialNB 0.6932 
+trivial_azar_estratificado 0.2500 
+trivial_azar_uniforme 0.2500 
+trivial_clase_mayoritaria 0.1284 
+ 
+Comparación de F1-macro entre modelos. 
+Trazabilidad de la métrica oficial 
+La Tabla 6.4 documenta cada cifra histórica de F1-macro citada para mBERT. La métrica oficial 
+(0,7610) proviene del checkpoint checkpoint-1644 (semilla 42, hash de test 5d1284efcc7df20f…, 
+evaluación 2026-09-07). La cifra 0,7862 del informe de auditoría queda archivada como no 
+reproducible. El checkpoint v1 (F1 -macro 0,7777 ) se conserva como referencia histórica 
+reproducible en la misma tabla. 
+Trazabilidad de F1-macro mBERT (histórico vs. oficial). 
+F1-macro Estado Fuente Checkpoint Split 
+0.7610 Oficial reports/metrics/mbert_test_metrics.csv checkpoint-1072 test 
+0.7610 Mismo run 
+(redondeo) 
+reports/latex/chapters (histórico) checkpoint-1072 test 
+0.7862 No 
+reproducible 
+Informe_Auditoria_de_Modelos.docx 
+(Tabla 7) 
+desconocido test 
+0.7777 Histórico 
+reproducible 
+models/mbert-sv (checkpoint-1072) checkpoint-1072 test 
+0.7715 Solo models/mbert-sv-b2/train_metrics.json checkpoint-1072 val 
+
+
+===== PÁGINA 13 =====
+F1-macro Estado Fuente Checkpoint Split 
+validación / val 
+Comparación v1 vs. B2 
+La Tabla 6.4 documenta la evolución del F1 -macro. En test principal el B2 desciende de 0,7777 
+(v1) a 0,7610, pero mejora en robustez adversarial (64/75 vs.  45/75 en batería v1) y reduce la 
+brecha FPR dialectal (0.07 vs.  0.86). En cortes, Facebook pasa de F1 0,673 a 0,665 y X de 
+0,839 a 0,819. 
+Pruebas de McNemar 
+La Tabla 6.5 reporta la prueba de McNemar   entre mBERT y cada baseline, y la comparación 
+pareada mBERT vs. XLM-RoBERTa sobre las mismas 𝑛 = 460 instancias de test (𝛼 = 0,05). 
+La comparación pareada mBERT vs.  XLM-RoBERTa sobre las mismas 𝑛 = 460 instancias de 
+test arroja 𝑝 = 0.041391  ( 𝑏 = 26 , 𝑐 = 44 ; 𝛼 = 0.05 ): la diferencia es estadísticamente 
+significativa bajo el umbral definido. Frente a MultinomialNB la superioridad de mBERT sí 
+alcanza significancia estadística (𝛼 = 0.05). 
+La diferencia frente a MultinomialNB es significativa ( 𝑝 ≈ 0,005). Frente a Logistic Regression 
+(𝑝 ≈ 0,24) y LinearSVC (𝑝 ≈ 0,53) no se rechaza la hipótesis nula. Frente a XLM-RoBERTa v1 
+la diferencia sí es significativa ( 𝑝 ≈ 0,04), con XLM -R acertando más instancias en este test 
+(𝑏 = 26, 𝑐 = 44). 
+Pruebas de McNemar pareadas (mBERT vs. baselines y XLM-RoBERTa). 
+Modelo A Modelo B Estadístico p-valor b c n Sig. 
+mBERT LogisticRegression 0.5619 0.241432 59 46 460 No 
+mBERT LinearSVC 0.5376 0.534060 50 43 460 No 
+mBERT MultinomialNB 0.6389 0.005024 69 39 460 Sí 
+mBERT XLM-RoBERTa 0.3714 0.041391 26 44 460 Sí 
+Métricas por cortes (slices) 
+La Tabla 6.6 y la Figura 6.3 muestran el F1-macro por subconjunto. Las filas mBERT comparten 
+run_id y checkpoint con la evaluación oficial (T -04); la Tabla  6.7 detalla métricas por clase en 
+cortes con 𝑛 ≥ 30. Destacan: 
+• Plataforma X (F1 0.8190) vs. Facebook (F1 0.6648): brecha importante. 
+• Ironía (F1 0.5781 (baja potencia: faltan clases (n=59))) y sarcasmo (F1 0.6142) 
+degradan el desempeño respecto a sus contrapartes sin figura retórica (F1 0.7576 e 
+0.7690). 
+• Contexto político no perjudica; incluso mejora ligeramente (F1 0.7535 vs. 0.7468). 
+• Fuente: reports/metrics/slice_metrics.csv. 
+
+===== PÁGINA 14 =====
+F1-macro y accuracy por cortes (definición, 𝑛, distribución de clases). 
+Model
+o 
+Corte Definición n Clases F1-
+macr
+o 
+IC / 
+nota 
+Accura
+cy 
+mBER
+T 
+con_jerga n_jerga > 0 27
+8 
+29/117/72/
+60 
+0.743
+9 
+[0.6835
+, 
+0.7981] 
+0.7806 
+mBER
+T 
+contexto_politico_
+no 
+Contexto_Politico 
+in 
+{NO/FALSE/0/N} 
+36
+8 
+107/97/93/
+71 
+0.746
+8 
+[0.7018
+, 
+0.7903] 
+0.7473 
+mBER
+T 
+contexto_politico_
+si 
+Contexto_Politico 
+in 
+{SI/SÍ/YES/TRUE
+/1} 
+92 16/62/2/12 0.753
+5 
+baja 
+potenci
+a: clase 
+con 
+n<5 
+0.8478 
+mBER
+T 
+ironia_no Presencia_Ironia 
+in 
+{NO/FALSE/0/N} 
+40
+1 
+94/136/88/
+83 
+0.757
+6 
+[0.7137
+, 
+0.7964] 
+0.7606 
+mBER
+T 
+ironia_si Presencia_Ironia 
+in 
+{SI/SÍ/YES/TRUE
+/1} 
+59 29/23/7/0 0.578
+1 
+baja 
+potenci
+a: 
+faltan 
+clases 
+(n=59) 
+0.8136 
+mBER
+T 
+plataforma_Faceb
+ook 
+Plataforma 
+== ’Facebook’ 
+23
+2 
+75/88/30/3
+9 
+0.664
+8 
+[0.5968
+, 
+0.7317] 
+0.7112 
+mBER
+T 
+plataforma_X Plataforma == ’X’ 22
+8 
+48/71/65/4
+4 
+0.819
+0 
+[0.7692
+, 
+0.8694] 
+0.8246 
+mBER
+T 
+sarcasmo_no Presencia_Sarcas
+mo in 
+{NO/FALSE/0/N} 
+37
+0 
+91/111/87/
+81 
+0.769
+0 
+[0.7249
+, 
+0.8120] 
+0.7703 
+mBER
+T 
+sarcasmo_si Presencia_Sarcas
+mo in 
+{SI/SÍ/YES/TRUE
+/1} 
+90 32/48/8/2 0.614
+2 
+baja 
+potenci
+a: clase 
+con 
+n<5 
+0.7556 
+mBER
+T 
+sin_jerga n_jerga == 0 18
+2 
+94/42/23/2
+3 
+0.688
+0 
+[0.6008
+, 
+0.7660] 
+0.7473 
+ 
+
+===== PÁGINA 15 =====
+Métricas por clase en cortes mBERT con muestra suficiente (𝑛 ≥ 30). 
+Corte Clase Support Precision Recall F1 
+con_jerga No Tóxico 29 0.6296 0.5862 0.6071 
+con_jerga Lenguaje Ofensivo 117 0.8649 0.8205 0.8421 
+con_jerga Discurso de Odio 72 0.7229 0.8333 0.7742 
+con_jerga Amenazas/Violencia 60 0.7719 0.7333 0.7521 
+contexto_politico_no No Tóxico 107 0.7642 0.7570 0.7606 
+contexto_politico_no Lenguaje Ofensivo 97 0.7075 0.7732 0.7389 
+contexto_politico_no Discurso de Odio 93 0.7556 0.7312 0.7432 
+contexto_politico_no Amenazas/Violencia 71 0.7727 0.7183 0.7445 
+contexto_politico_si No Tóxico 16 0.9375 0.9375 0.9375 
+contexto_politico_si Lenguaje Ofensivo 62 0.9623 0.8226 0.8870 
+contexto_politico_si Discurso de Odio 2 0.3333 1.0000 0.5000 
+contexto_politico_si Amenazas/Violencia 12 0.5882 0.8333 0.6897 
+ironia_no No Tóxico 94 0.7553 0.7553 0.7553 
+ironia_no Lenguaje Ofensivo 136 0.7754 0.7868 0.7810 
+ironia_no Discurso de Odio 88 0.7416 0.7500 0.7458 
+ironia_no Amenazas/Violencia 83 0.7625 0.7349 0.7485 
+ironia_si No Tóxico 29 0.8929 0.8621 0.8772 
+ironia_si Lenguaje Ofensivo 23 0.9048 0.8261 0.8636 
+ironia_si Discurso de Odio 7 0.5714 0.5714 0.5714 
+ironia_si Amenazas/Violencia 0 0.0000 0.0000 0.0000 
+plataforma_Facebook No Tóxico 75 0.7692 0.8000 0.7843 
+plataforma_Facebook Lenguaje Ofensivo 88 0.7283 0.7614 0.7444 
+plataforma_Facebook Discurso de Odio 30 0.5200 0.4333 0.4727 
+plataforma_Facebook Amenazas/Violencia 39 0.6757 0.6410 0.6579 
+plataforma_X No Tóxico 48 0.8182 0.7500 0.7826 
+plataforma_X Lenguaje Ofensivo 71 0.8806 0.8310 0.8551 
+plataforma_X Discurso de Odio 65 0.8028 0.8769 0.8382 
+plataforma_X Amenazas/Violencia 44 0.7826 0.8182 0.8000 
+sarcasmo_no No Tóxico 91 0.7755 0.8352 0.8042 
+sarcasmo_no Lenguaje Ofensivo 111 0.7925 0.7568 0.7742 
+sarcasmo_no Discurso de Odio 87 0.7386 0.7471 0.7429 
+sarcasmo_no Amenazas/Violencia 81 0.7692 0.7407 0.7547 
+sarcasmo_si No Tóxico 32 0.8333 0.6250 0.7143 
+
+===== PÁGINA 16 =====
+Corte Clase Support Precision Recall F1 
+sarcasmo_si Lenguaje Ofensivo 48 0.7925 0.8750 0.8317 
+sarcasmo_si Discurso de Odio 8 0.6250 0.6250 0.6250 
+sarcasmo_si Amenazas/Violencia 2 0.2000 0.5000 0.2857 
+sin_jerga No Tóxico 94 0.8316 0.8404 0.8360 
+sin_jerga Lenguaje Ofensivo 42 0.6250 0.7143 0.6667 
+sin_jerga Discurso de Odio 23 0.7692 0.4348 0.5556 
+sin_jerga Amenazas/Violencia 23 0.6538 0.7391 0.6939 
+ 
+F1-macro por corte (slice). 
+Desempeño por plataforma 
+La Tabla  6.8 consolida F1 -macro y accuracy por plataforma para cada modelo evaluado, con 
+identificador de checkpoint y tamaño de subconjunto. Las cifras se generan desde 
+reports/metrics/slice_metrics.csv; no se transcriben manualmente. La Tabla  6.9 documenta cifras 
+históricas no reproducibles frente a la línea oficial. 
+Las cifras oficiales por plataforma proceden de la misma evaluación T -04/T-05 sobre 
+mbert_test_predictions.csv. Oficial Facebook: F1 -macro 0.6648 (𝑛 = 232). Oficial X: F1 -macro 
+0.8190 (𝑛 = 228). Cifras históricas del informe de Cristian (X (0.8503), Facebook (0.6896)) se 
+archivan como históricas no reproducibles y no se mezclan con la tabla oficial. 
+• Corrida oficial: run_id=5ff7f3a3-fc32-4db1-ae1b-a2052085a461, checkpoint checkpoint-1644, 
+evaluado 2026-09-07T19:57:37.811840+00:00. 
+• Facebook (𝑛 = 232, clases 75/88/30/39): F1 -macro 0.6648, accuracy 0.7112 ([0.5968, 
+0.7317]; checkpoint checkpoint-1644). 
+• X (𝑛 = 228, clases 48/71/65/44): F1 -macro 0.8190, accuracy 0.8246 ([0.7692, 0.8694]; 
+checkpoint checkpoint-1644). 
+
+
+===== PÁGINA 17 =====
+• Fuente: reports/metrics/slice_metrics.csv. 
+XLM-RoBERTa 
+• Facebook (𝑛 = 232, clases 75/88/30/39): F1 -macro 0.7154, accuracy 0.7457 ([0.6435, 
+0.7764]; checkpoint C:\{}Users\{}echoe\{}Desktop\{}metricas-proyecto-
+ml\{}reports\{}metrics\{}xlmr_test_predictions.csv). 
+• X (𝑛 = 228, clases 48/71/65/44): F1 -macro 0.8673, accuracy 0.8684 ([0.8216, 0.9116]; 
+checkpoint C:\{}Users\{}echoe\{}Desktop\{}metricas-proyecto-
+ml\{}reports\{}metrics\{}xlmr_test_predictions.csv). 
+• Fuente: reports/metrics/slice_metrics.csv. 
+Métricas por plataforma (modelo, checkpoint, 𝑛, F1-macro, accuracy). 
+Model
+o 
+Platafo
+rma 
+Checkpoint n Clases F1-
+mac
+ro 
+Accur
+acy 
+IC / 
+nota 
+mBER
+T 
+Facebo
+ok 
+checkpoint-1644 23
+2 
+75/88/3
+0/39 
+0.66
+48 
+0.7112 [0.59
+68, 
+0.731
+7] 
+mBER
+T 
+X checkpoint-1644 22
+8 
+48/71/6
+5/44 
+0.81
+90 
+0.8246 [0.76
+92, 
+0.869
+4] 
+XLM-
+RoBE
+RTa 
+Facebo
+ok 
+C:\{}Users\{}echoe\{}Desktop\{}m
+etricas-proyecto-
+ml\{}reports\{}metrics\{}xlmr_test_
+predictions.csv 
+23
+2 
+75/88/3
+0/39 
+0.71
+54 
+0.7457 [0.64
+35, 
+0.776
+4] 
+XLM-
+RoBE
+RTa 
+X C:\{}Users\{}echoe\{}Desktop\{}m
+etricas-proyecto-
+ml\{}reports\{}metrics\{}xlmr_test_
+predictions.csv 
+22
+8 
+48/71/6
+5/44 
+0.86
+73 
+0.8684 [0.82
+16, 
+0.911
+6] 
+ 
+Trazabilidad de F1-macro por plataforma (oficial vs. histórico). 
+Plataforma F1-
+macro 
+n Estado Checkpoint Fuente 
+Facebook 0.6648 232 official checkpoint-
+1644 
+reports/metrics/slice_metrics.csv 
+X 0.8190 228 official checkpoint-
+1644 
+reports/metrics/slice_metrics.csv 
+X 0.8503 — not_reproducible desconocido Informe de Cristian / auditoría 
+
+===== PÁGINA 18 =====
+Plataforma F1-
+macro 
+n Estado Checkpoint Fuente 
+(Tabla plataforma) 
+Facebook 0.6896 — not_reproducible desconocido Informe de Cristian / auditoría 
+(Tabla plataforma) 
+ 
+Comparación de F1-macro por plataforma entre modelos. 
+Sonda de sesgo dialectal 
+La Tabla 6.10 reporta la tasa de falsos positivos sobre No Tóxico para mBERT, calculada desde 
+reports/metrics/dialect_bias_probe.csv. Con jerga local el FPR es 0.4138 (12/29; 𝑛 = 29), frente a 
+0.1596 (15/94; 𝑛 = 94) sin jerga. Aunque el subconjunto con jerga es pequeño, el patrón sugiere 
+que el modelo puede asociar léxico dialectal con toxicidad, un riesgo relevante para la equidad 
+en el contexto salvadoreño. 
+Sonda de sesgo dialectal (FP en No Tóxico). Fuente: reports/metrics/dialect_bias_probe.csv. 
+Modelo Grupo FP/n FPR IC 95% 
+lo 
+IC 95% hi n 
+mbert Con jerga 12/29 0.4138 0.2551 0.5926 29 
+mbert Sin jerga 15/94 0.1596 0.0992 0.2467 94 
+xlm-roberta Con jerga 13/29 0.4483 0.2841 0.6245 29 
+xlm-roberta Sin jerga 15/94 0.1596 0.0992 0.2467 94 
+
+
+===== PÁGINA 19 =====
+ 
+Tasa de falsos positivos dialectal por grupo de jerga. 
+Robustez adversarial y equidad dialectal (T-06 / T-07) 
+Se evaluó el checkpoint checkpoint-1644 (run_id=None…) sobre la batería adversarial 
+adversarial_v2_144 (𝑛 = 144, SHA-256 verificado). Esta métrica es diagnóstica y no sustituye el 
+F1-macro oficial sobre test.csv. El modelo acertó 120/144 casos (F1 -macro diagnóstico=0.7516). 
+Sobre amenazas ofuscadas (grupo C): F1 Amenazas/Violencia=1.0000, FN=0/27. La brecha FPR 
+dialectal (D − E) es 0.0714. No se activó la puerta de mitigación; se documentan riesgos 
+residuales (tamaño reducido de la batería y anchos IC en subconjuntos pequeños). La batería 
+histórica v1 ( 𝑛 = 75) reportó 64/75 aciertos; la evaluación principal usa la batería extendida A –
+G (𝑛 = 144) alineada con la verificación independiente (sep 2026). En pares mínimos de emoji 
+(grupo G), 1/10 emojis inocuos vuelven tóxico un texto previamente No Tóxico (atajo emoji –
+toxicidad documentado en el EDA). 
+Resultados por familia en la batería extendida test_adversarial_144.csv (𝑛 = 144, A–G). Fuente: 
+verificación independiente sep 2026. 
+Fam. Grupo mBERT XLM-R 
+ref. 
+n 
+A A. Ofuscación de groserías 12/20 17/20 20 
+B B. Emojis 16/18 6/18 18 
+C C. Amenazas ofuscadas 11/11 5/11 11 
+D D. Jerga salvadoreña inofensiva FPR 1/14 6/14 14 
+E E. Control sin jerga FPR 0/12 0/12 12 
+F F. Falsos amigos dialectales FPR 8/34 26/34 34 
+G G. Pares mínimos de emoji 30/35 12/35 35 
+ALL Global 120/144 74/144 144 
+ 
+
+
+===== PÁGINA 20 =====
+Resultados por familia en la batería histórica test_adversarial.csv (𝑛 = 75, diagnóstico v1). 
+Fam. Grupo Resultado Conf. n 
+A A. Ofuscación de groserías 12/20 0.9203 20 
+B B. Emojis 16/18 0.9576 18 
+C C. Amenazas ofuscadas 11/11 0.9777 11 
+D D. Jerga salvadoreña inofensiva FPR 1/14 0.9405 14 
+E E. Control sin jerga FPR 0/12 0.9260 12 
+F F. Falsos amigos dialectales FPR 8/34 0.8852 34 
+G G. Pares mínimos de emoji 30/35 0.9627 35 
+ 
+FPR dialectal en pares controlados de la batería adversarial (grupos D vs. E). 
+Grupo FP/n FPR IC lo IC hi n 
+Jerga SV 1/14 0.0714 0.0127 0.3147 14 
+Español estándar 0/12 0.0000 0.0000 0.2425 12 
+ 
+Aciertos por familia adversarial: mBERT oficial vs. referencia XLM-R v1. 
+El checkpoint B2 fue adoptado como modelo oficial: B2 adoptado como checkpoint oficial: 
+mejora adversarial (64/75 vs 45/75) y FPR dialectal (gap 0.07 vs 0.86) con caída puntual de F1 
+test 0.7777→0.7610. La métrica publicada en test principal es F1 -macro 0,7610 (checkpoint 
+checkpoint-1644). 
+Comparación antes/después de mitigación B2 (si aplica). 
+Etapa Checkpoint F1 test C B FPR gap Adv. 
+baseline checkpoint-1072 0.7777 6/11 7/18 0.8571 45/75 
+official_b2 checkpoint-1644 0.7610 11/11 15/18 0.0714 64/75 
+
+
+===== PÁGINA 21 =====
+Benchmark externo (zero-shot) 
+Este capítulo corresponde al notebook 06_benchmark_externo. El modelo mBERT afinado en el 
+corpus local se evalúa sin reentrenamiento sobre datasets públicos en español/latam hospedados 
+en Hugging Face  . 
+Nota metodológica: las cifras de este capítulo provienen del checkpoint v1 ( checkpoint-1072). El 
+B2 no fue re -evaluado en zero -shot externo en esta corrida; el test local ( 𝑛 = 460 ) sí 
+corresponde al B2 oficial. 
+Protocolo 
+Para cada dataset se proyectan las etiquetas originales a un esquema compatible (multiclase o 
+binario según disponibilidad), se limita el tamaño según la configuración y se calculan F1-macro, 
+F1-binario y accuracies. 
+Resultados 
+La Tabla 7.1 y la Figura  7.1 resumen los seis datasets evaluados con estado ok. El mejor F1 -
+macro zero -shot es 0,313 (contextualized hate speech); el peor, 0,139 (SinOdio-LATAM). En 
+métrica binaria algunos datasets alcanzan F1 ≈ 0,70, pero el desempeño multiclase permanece 
+lejos del F1-macro local de 0,7610 . 
+Benchmark zero-shot de mBERT-SV (checkpoint v1) sobre datasets externos. 
+Dataset n F1-macro F1-binario Accuracy 
+contextualized_hate_speech 1614 0.3127 0.7110 0.3501 
+SocialTOX 968 0.2658 0.5802 0.4143 
+SinOdio-LATAM-Regional-
+HateSpeech 
+2000 0.1394 0.3171 0.2690 
+multilingual_toxicity_dataset 2000 0.2693 0.7023 0.4450 
+ALIA-es-discriminative-hate-
+speech 
+3000 0.2409 0.3826 0.4263 
+exist_dataset_es 1500 0.1716 0.5655 0.2933 
+
+===== PÁGINA 22 =====
+ 
+F1-macro y F1-binario en el benchmark externo (checkpoint v1). 
+Discusión 
+La caída de desempeño confirma un fuerte domain shift : el modelo está especializado en el 
+dialecto, la distribución de clases y las plataformas del corpus salvadoreño. La transferencia 
+zero-shot a odio contextualizado argentino, toxicidad social española o datasets de sexismo 
+(EXIST) no es suficiente para uso productivo sin adaptación adicional. 
+Interpretabilidad 
+Este capítulo corresponde al notebook 07_interpretabilidad y al script run_interpretability.py. Se 
+emplean LIME  y SHAP  para explicar predicciones de mBERT. 
+Falsos positivos y jerga 
+La Tabla 8.1 cuenta falsos positivos de la clase No Tóxico según presencia de jerga. Hay 12 FP 
+con jerga y 15 sin jerga; dado el menor tamaño del grupo con jerga, la tasa relativa es mayor 
+(coherente con la sonda del Capítulo 6). 
+Falsos positivos No Tóxico según jerga. 
+Nota 
+Datos no disponibles 
+Concordancia LIME–SHAP 
+Se calcula el índice de Jaccard entre los top-𝑘 tokens de LIME y SHAP por instancia (Tabla 8.2), 
+tras alinear subwords WordPiece de SHAP a palabras y usar la misma clase predicha en ambos 
+métodos. Si el solapamiento sigue siendo nulo tras la alineación, la tabla se omite y el capítulo 
+reporta solo LIME global más la sonda de jerga del Capítulo 6 (ver interpretability_note.json). 
+Jaccard top-𝑘 entre LIME y SHAP por instancia. 
+Nota 
+
+
+===== PÁGINA 23 =====
+Nota 
+Jaccard LIME –SHAP omitido: solapamiento nulo tras alineación WordPiece (ver nota en 
+capítulo) 
+Importancias globales LIME 
+Cuando el agregado de pesos LIME está disponible, la Tabla  8.3 y la Figura  8.1 muestran los 
+tokens más influyentes por clase. Si el archivo de métricas está vacío (corrida incompleta), las 
+tablas/figuras incluyen un marcador de datos no disponibles. 
+Top tokens LIME por clase (agregado). 
+Nota 
+LIME global weights no disponibles en esta corrida 
+ 
+Importancias globales LIME por clase. 
+Conclusiones y limitaciones 
+Hallazgos principales 
+1. mBERT B2 alcanza F1-macro 0,7610 en test (𝑛 = 460), supera a LinearSVC ( 0,7482) y 
+al resto de baselines, pero sin alcanzar la meta de 0,80 definida en la configuración del 
+proyecto. La meta de 0,80 no se alcanza ni en el punto estimado ni en el extremo superior 
+del intervalo bootstrap. 
+2. El reentrenamiento B2 mejora robustez adversarial (64/75 en batería v1 vs.  45/75 del 
+checkpoint v1; 120/144 en batería extendida) y reduce el sesgo dialectal (FPR gap 0.07 
+vs. 0.86), a costa de una caída puntual del F1-macro en test de 0,7777 a 0,7610. 
+3. La prueba de McNemar confirma superioridad significativa de mBERT B2 frente a 
+MultinomialNB y frente a XLM -RoBERTa v1 ( 𝛼 = 0,05 ). Frente a LinearSVC y 
+Logistic Regression no se rechaza la hipótesis nula. 
+
+
+===== PÁGINA 24 =====
+4. Los cortes revelan fragilidad ante ironía y sarcasmo, y peor desempeño en Facebook 
+respecto a X. 
+5. La sonda dialectal muestra FPR elevado en No Tóxico con jerga local (41 % vs.  16 %), 
+señal de posible sesgo léxico (fuente: reports/metrics/dialect_bias_probe.csv). 
+6. La batería adversarial (𝑛 = 144, 120/144 aciertos globales) confirma brechas en robustez 
+retórica, atajo emoji –toxicidad (grupo G) y equidad dialectal del checkpoint oficial; ver 
+Tabla 6.11. 
+7. El benchmark zero -shot (F1 -macro 0,14–0,31, checkpoint v1) evidencia transferencia 
+limitada fuera del dominio salvadoreño. 
+Limitaciones 
+• Tamaño moderado del test y de algunos slices (jerga, ironía). 
+• Calibración imperfecta (ECE ≈ 0,16). 
+• Benchmark externo no re-ejecutado con pesos B2. 
+• Concordancia LIME –SHAP nula en la corrida reportada; pesos globales LIME no 
+exportados. 
+• El F1-macro puntual del B2 queda por debajo de LinearSVC en el train B2 ampliado, 
+aunque mejora en escenarios adversariales. 
+Trabajo futuro 
+• Ampliar datos etiquetados reales, especialmente ironía/sarcasmo y Facebook. 
+• Re-ejecutar benchmark zero-shot con checkpoint B2. 
+• Técnicas de calibración para reducir el ECE sin sacrificar robustez. 
+• Re-ejecutar y estabilizar el pipeline SHAP; enriquecer explicaciones globales LIME. 
+• Explorar modelos más recientes multilingües o específicos de español. 
+En conjunto, el sistema B2 es más robusto ante ataques retóricos y jerga salvadoreña que el v1, 
+con trazabilidad reproducible, pero requiere más datos reales y calibración antes de un 
+despliegue de moderación automatizada. 
