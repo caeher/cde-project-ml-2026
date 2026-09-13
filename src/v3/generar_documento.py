@@ -14,7 +14,7 @@ from docx import Document
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 
 RAIZ = Path(__file__).resolve().parents[2]
-PLANTILLA = RAIZ / "Etapa I - Analisis de Discurso de Odio en Redes Sociales en El Salvador.docx"
+PLANTILLA = RAIZ / "docs/etapa-1/plantilla_etapa1.docx"
 DESTINO = RAIZ / "reports/9-12-2026/Etapa II - Analisis de Discurso de Odio en Redes Sociales en El Salvador.docx"
 
 S, A = RAIZ / "reports/v3_resultados", RAIZ / "reports/v3_arquitectura"
@@ -30,11 +30,63 @@ D = {
 _n_tabla = 0
 
 
-def vaciar(doc):
+W = "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}"
+
+
+def vaciar_cuerpo(doc):
+    """
+    Quita el contenido pero CONSERVA la portada, el índice y los saltos de sección.
+
+    El cuerpo del documento de la Etapa I empieza con: el párrafo que contiene el
+    dibujo de la portada y su salto de sección, un marcador, el campo de índice
+    automático (un elemento sdt), y un encabezado vacío con el segundo salto de
+    sección. A partir de ahí viene el texto. Borrar todo eso —que es lo que hacía
+    la primera versión de este script— dejaba el documento sin portada ni índice.
+    """
     cuerpo = doc.element.body
-    for hijo in list(cuerpo):
-        if hijo.tag.endswith(("}p", "}tbl")):
+    # el contenido real empieza después del segundo salto de sección
+    inicio = 0
+    for i, hijo in enumerate(cuerpo):
+        if hijo.tag == f"{W}p" and hijo.findall(f".//{W}sectPr"):
+            inicio = i + 1
+    # el último hijo es el sectPr final del documento: se conserva
+    for hijo in list(cuerpo)[inicio:]:
+        if hijo.tag != f"{W}sectPr":
             cuerpo.remove(hijo)
+    return inicio
+
+
+def actualizar_portada(doc, reemplazos):
+    """La portada son cuadros de texto; su contenido vive en elementos w:t sueltos."""
+    hechos = []
+    claves = {k.strip(): v for k, v in reemplazos.items()}
+    for t in doc.element.body.iter(f"{W}t"):
+        if not t.text:
+            continue
+        crudo = t.text
+        limpio = crudo.strip()
+        if limpio in claves:
+            # se respeta el espaciado original del run, que forma parte del diseño
+            izq = crudo[:len(crudo) - len(crudo.lstrip())]
+            der = crudo[len(crudo.rstrip()):]
+            t.text = izq + claves[limpio] + der
+            hechos.append(f"{crudo!r} -> {t.text!r}")
+    return hechos
+
+
+def forzar_actualizacion_de_campos(doc):
+    """
+    Marca los campos para que Word los recalcule al abrir.
+
+    El índice del documento es un campo con su resultado en caché: sin esto
+    mostraría los títulos de la Etapa I hasta que alguien pulse F9.
+    """
+    from docx.oxml.ns import qn
+    ajustes = doc.settings.element
+    for etiqueta in ajustes.findall(qn("w:updateFields")):
+        ajustes.remove(etiqueta)
+    el = ajustes.makeelement(qn("w:updateFields"), {qn("w:val"): "true"})
+    ajustes.append(el)
 
 
 def h1(doc, t): doc.add_paragraph(t, style="Heading 1")
@@ -43,9 +95,22 @@ def p1(doc, t): doc.add_paragraph(t, style="First Paragraph")
 def p(doc, t): doc.add_paragraph(t, style="Body Text")
 
 
+# Identificador de la lista con viñeta ➢ que usa el documento de la Etapa I.
+# La viñeta no viene del estilo sino de una referencia de numeración puesta
+# directamente en cada párrafo, así que hay que reproducirla igual.
+NUM_ID_VINETA = "13"
+
+
 def vinetas(doc, items):
+    from docx.oxml.ns import qn
     for it in items:
-        doc.add_paragraph(it, style="Body Text")
+        par = doc.add_paragraph(it, style="Body Text")
+        pPr = par._p.get_or_add_pPr()
+        numPr = pPr.makeelement(qn("w:numPr"), {})
+        ilvl = pPr.makeelement(qn("w:ilvl"), {qn("w:val"): "0"})
+        numId = pPr.makeelement(qn("w:numId"), {qn("w:val"): NUM_ID_VINETA})
+        numPr.append(ilvl); numPr.append(numId)
+        pPr.insert(0, numPr)
 
 
 def tabla(doc, titulo, cabecera, filas):
@@ -66,7 +131,15 @@ def tabla(doc, titulo, cabecera, filas):
 
 def construir():
     doc = Document(str(PLANTILLA))
-    vaciar(doc)
+    n = vaciar_cuerpo(doc)
+    print(f"conservados {n} elementos de cabecera (portada, índice y saltos de sección)")
+    for h in actualizar_portada(doc, {
+            "ETAPA I": "ETAPA II",
+            "julio": "septiembre",
+            "Ciudad universitaria, 16 de": "Ciudad universitaria, 12 de",
+    }):
+        print("  portada:", h)
+    forzar_actualizacion_de_campos(doc)
     f, e, cv, hpo, fair = D["final"], D["ens"], D["cv"], D["hpo"], D["fair"]
     t = f["test"]
 
