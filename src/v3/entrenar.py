@@ -84,10 +84,11 @@ def preparar(tok, df, peso_sintetico=None):
 def entrenar(modelo_hf, alias, train_csv, salida, *, epochs=4, lr=2e-5, bs=16,
              acum=1, pesos=True, tokens_nuevos=None, fp16=True, warmup=0.1,
              weight_decay=0.01, semilla=42, guardar=True, peso_sintetico=None,
-             solo_reales_al_final=0):
+             solo_reales_al_final=0, val_csv=None):
     fijar_semilla(semilla)
     t0 = time.time()
-    tr = leer(train_csv); va = leer(RAIZ / "data/dataset_b2/val.csv")
+    tr = leer(train_csv)
+    va = leer(val_csv if val_csv else RAIZ / "data/dataset_v3/val.csv")
 
     tok = AutoTokenizer.from_pretrained(modelo_hf)
     mod = AutoModelForSequenceClassification.from_pretrained(
@@ -193,6 +194,7 @@ if __name__ == "__main__":
     ap.add_argument("--sin-pesos-clase", action="store_true")
     ap.add_argument("--json-salida", default=None)
     ap.add_argument("--semilla", type=int, default=42)
+    ap.add_argument("--val", default=None, help="CSV de validación alternativo (para CV)")
     a = ap.parse_args()
     toks = None
     if a.vocab:
@@ -203,7 +205,7 @@ if __name__ == "__main__":
                  bs=a.bs, acum=a.acum, guardar=not a.no_guardar, tokens_nuevos=toks,
                  peso_sintetico=a.peso_sintetico, solo_reales_al_final=a.fases_reales,
                  weight_decay=a.weight_decay, warmup=a.warmup, pesos=not a.sin_pesos_clase,
-                 semilla=a.semilla)
+                 semilla=a.semilla, val_csv=a.val)
     if a.json_salida:
         Path(a.json_salida).write_text(json.dumps(r, ensure_ascii=False))
     print("\nRESULTADO " + json.dumps(r, ensure_ascii=False))

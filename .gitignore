@@ -45,6 +45,8 @@ _run2/
 _hpo/
 
 # ── SO y editores ──────────────────────────────────────────────────────
+# Metadatos de procedencia que Windows adjunta a los ficheros descargados
+*:Zone.Identifier
 .DS_Store
 Thumbs.db
 .vscode/

@@ -1,0 +1,117 @@
+{
+  "miembros": [
+    "roberTuito_s42",
+    "roberTuito_s2026",
+    "twitterXLMR_b2"
+  ],
+  "val_f1_macro": 0.8519258900543107,
+  "mejor_individual": {
+    "modelo": "roberTuito_s2026",
+    "val_f1_macro": 0.8554704608701007
+  },
+  "todas_las_combinaciones": [
+    {
+      "f1_val": 0.8519258900543107,
+      "miembros": [
+        "roberTuito_s42",
+        "roberTuito_s2026",
+        "twitterXLMR_b2"
+      ]
+    },
+    {
+      "f1_val": 0.8499936593408661,
+      "miembros": [
+        "roberTuito_s2026",
+        "twitterXLMR_b2"
+      ]
+    },
+    {
+      "f1_val": 0.8490698497239195,
+      "miembros": [
+        "roberTuito_s42",
+        "roberTuito_s1337",
+        "roberTuito_s2026"
+      ]
+    },
+    {
+      "f1_val": 0.848706838841926,
+      "miembros": [
+        "roberTuito_s42",
+        "roberTuito_s1337"
+      ]
+    },
+    {
+      "f1_val": 0.8473635245431708,
+      "miembros": [
+        "roberTuito_s42",
+        "roberTuito_s1337",
+        "roberTuito_s2026",
+        "twitterXLMR_b2"
+      ]
+    },
+    {
+      "f1_val": 0.845684467525821,
+      "miembros": [
+        "roberTuito_s1337",
+        "roberTuito_s2026"
+      ]
+    },
+    {
+      "f1_val": 0.8450576459533943,
+      "miembros": [
+        "roberTuito_s1337",
+        "twitterXLMR_b2"
+      ]
+    },
+    {
+      "f1_val": 0.8433546911598182,
+      "miembros": [
+        "roberTuito_s42",
+        "roberTuito_s2026"
+      ]
+    },
+    {
+      "f1_val": 0.8429753192139375,
+      "miembros": [
+        "roberTuito_s1337",
+        "roberTuito_s2026",
+        "twitterXLMR_b2"
+      ]
+    },
+    {
+      "f1_val": 0.8396839154797495,
+      "miembros": [
+        "roberTuito_s42",
+        "roberTuito_s1337",
+        "twitterXLMR_b2"
+      ]
+    },
+    {
+      "f1_val": 0.8395928821177331,
+      "miembros": [
+        "roberTuito_s42",
+        "twitterXLMR_b2"
+      ]
+    }
+  ],
+  "test": {
+    "f1_macro": 0.8656098363352249,
+    "accuracy": 0.8695652173913043,
+    "aciertos": 400,
+    "n": 460,
+    "ic_lo": 0.8322070277762191,
+    "ic_hi": 0.8967501039016357
+  },
+  "adv": {
+    "f1_macro": 0.8172870304957023,
+    "accuracy": 0.8541666666666666,
+    "aciertos": 123,
+    "n": 144
+  },
+  "sonda": {
+    "f1_macro": 0.9659650412148788,
+    "accuracy": 0.9852941176470589,
+    "aciertos": 201,
+    "n": 204
+  }
+}
