@@ -28,6 +28,8 @@ D = {
 }
 
 _n_tabla = 0
+_n_figura = 0
+FIGS = RAIZ / "reports/figures/etapa2"
 
 
 W = "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}"
@@ -111,6 +113,19 @@ def vinetas(doc, items):
         numId = pPr.makeelement(qn("w:numId"), {qn("w:val"): NUM_ID_VINETA})
         numPr.append(ilvl); numPr.append(numId)
         pPr.insert(0, numPr)
+
+
+def figura(doc, archivo, titulo, ancho=6.0):
+    """Inserta una figura centrada con su pie numerado, como en la Etapa I."""
+    global _n_figura
+    from docx.shared import Inches
+    _n_figura += 1
+    par = doc.add_paragraph()
+    par.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    par.add_run().add_picture(str(FIGS / archivo), width=Inches(ancho))
+    cap = doc.add_paragraph(f"Figura {_n_figura} {titulo}", style="Caption")
+    cap.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    return _n_figura
 
 
 def tabla(doc, titulo, cabecera, filas):
@@ -236,6 +251,14 @@ def construir():
            ["XLM-R base / large / TwitterXLM-R", "250 K", "1.696", "3", "45 (2.3 %)"],
            ["mBERT", "120 K", "1.805", "45", "31 (1.6 %)"],
            ["mDeBERTa-v3", "250 K", "1.851", "45", "40 (2.1 %)"]])
+    figura(doc, "fig01_tokenizador.png",
+           "Fragmentación del texto salvadoreño por tokenizador")
+    p(doc, "La figura ordena los candidatos por cuánto trocean el mismo texto. La distancia "
+           "entre los extremos es de 0.38 subtokens por palabra, un 26 % más de fragmentación "
+           "en el peor caso que en el mejor. Dos modelos quedan marcados por motivos opuestos: "
+           "RoBERTuito es el que menos trocea y el único que además cubre más del 5 % del "
+           "léxico local como unidad, y BETO aparece con 588 tokens desconocidos, que es un "
+           "defecto de otra naturaleza —no fragmenta, directamente no reconoce— y lo descarta.")
     p(doc, "mBERT, uno de los dos modelos elegidos en la Etapa I, resultó ser el peor "
            "tokenizador del grupo: gasta un 23 % más de subtokens que RoBERTuito sobre el mismo "
            "texto. «cerote» se parte en «cero ##te», «maje» en «maj ##e» y «pisto» en «pis ##to». "
@@ -255,6 +278,14 @@ def construir():
            ["BETO", "0.8000", "110 M", "1.6 min"],
            ["XLM-R base", "0.7895", "278 M", "2.0 min"],
            ["mBERT", "0.7636", "178 M", "2.1 min"]])
+    figura(doc, "fig02_arquitecturas.png",
+           "Desempeño frente a tamaño del modelo, con el dominio de preentrenamiento destacado")
+    p(doc, "La figura cruza el tamaño del modelo con su desempeño, y lo que muestra es que no "
+           "hay relación. Si el tamaño explicara el resultado, los puntos subirían de izquierda "
+           "a derecha; no lo hacen. Lo que sí separa a los dos mejores del resto es el color: "
+           "ambos fueron preentrenados sobre publicaciones de redes sociales. El modelo más "
+           "grande de la comparación, con 560 millones de parámetros, queda por debajo de uno "
+           "cinco veces menor.")
     p(doc, "Dos conclusiones. La primera: escalar el modelo no resuelve este problema. XLM-R "
            "large tiene cinco veces los parámetros de RoBERTuito, tarda veintiocho veces más y "
            "obtiene menos F1. Con 2,144 ejemplos reales el cuello de botella no es la capacidad.")
@@ -343,6 +374,12 @@ def construir():
            f"+0.025. El rango entre la mejor y la peor configuración fue de "
            f"{hpo['mejor_val_f1'] - peor:.4f}, lo que da idea de cuánto dependía el resultado de "
            f"unos valores que hasta ahora se habían fijado por convención.")
+    figura(doc, "fig04_hpo.png",
+           "Trayectoria de la búsqueda de hiperparámetros")
+    p(doc, "La línea del mejor acumulado avanza a saltos: la mitad de las pruebas no mejora nada "
+           "y el hallazgo llega en la prueba once. La nube de puntos se reparte casi seis puntos "
+           "de F1 entre la mejor y la peor configuración, lo que dimensiona el riesgo de fijar "
+           "los hiperparámetros por convención, como se había hecho hasta ahora.")
     p(doc, "La configuración ganadora resultó interesante por sí misma: peso completo a los "
            "ejemplos sintéticos durante el grueso del entrenamiento y tres épocas finales "
            "únicamente con ejemplos reales. El modelo aprovecha toda la señal de robustez que "
@@ -362,6 +399,12 @@ def construir():
            ["Corpus dirigido, peso 0.5 y dos fases", "—", "0.8473"],
            ["Vocabulario extendido, corpus anterior", "0.7756", "0.8231"],
            ["Vocabulario extendido, corpus dirigido", "0.8016", "0.8213"]])
+    figura(doc, "fig03_ablacion.png",
+           "Efecto del corpus sintético según la capacidad del modelo")
+    p(doc, "Las dos líneas se cruzan, y ese cruce es el hallazgo. Partiendo del corpus anterior, "
+           "el modelo grande va por delante; en cuanto entran los ejemplos sintéticos, cae más "
+           "de dos puntos y ya no se recupera, mientras que el pequeño sube de forma sostenida. "
+           "Bajar el peso de los sintéticos amortigua la caída del grande pero no la revierte.")
     p(doc, "El resultado más informativo es que los mismos datos ayudan a un modelo y perjudican "
            "al otro. Con TwitterXLM-R, de 278 millones de parámetros, los sintéticos cuestan "
            "hasta 2.5 puntos; con RoBERTuito, de 109 millones, aportan hasta 2. La lectura es "
@@ -428,6 +471,12 @@ def construir():
            for x in cv["por_pliegue"]] +
           [["Media ± desviación", f"{sum(x['n_eval'] for x in cv['por_pliegue'])} reales",
             f"{cv['media']:.4f} ± {cv['desv']:.4f}"]])
+    figura(doc, "fig05_validacion_cruzada.png",
+           "Dispersión del F1-macro entre los cinco pliegues", ancho=6.0)
+    p(doc, "La franja sombreada marca una desviación típica alrededor de la media. Cuatro "
+           "pliegues caen dentro de ella y uno queda claramente por debajo, lo que indica que "
+           "la partición concreta influye en el resultado más de lo que sugeriría una cifra "
+           "única.")
     p(doc, f"La media de {cv['media']:.4f} con desviación {cv['desv']:.4f} corrobora el "
            f"resultado de la prueba final y acota su incertidumbre. El rango entre pliegues "
            f"({cv['min']:.4f} a {cv['max']:.4f}) muestra que con este tamaño de corpus la "
@@ -449,6 +498,12 @@ def construir():
            ["XLM-R mitigado", "0.7887", "[0.7486, 0.8257]", "363/460", "No"],
            ["mBERT v1 (Etapa I)", "0.7777", "[0.7363, 0.8144]", "360/460", "No"],
            ["mBERT B2", "0.7610", "[0.7172, 0.7983]", "353/460", "No"]])
+    figura(doc, "fig06_comparacion.png",
+           "Comparación de los siete sistemas con su intervalo de confianza")
+    p(doc, "La línea vertical marca la meta. Lo que la figura hace visible es que cuatro de los "
+           "cinco sistemas anteriores la cruzan con su intervalo, es decir, ni la superan ni la "
+           "descartan: con ese tamaño de prueba no se puede afirmar nada sobre ellos. Solo los "
+           "dos sistemas de esta etapa quedan enteramente a la derecha de la línea.")
     p(doc, f"La meta del proyecto se cumple en el criterio exigente: el extremo inferior del "
            f"intervalo del ensemble se sitúa en {e['test']['ic_lo']:.4f} y el del modelo "
            f"individual en {t['ic_lo']:.4f}, ambos por encima de 0.80. No pasa solo la "
@@ -459,6 +514,12 @@ def construir():
           ["Clase", "Precisión", "Recall", "F1", "Soporte"],
           [[c, f"{v['precision']:.4f}", f"{v['recall']:.4f}", f"{v['f1']:.4f}", str(v["soporte"])]
            for c, v in t["por_clase"].items()])
+    figura(doc, "fig07_confusion.png", "Matriz de confusión del modelo final", ancho=4.3)
+    p(doc, "Los errores se concentran, como era de esperar, entre clases contiguas en la escala "
+           "de gravedad. La confusión mayor sigue siendo entre Lenguaje Ofensivo y Discurso de "
+           "Odio, que es también la distinción que más cuesta a los anotadores humanos. Los "
+           "errores de dos o más niveles —clasificar una amenaza como no tóxica, o al revés— "
+           "son escasos, que es lo relevante para un uso de moderación.")
     p(doc, "Las cuatro clases superan 0.83. Discurso de Odio, que era la peor clase en todos los "
            "modelos anteriores, con valores entre 0.7330 y 0.8041, sube a 0.8308. "
            "Amenazas/Violencia pasa de un rango de 0.7349 a 0.7975 hasta 0.8488.")
@@ -485,6 +546,12 @@ def construir():
            ["Amenazas de muerte disfrazadas (72)", "72", "61", "26", "39"],
            ["Emojis de amenaza (12)", "12", "12", "0", "0"],
            ["Emoji inofensivo en texto amable (16)", "16", "16", "5", "8"]])
+    figura(doc, "fig09_robustez.png",
+           "Aciertos por familia de la sonda dirigida, frente a los modelos anteriores")
+    p(doc, "La figura separa lo que la cifra global esconde. Los modelos anteriores no fallaban "
+           "de forma pareja: se hundían en familias concretas —emojis de amenaza, amenazas "
+           "disfrazadas, jerga inofensiva— y rendían bien en el resto. Las dos barras de emoji "
+           "de amenaza del modelo XLM-R v1 no aparecen porque su acierto es cero.")
     p(doc, "Debe constar una advertencia metodológica: la sonda dirigida dejó de ser un conjunto "
            "independiente para el modelo de esta etapa. Cuatro de sus textos aparecen en el "
            "entrenamiento, y el 31 % de la sonda usa términos del mismo léxico con el que se "
@@ -506,6 +573,12 @@ def construir():
            ["«todo bien, »", "7 / 100", "17 / 100"],
            ["«mi hermano, »", "5 / 100", "21 / 100"],
            ["«buena onda, »", "7 / 100", "17 / 100"]])
+    figura(doc, "fig10_evadibilidad.png",
+           "Efecto de anteponer un marcador afectivo a cien amenazas")
+    p(doc, "El contraste entre los dos grupos de barras es el argumento en contra de resolver el "
+           "sesgo con reglas. Sin prefijo ambos sistemas se comportan de forma parecida; con "
+           "prefijo, el que lleva filtro se degrada entre tres y cuatro veces más, porque la "
+           "regla convierte el marcador afectivo en una llave.")
     p(doc, "El marcador afectivo degrada al modelo de esta etapa entre dos y cuatro casos de "
            "cien, que es la sensibilidad normal de cualquier clasificador al contexto. En el "
            "prototipo anterior lo degradaba entre dieciséis y veinte, porque la regla lo "
@@ -529,6 +602,24 @@ def construir():
           ["Comparación", "Δ F1-macro", "Δ FPR"],
           [[b["par"], f"{b['dF1']:+.4f}",
             "n/a" if b["dFPR"] is None else f"{b['dFPR']:+.4f}"] for b in fair["brechas"]])
+
+    figura(doc, "fig08_equidad.png",
+           "Brechas de desempeño entre subgrupos del conjunto de prueba")
+    p(doc, "Las barras hacia la derecha señalan subgrupos donde el sistema rinde mejor; hacia la "
+           "izquierda, donde rinde peor. Las dos barras rojas son las figuras retóricas, y son "
+           "además las más largas: la ironía abre una brecha de casi treinta puntos de F1-macro, "
+           "el doble que la brecha entre plataformas.")
+
+    h2(doc, "Calibración")
+    p1(doc, "Una métrica de acierto no dice nada sobre si el sistema sabe cuándo se está "
+            "equivocando, y eso importa si la salida va a presentarse a un moderador humano.")
+    figura(doc, "fig11_calibracion.png", "Confianza declarada frente a acierto observado",
+           ancho=4.3)
+    p(doc, "La curva del modelo queda por debajo de la diagonal en casi todo el rango: cuando "
+           "declara un 90 % de confianza acierta menos del 90 %. El error de calibración "
+           "esperado es de 0.1214, mejor que el 0.1640 del modelo de la etapa anterior pero aún "
+           "lejos de ser fiable. La implicación práctica es que la confianza que devuelve el "
+           "prototipo no debe leerse como una probabilidad.")
 
     h2(doc, "Interpretación")
     p1(doc, "El sesgo dialectal, que era el hallazgo central de la auditoría, se reduce por "
