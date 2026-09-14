@@ -442,11 +442,14 @@ def construir():
            "entregas anteriores son del mismo orden que el ruido de inicialización.")
 
     h2(doc, "Ensemble por voto blando")
-    p1(doc, "Se construyó un ensemble promediando las probabilidades de varios modelos. Solo se "
-            "combinaron modelos que difieren en algo real —semilla de inicialización o corpus de "
-            "preentrenamiento—, porque promediar réplicas idénticas no reduce varianza. La "
-            "combinación se eligió sobre validación y el conjunto de prueba se consultó una sola "
-            "vez, con la combinación ya fijada.")
+    p1(doc, "Se construyó un ensemble promediando las probabilidades de las tres semillas del "
+            "modelo final. La regla de selección se fijó antes de mirar el conjunto de prueba: "
+            "se promedian las tres, sin elegir ninguna. Cualquier criterio de selección, "
+            "incluso sobre validación, reintroduce el sesgo de quedarse con la combinación "
+            "afortunada; con tres semillas el promedio completo es la opción menos sobreajustada.")
+    p(doc, "El mejor modelo individual sobre validación es la semilla 2026, con 0.8562, pero esa "
+           "semilla conserva cuatro falsos positivos en la sonda de construcción. Escogerla "
+           "habría sido seleccionar por la métrica que no ve el defecto.")
     filas_e = [[f"{c['f1_val']:.4f}", " + ".join(c["miembros"])]
                for c in e["todas_las_combinaciones"][:6]]
     tabla(doc, "Combinaciones evaluadas sobre validación (seis mejores)",
@@ -585,6 +588,84 @@ def construir():
            "forzaba. Sin capa de reglas no hay puerta trasera.")
 
     # ═══════════════════════════════════════════════ 9
+    h1(doc, "Un Atajo Detectado Después de Publicar")
+    p1(doc, "Probando el prototipo con la frase «voy a comer», el sistema la clasificó como "
+            "Amenazas/Violencia con un 82.6 % de confianza. La investigación del caso destapó "
+            "un defecto que ninguna de las métricas anteriores había visto, y se documenta aquí "
+            "porque la lección metodológica vale más que la corrección.")
+    h2(doc, "El defecto")
+    p1(doc, "El modelo no había aprendido los verbos violentos: había aprendido la construcción "
+            "sintáctica que los envolvía. Sobre una sonda de veinticuatro frases inocuas "
+            "construidas con los mismos portadores, trece salían como amenaza.")
+    tabla(doc, "Presencia de la construcción «te voy a» en los corpus de entrenamiento",
+          ["Corpus", "Filas con la construcción", "De ellas, Amenaza", "De ellas, No Tóxico"],
+          [["train v1 (Etapa I)", "3", "1 (33 %)", "0"],
+           ["train B2 (agosto)", "29", "27 (93 %)", "0"],
+           ["train dirigido, antes del arreglo", "47", "45 (96 %)", "0"]])
+    p(doc, "El generador rellenaba sus portadores de amenaza únicamente con verbos de agresión, "
+           "de modo que esas construcciones aparecían en el entrenamiento casi solo con la "
+           "etiqueta Amenaza y nunca con No Tóxico. Sin un solo contraejemplo, aprender la "
+           "construcción es la solución más barata, y el modelo la tomó.")
+    p(doc, "Es el mismo fallo que la auditoría había documentado con los emojis en la primera "
+           "versión —«hay emoji, es ofensivo»— trasladado a la sintaxis. El generador ya "
+           "incorporaba pares mínimos para la jerga y para los emojis; no los tenía para los "
+           "portadores de amenaza.")
+    tabla(doc, "Probabilidad media de Amenaza sobre siete frases inocuas, por modelo",
+          ["Modelo", "Ejemplos sintéticos de plantilla", "p(amenaza) media"],
+          [["XLM-R v1 (Etapa I)", "ninguno", "14.6 %"],
+           ["mBERT v1 (Etapa I)", "ninguno", "35.7 %"],
+           ["TwitterXLM-R sobre B2", "1,149", "67.4 %"],
+           ["mBERT B2", "1,149", "80.7 %"],
+           ["Modelo dirigido, antes del arreglo", "4,058", "82.6 %"]])
+    p(doc, "El defecto entra con los ejemplos sintéticos y se agrava con cada ampliación del "
+           "corpus. Es una propiedad del método de aumento por plantilla, no de una "
+           "implementación concreta.")
+
+    h2(doc, "Por qué ninguna métrica lo detectó")
+    p1(doc, "Las construcciones afectadas aparecen en catorce de las cuatrocientas sesenta "
+            "instancias del conjunto de prueba, un 3 %. Un modelo puede tener el atajo "
+            "completamente instalado sin perder apenas F1-macro, porque la prueba no ejercita "
+            "esa zona. Ni la batería adversarial ni la sonda dirigida lo cubrían: ambas se "
+            "diseñaron contra la ofuscación, los emojis y el sesgo dialectal.")
+    p(doc, "Es la lección del hallazgo, y aplica a todo el proyecto: una métrica agregada sobre "
+           "un conjunto que no muestrea el modo de fallo no lo ve, por alta que sea la cifra.")
+
+    h2(doc, "La corrección")
+    p1(doc, "Se añadió al generador una familia de contrapeso: los mismos portadores de "
+            "amenaza, sin modificarlos, rellenados con quince verbos inocuos que admiten la "
+            "misma morfología —llamar, invitar, ayudar, esperar, visitar, saludar— y "
+            "etiquetados No Tóxico. Son 219 filas.")
+    p(doc, "Se excluyó el verbo «buscar» a propósito, porque «te voy a buscar» sí se usa como "
+           "amenaza y la batería adversarial lo tiene etiquetado así; enseñarlo como inocuo "
+           "habría introducido una contradicción en el corpus.")
+    figura(doc, "fig12_atajo.png",
+           "Efecto del contrapeso sobre la sonda de construcción")
+    p(doc, "La corrección separa las dos poblaciones sin tocar la detección de amenazas "
+           "reales: la probabilidad media de amenaza en frases inocuas cae del 53.2 % al 1.6 %, "
+           "mientras que en amenazas reales se mantiene en el 100 %. Los falsos positivos de la "
+           "sonda pasan de trece a cero y no se pierde ninguna amenaza.")
+    tabla(doc, "Efecto de la corrección sobre las métricas del proyecto",
+          ["Métrica", "Antes", "Después"],
+          [["Falsos positivos en la sonda de construcción", "13 / 24", "0 / 24"],
+           ["Amenazas reales no detectadas", "0 / 10", "0 / 10"],
+           ["F1-macro sobre el conjunto de prueba", "0.8499", "0.8529"],
+           ["Extremo inferior del intervalo", "0.8164", "0.8191"],
+           ["Batería adversarial", "125 / 144", "127 / 144"],
+           ["Sonda dirigida", "200 / 204", "202 / 204"]])
+    p(doc, "Tras rehacer la búsqueda de hiperparámetros sobre el corpus corregido, el sistema "
+           "no solo deja de tener el atajo sino que supera ligeramente la cifra anterior. Eso "
+           "no debe leerse como que el problema no existía: el resultado previo se apoyaba en "
+           "parte en un modelo que llamaba amenaza a «voy a comer», y que la prueba no lo "
+           "penalizara es un defecto de la prueba, no una virtud del modelo.")
+    p(doc, "Se excluyó del ensemble al TwitterXLM-R entrenado sobre el corpus anterior, pese a "
+           "que formaba parte de la combinación previa: arrastra el atajo con catorce falsos "
+           "positivos de veinticuatro y lo reintroducía en el promedio. Un miembro con un "
+           "defecto conocido contamina el conjunto aunque mejore la métrica agregada.")
+    p(doc, "La regla que se deriva del hallazgo, y que queda incorporada al diseño del "
+           "generador, es que toda estructura usada para producir una clase debe aparecer "
+           "también, con relleno distinto, produciendo otra. De lo contrario el modelo aprende "
+           "la estructura.")
+
     h1(doc, "Análisis de Sesgos y Ética")
     h2(doc, "Métricas por subgrupo")
     p1(doc, "El informe de equidad desagrega el desempeño por plataforma, registro dialectal, "

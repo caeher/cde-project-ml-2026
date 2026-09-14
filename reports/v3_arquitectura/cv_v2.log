@@ -1,0 +1,8 @@
+reales 2603 · sintéticos 4272 · total 6875
+  pliegue 1/5: F1-macro = 0.8233  (entrena 6354, evalúa 521 reales)
+  pliegue 2/5: F1-macro = 0.8128  (entrena 6354, evalúa 521 reales)
+  pliegue 3/5: F1-macro = 0.8560  (entrena 6354, evalúa 521 reales)
+  pliegue 4/5: F1-macro = 0.8173  (entrena 6355, evalúa 520 reales)
+  pliegue 5/5: F1-macro = 0.8275  (entrena 6355, evalúa 520 reales)
+
+F1-macro CV 5 pliegues: 0.8274 ± 0.0170   [0.8128, 0.8560]

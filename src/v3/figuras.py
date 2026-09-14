@@ -374,9 +374,32 @@ def fig_calibracion():
     return _guardar(fig, "fig11_calibracion")
 
 
+# ═══════════════════════════════════ 12. el atajo sintáctico
+def fig_atajo():
+    """Antes y después del contrapeso, sobre la sonda de construcción."""
+    fam = ["p(amenaza) en\nfrases inocuas", "p(amenaza) en\namenazas reales"]
+    antes, despues = [0.532, 1.000], [0.016, 1.000]
+    fig, ax = plt.subplots(figsize=(6.4, 3.2))
+    x = np.arange(2); w = 0.34
+    ax.bar(x - w / 2, antes, w - 0.03, color=SERIE[1], label="antes del contrapeso", zorder=3)
+    ax.bar(x + w / 2, despues, w - 0.03, color=SERIE[0], label="después", zorder=3)
+    for xi, a, b in zip(x, antes, despues):
+        ax.text(xi - w / 2, a + 0.02, f"{a:.1%}", ha="center", fontsize=8.4, color=TINTA)
+        ax.text(xi + w / 2, b + 0.02, f"{b:.1%}", ha="center", fontsize=8.4, color=TINTA)
+    ax.set_xticks(x); ax.set_xticklabels(fam, fontsize=8.8)
+    ax.set_ylim(0, 1.16); ax.set_yticks([0, .25, .5, .75, 1])
+    ax.set_yticklabels(["0", "25 %", "50 %", "75 %", "100 %"])
+    ax.set_ylabel("probabilidad media de Amenazas/Violencia")
+    ax.yaxis.grid(True, zorder=0); ax.set_axisbelow(True)
+    ax.legend(frameon=False, fontsize=8.4, loc="upper left")
+    _titulo(ax, "El contrapeso separa la construcción del verbo que la completa",
+            "sonda de 24 frases inocuas y 10 amenazas que comparten portador")
+    return _guardar(fig, "fig12_atajo")
+
+
 TODAS = [fig_tokenizador, fig_arquitecturas, fig_ablacion, fig_hpo, fig_cv,
          fig_comparacion, fig_confusion, fig_equidad, fig_robustez,
-         fig_evadibilidad, fig_calibracion]
+         fig_evadibilidad, fig_calibracion, fig_atajo]
 
 if __name__ == "__main__":
     print("figuras generadas:")
