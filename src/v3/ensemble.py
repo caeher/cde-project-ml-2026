@@ -20,11 +20,15 @@ sys.path.insert(0, str(RAIZ))
 from src.features.normalization import normalizar
 
 SALIDA = RAIZ / "reports/v3_resultados"
+# Solo modelos entrenados sobre el corpus corregido. Se excluye a propósito el
+# TwitterXLM-R sobre B2: aunque mejoraba el F1 del conjunto, arrastra el atajo
+# sintáctico «te voy a X» (14 falsos positivos de 24 en la sonda de
+# construcción) y lo reintroducía en el promedio. Un miembro con un defecto
+# conocido contamina el ensemble aunque suba la métrica agregada.
 MIEMBROS = {
     "roberTuito_s42":   RAIZ / "models/v3/final_s42",
     "roberTuito_s1337": RAIZ / "models/v3/final_s1337",
     "roberTuito_s2026": RAIZ / "models/v3/final_s2026",
-    "twitterXLMR_b2":   RAIZ / "models/v3/twitter_xlmr_b2_base",
 }
 
 
@@ -82,8 +86,15 @@ def main():
             f1 = f1_score(conj["val"][1], m.argmax(1), average="macro", zero_division=0)
             tabla.append((f1, combo))
             print(f"  {f1:.4f}  {' + '.join(combo)}")
+    # Regla de selección, fijada antes de mirar el test: se usan TODOS los
+    # miembros, sin elegir. Cualquier criterio de selección —incluso sobre
+    # validación— reintroduce el sesgo de escoger la combinación afortunada,
+    # y con tres semillas el promedio completo es la opción menos sobreajustada.
+    mejor = tuple(nombres)
+    mejor_f1 = f1_score(conj["val"][1],
+                        np.mean([P[n]["val"] for n in mejor], axis=0).argmax(1),
+                        average="macro", zero_division=0)
     tabla.sort(reverse=True)
-    mejor_f1, mejor = tabla[0]
 
     indiv = max((f1_score(conj["val"][1], P[n]["val"].argmax(1), average="macro",
                           zero_division=0), n) for n in nombres)

@@ -13,6 +13,7 @@ from pathlib import Path
 RAIZ = Path(__file__).resolve().parents[2]
 SALIDA = RAIZ / "reports/v3_arquitectura"
 SEMILLAS = [42, 1337, 2026]
+REINTENTOS = 3   # esta GPU falla de forma intermitente; sin reintento se pierden semillas
 
 
 def correr(modelo_hf, alias, train, cfg, destino, semilla):
@@ -47,11 +48,19 @@ def main():
     for s in SEMILLAS:
         destino = RAIZ / "models/v3" / (f"final_s{s}")
         print(f"\n>>> semilla {s}", flush=True)
-        r = correr(modelo_hf, f"final_s{s}", train, cfg, destino, s)
+        r = None
+        for intento in range(REINTENTOS):
+            r = correr(modelo_hf, f"final_s{s}", train, cfg, destino, s)
+            if r:
+                break
+            print(f"    reintento {intento + 1}/{REINTENTOS}", flush=True)
         if r:
             r["semilla"] = s; res.append(r)
             print(f"<<< val F1 = {r['val_f1_macro']:.4f}", flush=True)
 
+    if len(res) < 3:
+        raise SystemExit(f"Solo {len(res)} semillas completaron; con menos de tres la "
+                         "mediana degenera en elegir la mejor, que es lo que se quiere evitar.")
     res.sort(key=lambda x: x["val_f1_macro"])
     mediana = res[len(res) // 2]
     (SALIDA / "final_semillas.json").write_text(json.dumps(res, indent=2, ensure_ascii=False))

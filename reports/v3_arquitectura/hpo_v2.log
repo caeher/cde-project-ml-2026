@@ -1,0 +1,24 @@
+  trial  0  F1=0.8381  lr=1.70e-05 bs=8 ep=3 p_sint=0.25 fases=3 pesos=True
+  trial  1  F1=0.8194  lr=1.15e-05 bs=32 ep=4 p_sint=1.0 fases=3 pesos=False
+  trial  2  F1=0.8223  lr=2.64e-05 bs=16 ep=3 p_sint=0.25 fases=1 pesos=False
+  trial  3  F1=0.8247  lr=8.57e-06 bs=8 ep=4 p_sint=0.5 fases=3 pesos=False
+  trial  4  F1=0.8166  lr=9.56e-06 bs=32 ep=4 p_sint=0.75 fases=3 pesos=False
+  trial  5  F1=0.8359  lr=3.79e-05 bs=32 ep=5 p_sint=1.0 fases=2 pesos=True
+  trial  6  F1=0.8302  lr=1.50e-05 bs=16 ep=6 p_sint=1.0 fases=1 pesos=True
+  trial  7  F1=0.8070  lr=8.42e-06 bs=32 ep=4 p_sint=0.75 fases=0 pesos=True
+  trial  8  F1=0.8426  lr=5.21e-05 bs=32 ep=6 p_sint=0.75 fases=0 pesos=False
+  trial  9  F1=0.8317  lr=4.16e-05 bs=8 ep=4 p_sint=0.5 fases=2 pesos=False
+  trial 10  F1=0.8383  lr=2.63e-05 bs=32 ep=6 p_sint=0.75 fases=3 pesos=False
+  trial 11  F1=0.8395  lr=2.89e-05 bs=32 ep=6 p_sint=0.75 fases=2 pesos=False
+  trial 12  F1=0.8495  lr=5.62e-05 bs=32 ep=6 p_sint=0.75 fases=1 pesos=True
+  trial 13  F1=0.8549  lr=5.73e-05 bs=32 ep=6 p_sint=0.75 fases=0 pesos=True
+    falló: Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+  trial 15  F1=0.8488  lr=2.97e-05 bs=8 ep=6 p_sint=0.75 fases=0 pesos=True
+  trial 16  F1=0.8467  lr=2.56e-05 bs=32 ep=6 p_sint=0.75 fases=0 pesos=True
+  trial 17  F1=0.8433  lr=3.11e-05 bs=32 ep=6 p_sint=0.75 fases=0 pesos=True
+  trial 18  F1=0.8319  lr=5.49e-05 bs=32 ep=6 p_sint=1.0 fases=1 pesos=True
+  trial 19  F1=0.8443  lr=5.85e-05 bs=32 ep=5 p_sint=0.75 fases=0 pesos=True
+
+==================================================================
+MEJOR  F1=0.8549
+{'lr': 5.730860472639071e-05, 'bs': 32, 'epochs': 6, 'weight_decay': 0.017565211585462696, 'warmup': 0.09292202855971166, 'peso_sintetico': 0.75, 'fases_reales': 0, 'pesos_clase': True}

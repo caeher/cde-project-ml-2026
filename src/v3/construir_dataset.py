@@ -76,6 +76,12 @@ def main(dirigido: bool = False):
                  {clave(normalizar(str(x))) for x in val.texto_original} |
                  {clave(normalizar(str(x))) for x in test.texto_original})
 
+    # La sonda de construcción es un conjunto de diagnóstico: si sus frases
+    # entran al entrenamiento deja de medir generalización y pasa a medir
+    # memorización, que es justo lo que este proyecto auditó en otros.
+    from src.v3.sonda_construccion import BENIGNOS, AMENAZAS
+    prohibido |= {clave(normalizar(t)) for t in BENIGNOS + AMENAZAS}
+
     # ── train de B2, re-normalizado con el normalizador corregido ────────
     tr = leer(B2 / "train.csv").copy()
     antes_txt = tr["texto_modelo"].tolist()

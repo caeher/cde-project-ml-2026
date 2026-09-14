@@ -1,0 +1,31 @@
+configuración ganadora (val F1 0.8549):
+  lr               5.730860472639071e-05
+  bs               32
+  epochs           6
+  weight_decay     0.017565211585462696
+  warmup           0.09292202855971166
+  peso_sintetico   0.75
+  fases_reales     0
+  pesos_clase      True
+
+>>> semilla 42
+<<< val F1 = 0.8421
+
+>>> semilla 1337
+loss
+    w = self.pesos.to(out.logits.device) if self.pesos is not None else None
+torch.AcceleratorError: CUDA error: an illegal instruction was encountered
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+
+
+>>> semilla 2026
+<<< val F1 = 0.8562
+
+============================================================
+  semilla    42  val F1 = 0.8421
+  semilla  2026  val F1 = 0.8562  <- mediana, elegido
+
+modelo final -> /home/willian/ues/esp/proyecto/models/v3/final

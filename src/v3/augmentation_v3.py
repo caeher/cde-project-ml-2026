@@ -43,6 +43,7 @@ TOPE_POR_CATEGORIA = {
     "ofensivo_ofuscado": 90,
     "odio_ofuscado": 90,
     "amenaza_ofuscada": 60,
+    "amenaza_control": 60,
 }
 
 
@@ -133,6 +134,18 @@ def _ofuscar(p: str, rnd: random.Random) -> list[str]:
     for o, d in LEET:
         out.add(p.replace(o, d).replace("a", "4"))
     return sorted(x for x in out if 3 <= len(x) <= 30)
+
+# Verbos inocuos que admiten la misma morfología que los de amenaza (-lo, -te,
+# -los), para poder reutilizar los portadores sin tocarlos. Se excluye «buscar»
+# a propósito: «te voy a buscar» sí se usa como amenaza y la batería lo tiene
+# etiquetado así; enseñarlo como inocuo crearía una contradicción.
+VERBOS_BENIGNOS = ["llamar", "invitar", "ayudar", "esperar", "visitar", "saludar",
+                   "acompañar", "felicitar", "escuchar", "apoyar", "recoger",
+                   "extrañar", "abrazar", "avisar", "presentar"]
+# Los portadores que no admiten lectura inocua bajo ningún verbo
+PORT_NO_REUTILIZABLES = {"No respondo si lo llego a {v}", "Si lo vuelvo a ver lo voy a {v}"}
+COLA_BENIGNA = ["", " más tarde", " el domingo", " cuando pueda", " si tengo tiempo",
+                " apenas salga", " mañana temprano", " después del trabajo"]
 
 EUFEMISMOS = [
     "Te voy a dar piso", "Le van a dar cuello a ese", "Ya sabés lo que te puede pasar",
@@ -360,6 +373,19 @@ def generar(seed: int = SEED) -> pd.DataFrame:
             for p in rnd.sample(PORT_AMENAZA, k=3):
                 add(p.format(v=v) + rnd.choice(COLA_AMENAZA), 3,
                     "amenaza_ofuscada", p, "Amenaza Directa")
+
+    # ── 4b. CONTRAPESO: los mismos portadores con verbos inocuos.
+    #      Sin esto, construcciones como «te voy a {verbo}» o «hay que {verbo}los a
+    #      todos» aparecen en el entrenamiento SOLO como amenaza, y el modelo
+    #      aprende la construcción en lugar del verbo. Es el mismo atajo que el
+    #      del emoji en la v1, y se rompe igual: el mismo molde en los dos lados
+    #      de la frontera. Sin este bloque, «te voy a llamar» sale amenaza.
+    for p_ in PORT_AMENAZA:
+        if p_ in PORT_NO_REUTILIZABLES:
+            continue
+        for v in VERBOS_BENIGNOS:
+            add(p_.format(v=v) + rnd.choice(COLA_BENIGNA), 0,
+                "amenaza_control", p_)
 
     # ── 5. Amenazas por eufemismo salvadoreño.
     #      Fue la familia más frágil de toda la sonda (33 % de fuga incluso en B2),
