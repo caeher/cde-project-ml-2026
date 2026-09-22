@@ -4,6 +4,7 @@ numpy>=1.26
 scipy>=1.13
 
 # --- NLP / Transformers ---
+huggingface-hub>=0.24
 torch>=2.3
 transformers>=4.44
 datasets>=2.20

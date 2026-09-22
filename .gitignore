@@ -3,6 +3,7 @@
 # fichero. Los scripts de src/v3/ son deterministas con semilla fija, así que
 # el modelo se reconstruye desde el código. Su SHA-256 está en el manifiesto.
 models/
+.hf-cache/
 *.safetensors
 *.bin
 *.pt

@@ -1,0 +1,13 @@
+.git
+.venv
+__pycache__
+*.pyc
+models
+data
+docs
+notebooks
+reports
+*.pdf
+*.docx
+README.md
+README_V3.md

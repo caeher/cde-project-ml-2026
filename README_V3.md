@@ -58,6 +58,46 @@ python3 src/v3/evaluar.py models/v3/final v3_final
 El SHA-256 de los pesos de referencia es
 `e79618319c7de5c1497f58de99856f701f3daafeee34a5060512c7a0158a1a3a`.
 
+## Aplicación local y deploy
+
+La aplicación no sube pesos a Git. Los cuatro modelos publicados en Hugging
+Face se descargan con `huggingface_hub` y quedan en una caché local ignorada
+por Git. El modelo predeterminado es `caeher/robertuito-v3-sv`; los pesos de
+los otros tres se descargan la primera vez que se seleccionan.
+
+Para probar localmente usando los pesos ya reconstruidos en `models/v3/final`:
+
+```powershell
+$env:LOCAL_MODEL_PATH = (Resolve-Path models/v3/final).Path
+python -m uvicorn app.api.main:app --reload
+```
+
+Para probar la descarga real desde Hugging Face, quitá `LOCAL_MODEL_PATH` y
+levantá la API normalmente. La interfaz muestra el selector de modelos; la
+API también expone `GET /modelos`, `POST /modelo` y acepta `modelo` en
+`/clasificar` y `/clasificar-lote`.
+
+El `Dockerfile` descarga los cuatro snapshots durante el build y no copia la
+carpeta `models/` del repositorio:
+
+```bash
+docker build -t toxicidad-sv .
+docker run --rm -p 8000:8000 toxicidad-sv
+```
+
+Si el despliegue solo necesita algunos modelos, se puede reducir la imagen:
+
+```bash
+docker build \
+  --build-arg PRELOAD_MODELS=robertuito-v3-sv,mbert-sv \
+  -t toxicidad-sv .
+```
+
+En despliegues sin Docker, ejecutar `python -m app.api.download_models` como
+paso de build produce el mismo efecto. Se puede usar `PRELOAD_MODELS=all` o
+una lista separada por comas. Nunca se deben añadir los pesos descargados al
+repositorio.
+
 ---
 
 ## De dónde salió la mejora
