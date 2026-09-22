@@ -51,6 +51,8 @@ data/raw/*
 !data/raw/dataset_entrenamiento.csv
 !data/raw/dataset_pruebas.csv
 data/processed/*
+!data/processed/v3/
+!data/processed/v3/**
 data/interim/*
 data/external/*
 !data/processed/.gitkeep
