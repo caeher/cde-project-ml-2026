@@ -20,12 +20,13 @@ Proyecto de Machine Learning para detectar, clasificar y analizar discurso de od
 │   └── latex/           # Reporte LaTeX (no versionado)
 ├── scripts/             # Scripts ejecutables (CLI)
 ├── src/
-│   └── discurso_odio/   # Código fuente del paquete
-│       ├── data/        # Carga, taxonomía, acuerdo Kappa
-│       ├── eda/         # Análisis exploratorio
-│       ├── features/    # Preprocesamiento y features
-│       ├── models/      # Baselines, evaluación, fine-tuning, interpretabilidad
-│       └── utils/       # Utilidades (rutas, helpers)
+│   ├── discurso_odio/   # Código fuente del paquete (Etapa I)
+│   │   ├── data/        # Carga, taxonomía, acuerdo Kappa
+│   │   ├── eda/         # Análisis exploratorio
+│   │   ├── features/    # Preprocesamiento y features
+│   │   ├── models/      # Baselines, evaluación, fine-tuning, interpretabilidad
+│   │   └── utils/       # Utilidades (rutas, helpers)
+│   └── modeling_v3/     # Motor V3: datos congelados, train, HPO, evaluación
 └── tests/               # Pruebas unitarias
 ```
 
@@ -67,6 +68,21 @@ python scripts/run_finetune.py         # Fine-tuning ligero mBERT + XLM-R
 python scripts/run_interpretability.py  # SHAP + LIME
 pytest
 ```
+
+## Motor V3 (fine-tuning RoBERTuito)
+
+Splits congelados en `data/processed/v3/` (contrato y SHA-256 en [`data/processed/v3/CONTRATO.md`](data/processed/v3/CONTRATO.md)). Referencia publicada: **F1-macro 0.8499** en `test.csv` (n=460); tolerancia práctica **±0.01** si el hardware no reproduce el mismo determinismo.
+
+```powershell
+python -m modeling_v3.cli build-data
+python -m modeling_v3.cli train --salida models/v3/final
+python -m modeling_v3.cli tune --trials 20 --salida models/v3/hpo
+python -m modeling_v3.cli evaluate models/v3/final v3_final --salida models/v3/eval
+```
+
+`train`, `tune` y `evaluate` **requieren GPU con CUDA**; no se admite ejecutar el modelo en CPU.
+
+Los pesos entrenados no se versionan (`models/` ignorado). Reconstruir `train.csv` desde sintéticos requiere `data/raw/lexicon_salvadoreno.csv`, que aún no está en el repositorio.
 
 ## Taxonomía de clases
 
