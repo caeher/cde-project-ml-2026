@@ -20,7 +20,7 @@ from transformers import (AutoTokenizer, AutoModelForSequenceClassification,
                           EarlyStoppingCallback)
 from datasets import Dataset
 
-RAIZ = Path("/home/willian/ues/esp/proyecto")
+RAIZ = Path(__file__).resolve().parents[2]
 CLASES = ["No Tóxico", "Lenguaje Ofensivo", "Discurso de Odio", "Amenazas/Violencia"]
 MAX_LEN = 128
 

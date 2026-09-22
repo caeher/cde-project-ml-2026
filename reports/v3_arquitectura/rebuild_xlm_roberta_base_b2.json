@@ -1,0 +1,1 @@
+{"alias": "xlm_roberta_base_b2", "modelo_hf": "xlm-roberta-base", "train_csv": "data\\dataset_b2\\train.csv", "n_train": 3293, "epochs": 4, "lr": 2e-05, "bs": 16, "tokens_anadidos": 0, "semilla": 42, "peso_sintetico": null, "epocas_solo_reales": 0, "val_f1_macro": 0.766932165064474, "val_accuracy": 0.7690631808278867, "minutos": 31.12, "params": 278046724}

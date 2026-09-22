@@ -1,129 +1,129 @@
 {
   "alias": "v3_twitter_b2",
-  "ruta": "models/v3/twitter_xlmr_b2_base",
+  "ruta": "models\\v3\\twitter_xlmr_b2_base",
   "test": {
     "n": 460,
-    "f1_macro": 0.8302127659157282,
-    "accuracy": 0.8326086956521739,
-    "aciertos": 383,
-    "mcc": 0.772762113912088,
-    "qwk": 0.7920872022607994,
-    "ece": 0.10590248950149703,
-    "log_loss": 0.672283999107106,
+    "f1_macro": 0.8361539811282749,
+    "accuracy": 0.841304347826087,
+    "aciertos": 387,
+    "mcc": 0.783560395596996,
+    "qwk": 0.768389662027833,
+    "ece": 0.12250501759674234,
+    "log_loss": 0.735281229019165,
     "matriz": [
       [
-        91,
-        16,
-        11,
-        5
-      ],
-      [
-        10,
-        141,
-        5,
-        3
-      ],
-      [
-        3,
-        4,
-        82,
+        103,
+        8,
+        6,
         6
       ],
       [
-        1,
-        10,
-        3,
-        69
-      ]
-    ],
-    "por_clase": {
-      "No TÃ³xico": {
-        "precision": 0.8666666666666667,
-        "recall": 0.7398373983739838,
-        "f1": 0.7982456140350878,
-        "soporte": 123
-      },
-      "Lenguaje Ofensivo": {
-        "precision": 0.8245614035087719,
-        "recall": 0.8867924528301887,
-        "f1": 0.8545454545454545,
-        "soporte": 159
-      },
-      "Discurso de Odio": {
-        "precision": 0.8118811881188119,
-        "recall": 0.8631578947368421,
-        "f1": 0.8367346938775511,
-        "soporte": 95
-      },
-      "Amenazas/Violencia": {
-        "precision": 0.8313253012048193,
-        "recall": 0.8313253012048193,
-        "f1": 0.8313253012048193,
-        "soporte": 83
-      }
-    },
-    "ic_lo": 0.7940483043532408,
-    "ic_hi": 0.863340477332758,
-    "ic_media": 0.8295699794719067
-  },
-  "val": {
-    "n": 459,
-    "f1_macro": 0.8331242813383052,
-    "accuracy": 0.8344226579520697,
-    "aciertos": 383,
-    "mcc": 0.7756875181882392,
-    "qwk": 0.7768766310187791,
-    "ece": 0.11265606473733661,
-    "log_loss": 0.6835189101401268,
-    "matriz": [
-      [
-        96,
-        12,
+        11,
+        139,
         7,
-        7
-      ],
-      [
-        7,
-        134,
-        8,
-        10
-      ],
-      [
-        3,
-        9,
-        80,
         2
       ],
       [
-        3,
+        7,
         4,
+        80,
+        4
+      ],
+      [
+        5,
+        9,
         4,
-        73
+        65
       ]
     ],
     "por_clase": {
-      "No TÃ³xico": {
-        "precision": 0.8807339449541285,
-        "recall": 0.7868852459016393,
-        "f1": 0.8311688311688312,
-        "soporte": 122
+      "No Tóxico": {
+        "precision": 0.8174603174603174,
+        "recall": 0.8373983739837398,
+        "f1": 0.8273092369477911,
+        "soporte": 123
       },
       "Lenguaje Ofensivo": {
-        "precision": 0.8427672955974843,
-        "recall": 0.8427672955974843,
-        "f1": 0.8427672955974843,
+        "precision": 0.86875,
+        "recall": 0.8742138364779874,
+        "f1": 0.8714733542319749,
         "soporte": 159
       },
       "Discurso de Odio": {
-        "precision": 0.8080808080808081,
-        "recall": 0.851063829787234,
-        "f1": 0.8290155440414507,
+        "precision": 0.8247422680412371,
+        "recall": 0.8421052631578947,
+        "f1": 0.8333333333333334,
+        "soporte": 95
+      },
+      "Amenazas/Violencia": {
+        "precision": 0.8441558441558441,
+        "recall": 0.7831325301204819,
+        "f1": 0.8125,
+        "soporte": 83
+      }
+    },
+    "ic_lo": 0.7994904601187537,
+    "ic_hi": 0.869009719659549,
+    "ic_media": 0.8353821405746032
+  },
+  "val": {
+    "n": 459,
+    "f1_macro": 0.8211485603398297,
+    "accuracy": 0.8235294117647058,
+    "aciertos": 378,
+    "mcc": 0.7600252679963321,
+    "qwk": 0.7597525752223454,
+    "ece": 0.14677270435300005,
+    "log_loss": 0.7703642249107361,
+    "matriz": [
+      [
+        100,
+        9,
+        6,
+        7
+      ],
+      [
+        10,
+        132,
+        8,
+        9
+      ],
+      [
+        7,
+        11,
+        75,
+        1
+      ],
+      [
+        4,
+        4,
+        5,
+        71
+      ]
+    ],
+    "por_clase": {
+      "No Tóxico": {
+        "precision": 0.8264462809917356,
+        "recall": 0.819672131147541,
+        "f1": 0.823045267489712,
+        "soporte": 122
+      },
+      "Lenguaje Ofensivo": {
+        "precision": 0.8461538461538461,
+        "recall": 0.8301886792452831,
+        "f1": 0.8380952380952381,
+        "soporte": 159
+      },
+      "Discurso de Odio": {
+        "precision": 0.7978723404255319,
+        "recall": 0.7978723404255319,
+        "f1": 0.7978723404255319,
         "soporte": 94
       },
       "Amenazas/Violencia": {
-        "precision": 0.7934782608695652,
-        "recall": 0.8690476190476191,
-        "f1": 0.8295454545454546,
+        "precision": 0.8068181818181818,
+        "recall": 0.8452380952380952,
+        "f1": 0.8255813953488372,
         "soporte": 84
       }
     }
@@ -131,27 +131,27 @@
   "cortes": {
     "plataforma_X": {
       "n": 228,
-      "f1_macro": 0.8854367854367854
+      "f1_macro": 0.8909732654780345
     },
     "plataforma_Facebook": {
       "n": 232,
-      "f1_macro": 0.7604458749903124
+      "f1_macro": 0.7610953802198923
     },
     "fpr_con_jerga": {
       "n": 29,
-      "fpr": 0.3793103448275862
+      "fpr": 0.27586206896551724
     },
     "fpr_sin_jerga": {
       "n": 94,
-      "fpr": 0.22340425531914893
+      "fpr": 0.1276595744680851
     },
-    "brecha_fpr_dialectal": 0.15590608950843726
+    "brecha_fpr_dialectal": 0.14820249449743214
   },
   "bateria": {
-    "global": "125/144",
-    "aciertos": 125,
+    "global": "124/144",
+    "aciertos": 124,
     "n": 144,
-    "A. OfuscaciÃ³n de groserÃ­as": {
+    "A. Ofuscación de groserías": {
       "n": 20,
       "aciertos": 20
     },
@@ -163,7 +163,7 @@
       "n": 11,
       "aciertos": 11
     },
-    "D. Jerga salvadoreÃ±a inofensiva": {
+    "D. Jerga salvadoreña inofensiva": {
       "n": 14,
       "aciertos": 13
     },
@@ -173,29 +173,29 @@
     },
     "F. Falsos amigos dialectales": {
       "n": 34,
-      "aciertos": 27
+      "aciertos": 26
     },
-    "G. Pares mÃ­nimos de emoji": {
+    "G. Pares mínimos de emoji": {
       "n": 35,
       "aciertos": 25
     },
     "brecha_D_E": 0.07142857142857142
   },
   "sonda": {
-    "global": "190/204",
-    "aciertos": 190,
+    "global": "189/204",
+    "aciertos": 189,
     "n": 204,
-    "1. OfuscaciÃ³n de groserÃ­as": {
+    "1. Ofuscación de groserías": {
       "n": 66,
-      "aciertos": 64
+      "aciertos": 61
     },
     "2. Amenazas de muerte": {
       "n": 72,
-      "aciertos": 67
+      "aciertos": 68
     },
     "3. Emoji de amenaza": {
       "n": 12,
-      "aciertos": 11
+      "aciertos": 12
     },
     "4. Emoji de odio": {
       "n": 4,
@@ -205,37 +205,37 @@
       "n": 16,
       "aciertos": 16
     },
-    "6. Par mÃ­nimo de emoji": {
+    "6. Par mínimo de emoji": {
       "n": 14,
       "aciertos": 11
     },
     "7. Jerga inofensiva": {
       "n": 10,
-      "aciertos": 8
-    },
-    "8. Control espaÃ±ol estÃ¡ndar": {
-      "n": 10,
       "aciertos": 9
     },
-    "brecha_dialectal": 0.1
+    "8. Control español estándar": {
+      "n": 10,
+      "aciertos": 8
+    },
+    "brecha_dialectal": -0.1
   },
   "mcnemar": {
     "xlmr_v1": {
-      "b_solo_v3": 40,
+      "b_solo_v3": 44,
       "c_solo_ref": 28,
-      "p": 0.1818100545355934,
+      "p": 0.07636915467183139,
       "favorece": "v3_twitter_b2"
     },
     "mbert_b2": {
-      "b_solo_v3": 53,
-      "c_solo_ref": 23,
-      "p": 0.0007645817391550476,
+      "b_solo_v3": 51,
+      "c_solo_ref": 17,
+      "p": 4.453448771493584e-05,
       "favorece": "v3_twitter_b2"
     },
     "xlmr_mit": {
-      "b_solo_v3": 48,
-      "c_solo_ref": 28,
-      "p": 0.028626655508737896,
+      "b_solo_v3": 46,
+      "c_solo_ref": 22,
+      "p": 0.004903382516355935,
       "favorece": "v3_twitter_b2"
     }
   }

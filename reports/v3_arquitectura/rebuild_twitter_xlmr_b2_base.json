@@ -1,0 +1,1 @@
+{"alias": "twitter_xlmr_b2_base", "modelo_hf": "cardiffnlp/twitter-xlm-roberta-base", "train_csv": "data\\dataset_b2\\train.csv", "n_train": 3293, "epochs": 4, "lr": 2e-05, "bs": 16, "tokens_anadidos": 0, "semilla": 42, "peso_sintetico": null, "epocas_solo_reales": 0, "val_f1_macro": 0.8211485603398297, "val_accuracy": 0.8235294117647058, "minutos": 34.36, "params": 278046724}
