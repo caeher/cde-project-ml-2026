@@ -108,7 +108,7 @@ const EJEMPLOS = [
 ];
 
 const $ = s => document.querySelector(s);
-const esc = s => s.replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 
 function estadoModelo(texto, error=false){
   const el = $("#estado-modelo");
@@ -118,12 +118,14 @@ function estadoModelo(texto, error=false){
 
 function pintarModelos(modelos, activo){
   const select = $("#modelo");
-  select.innerHTML = modelos.map(m =>
-    `<option value="${esc(m.id)}">${esc(m.nombre)}</option>`
-  ).join("");
-  select.value = activo || (modelos[0] && modelos[0].id) || "";
+  select.innerHTML = modelos.map(m => {
+    const id = m.id ?? m.key ?? "";
+    const nombre = m.nombre ?? id ?? "";
+    return `<option value="${esc(id)}">${esc(nombre)}</option>`;
+  }).join("");
+  select.value = activo || (modelos[0] && (modelos[0].id ?? modelos[0].key)) || "";
   select.disabled = false;
-  const actual = modelos.find(m => m.id === select.value);
+  const actual = modelos.find(m => (m.id ?? m.key) === select.value);
   estadoModelo(actual ? `${actual.nombre} activo` : "Sin modelo activo");
 }
 

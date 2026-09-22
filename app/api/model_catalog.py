@@ -85,10 +85,15 @@ def get_model_spec(model_key: str) -> ModelSpec:
 
 def catalog_as_dicts(active_model: str | None = None) -> list[dict]:
     """Serializa el catálogo para el selector de la interfaz web."""
-    return [
-        {**asdict(spec), "activo": spec.key == active_model}
-        for spec in MODEL_CATALOG.values()
-    ]
+    dicts = []
+    for spec in MODEL_CATALOG.values():
+        d = asdict(spec)
+        # La UI histórica espera `id`; el backend usa `key`. Se exponen
+        # ambos como alias para mantener compatibilidad.
+        d["id"] = spec.key
+        d["activo"] = spec.key == active_model
+        dicts.append(d)
+    return dicts
 
 
 def local_override() -> Path | None:
