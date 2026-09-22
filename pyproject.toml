@@ -16,6 +16,7 @@ where = ["src"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["src"]
+markers = ["slow: entrenamiento smoke con descarga HF"]
 
 [tool.ruff]
 line-length = 100
