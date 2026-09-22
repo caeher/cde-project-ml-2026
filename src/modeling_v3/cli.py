@@ -144,7 +144,11 @@ def build_parser() -> argparse.ArgumentParser:
     tu.add_argument("--train", default=None)
     tu.add_argument("--salida", default=str(default_models_dir() / "hpo"))
     tu.add_argument("--trials", type=int, default=20)
-    tu.add_argument("--rapido", action="store_true", help="3 trials y 1 época por trial (requiere GPU)")
+    tu.add_argument(
+        "--rapido",
+        action="store_true",
+        help="3 trials y 1 época por trial (requiere GPU)",
+    )
     tu.set_defaults(func=cmd_tune)
 
     ev = sub.add_parser("evaluate", help="Evaluar checkpoint sobre test/val")

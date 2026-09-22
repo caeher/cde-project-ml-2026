@@ -23,8 +23,8 @@ from transformers import AutoModelForSequenceClassification, AutoTokenizer
 
 from modeling_v3.constants import CLASES, DEFAULT_SEED, MAX_LEN, TEXT_COLUMN
 from modeling_v3.data import leer_csv
-from modeling_v3.normalization import normalizar
 from modeling_v3.device import require_cuda
+from modeling_v3.normalization import normalizar
 from modeling_v3.paths import default_data_dir
 
 

@@ -1,39 +1,35 @@
 # Análisis del Discurso de Odio en Redes Sociales en El Salvador
 
-Proyecto de Machine Learning para detectar, clasificar y analizar discurso de odio en contenido de redes sociales del contexto salvadoreño (UES — ESI 2026).
+Proyecto de Machine Learning para detectar y clasificar discurso de odio en contenido de redes sociales del contexto salvadoreño (UES — ESI 2026).
+
+El desarrollo activo en `main` se centra en el **motor V3** (`src/modeling_v3/`): datos congelados, fine-tuning con RoBERTuito, HPO y evaluación reproducible.
+
+> **Etapa I** (`discurso_odio`, baselines, notebooks 00–04): archivada. Ver [docs/ARCHIVO_ETAPA1.md](docs/ARCHIVO_ETAPA1.md). La rama Git **`v3`** conserva el proyecto completo histórico (app, informes, `src/v3/`) sin modificaciones desde esta consolidación.
 
 ## Estructura del proyecto
 
 ```
-├── config/              # Configuración (YAML)
+├── config/
+│   └── v3.yaml            # Parámetros de referencia V3
 ├── data/
-│   ├── raw/             # Datasets recolectados (CSV)
-│   ├── interim/         # Datos en transformación intermedia
-│   ├── processed/       # Datasets listos para modelado
-│   └── external/        # Fuentes externas
-├── docs/                # Documentación del proyecto
-├── models/
-│   └── checkpoints/     # Modelos entrenados
-├── notebooks/           # Jupyter notebooks de exploración
-├── reports/
-│   ├── figures/         # Gráficos EDA y evaluación
-│   └── latex/           # Reporte LaTeX (no versionado)
-├── scripts/             # Scripts ejecutables (CLI)
+│   └── processed/v3/      # Splits congelados + CONTRATO.md
+├── docs/
+│   ├── motor_v3.md        # Uso del motor
+│   └── ARCHIVO_ETAPA1.md  # Cómo recuperar Etapa I
+├── models/v3/             # Salida local (no versionada)
+├── scripts/
+│   └── verify_hf_env.py   # Verificación HF / CUDA (TFM-21)
 ├── src/
-│   ├── discurso_odio/   # Código fuente del paquete (Etapa I)
-│   │   ├── data/        # Carga, taxonomía, acuerdo Kappa
-│   │   ├── eda/         # Análisis exploratorio
-│   │   ├── features/    # Preprocesamiento y features
-│   │   ├── models/      # Baselines, evaluación, fine-tuning, interpretabilidad
-│   │   └── utils/       # Utilidades (rutas, helpers)
-│   └── modeling_v3/     # Motor V3: datos congelados, train, HPO, evaluación
-└── tests/               # Pruebas unitarias
+│   └── modeling_v3/       # Motor V3: datos, train, HPO, evaluación
+└── tests/
+    └── test_modeling_v3.py
 ```
 
 ## Requisitos
 
 - Python 3.10 o superior
 - pip
+- GPU con **CUDA** para entrenar y evaluar modelos (no para `build-data` ni tests unitarios)
 
 ## Configuración del entorno
 
@@ -45,33 +41,17 @@ pip install -r requirements.txt
 pip install -e .
 ```
 
-Sesión Hugging Face (`hf auth whoami`) para descarga de modelos base.
+Sesión Hugging Face (`hf auth whoami`) para descargar el modelo base.
 
-Verificación reproducible del entorno (TFM-21):
+Verificación del entorno (sin entrenar el modelo V3 completo):
 
-```bash
+```powershell
 python scripts/verify_hf_env.py
-```
-
-### Google Colab GPU
-
-Abrir `notebooks/00_colab_setup.ipynb` en Colab con runtime **T4 GPU**. El notebook clona el repo, instala dependencias, autentica Hugging Face y ejecuta la verificación + smoke test de fine-tuning. Ver [docs/etapa1.md](docs/etapa1.md#entorno-reproducible-tfm-21).
-
-## Pipeline de ejecución (Etapa I)
-
-```bash
-python scripts/run_validation.py   # Validación cruzada + Kappa
-python scripts/run_eda.py              # EDA + reporte Kappa
-python scripts/run_baselines.py        # 3 baselines + métricas comparativas
-python scripts/run_tune.py             # GridSearchCV (TFM-29)
-python scripts/run_finetune.py         # Fine-tuning ligero mBERT + XLM-R
-python scripts/run_interpretability.py  # SHAP + LIME
-pytest
 ```
 
 ## Motor V3 (fine-tuning RoBERTuito)
 
-Splits congelados en `data/processed/v3/` (contrato y SHA-256 en [`data/processed/v3/CONTRATO.md`](data/processed/v3/CONTRATO.md)). Referencia publicada: **F1-macro 0.8499** en `test.csv` (n=460); tolerancia práctica **±0.01** si el hardware no reproduce el mismo determinismo.
+Splits en `data/processed/v3/` ([contrato y SHA-256](data/processed/v3/CONTRATO.md)). Referencia: **F1-macro 0.8499** en `test.csv` (n=460); tolerancia práctica **±0.01** si el hardware no reproduce el mismo determinismo.
 
 ```powershell
 python -m modeling_v3.cli build-data
@@ -80,44 +60,25 @@ python -m modeling_v3.cli tune --trials 20 --salida models/v3/hpo
 python -m modeling_v3.cli evaluate models/v3/final v3_final --salida models/v3/eval
 ```
 
-`train`, `tune` y `evaluate` **requieren GPU con CUDA**; no se admite ejecutar el modelo en CPU.
+`train`, `tune` y `evaluate` requieren CUDA. Los pesos no se versionan (`models/` ignorado).
 
-Los pesos entrenados no se versionan (`models/` ignorado). Reconstruir `train.csv` desde sintéticos requiere `data/raw/lexicon_salvadoreno.csv`, que aún no está en el repositorio.
+Documentación detallada: [docs/motor_v3.md](docs/motor_v3.md).
 
-## Taxonomía de clases
+## Taxonomía de clases (V3)
 
-| Clase | Descripción |
-|-------|-------------|
-| `no_toxico` | Contenido neutro |
-| `ofensivo` | Lenguaje vulgar u ofensivo |
-| `odio` | Discurso de odio o acoso |
-| `amenazas` | Amenazas o incitación a la violencia |
-
-## Datasets
-
-| Archivo | Registros | Uso |
-|---------|-----------|-----|
-| `dataset_unificado.csv` | ~2,286 | Corpus completo |
-| `dataset_entrenamiento.csv` | ~2,894 | Entrenamiento |
-| `dataset_pruebas.csv` | ~352 | Evaluación |
-
-## Cumplimiento Rúbrica Etapa I
-
-| Criterio | Evidencia |
-|----------|-----------|
-| Calidad y cantidad de datos | `data/raw/*.csv`, `docs/datos.md` |
-| EDA completo | `notebooks/01_eda.ipynb`, `reports/figures/` |
-| Preprocesamiento y features | `src/discurso_odio/features/` |
-| Baselines y métricas (≥3) | `scripts/run_baselines.py`, `reports/metricas_comparativas.csv` |
-| Interpretabilidad SHAP/LIME | `scripts/run_interpretability.py` |
-| Código reproducible | Repositorio, tests, README, `scripts/verify_hf_env.py`, `notebooks/00_colab_setup.ipynb` |
+| Clase | Índice |
+|-------|--------|
+| No Tóxico | 0 |
+| Lenguaje Ofensivo | 1 |
+| Discurso de Odio | 2 |
+| Amenazas/Violencia | 3 |
 
 ## Documentación
 
-- [Etapa I — Alcance y pipeline](docs/etapa1.md)
-- [Colab GPU + Hugging Face (TFM-21)](notebooks/00_colab_setup.ipynb)
-- [Descripción del dataset](docs/datos.md)
-- [Reporte LaTeX Etapa I](reports/latex/reporte_etapa1.tex) — compilar con `reports/latex/build_report.ps1`
+- [Motor V3](docs/motor_v3.md)
+- [Archivo Etapa I](docs/ARCHIVO_ETAPA1.md)
+- [Plan de migración V3 → main](PLAN_MIGRACION_V3_A_MAIN.md)
+- [Reporte de alineación ramas](REPORTE.md)
 
 ## Licencia
 

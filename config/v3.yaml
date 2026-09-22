@@ -1,0 +1,16 @@
+# Parámetros de referencia del motor V3 (la CLI usa valores por defecto en código).
+project:
+  name: "Motor de modelado V3 — discurso de odio SV"
+  stage: "v3"
+
+paths:
+  data: "data/processed/v3"
+  models: "models/v3"
+
+modeling:
+  text_column: "texto_modelo"
+  max_length: 128
+  seed: 42
+  default_model: "pysentimiento/robertuito-base-cased"
+  reference_test_f1_macro: 0.8499
+  metric_tolerance: 0.01
