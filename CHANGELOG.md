@@ -106,7 +106,7 @@ Pareado: v3.0.0 → v3.1.0 ΔF1 +0.034 (p < 0.0001); v3.1.0 → v3.2.0 +0.028 (p
 Siguiente paso en curso: v3.4.0-rc1 (v3.3.0-rc1 + 3 hilos de Odio; se reserva `xenofobia_federico`), con criterios fijados antes en `src/evaluation/comparar_v340.py`.
 
 ## Plan de mejora aprobado — Fase 0 completada (16 de octubre de 2026)
-Plan en `docs/Plan_mejora.md` (aprobado por la persona responsable): validadores = agentes, despliegue local, un solo modelo mediante destilación, metas medibles, banco congelado y regla de parada. Fase 0: constructor único `build_dataset_final.py` con autotest de fugas (ambas comprobaciones OK), banco congelado con hashes, pool de 14 hilos con etiquetas blandas, constructores viejos archivados. `v3.4.0-rc1` (exploratorio) se evalúa contra el banco congelado y **no se adopta**.
+Plan en `docs/improvement/Plan_mejora.md` (aprobado por la persona responsable): validadores = agentes, despliegue local, un solo modelo mediante destilación, metas medibles, banco congelado y regla de parada. Fase 0: constructor único `build_dataset_final.py` con autotest de fugas (ambas comprobaciones OK), banco congelado con hashes, pool de 14 hilos con etiquetas blandas, constructores viejos archivados. `v3.4.0-rc1` (exploratorio) se evalúa contra el banco congelado y **no se adopta**.
 
 ### Línea base oficial sobre el banco congelado (n = 1,391; NT/OF/OD/AM = 855 / 289 / 130 / 117)
 | Versión | Acierto | F1-macro [IC 95 %] | Recall NT / OF / OD / AM | FPR sobre NT |
@@ -120,7 +120,7 @@ Pareado: v3.0.0 → v3.1.0 +0.039 (p < 0.0001); v3.1.0 → v3.2.0 +0.027 (p = 0.
 
 
 ## v3.4.0 — modelo único, fases 2–5 del plan (15 de octubre de 2026)
-Una sola medición sobre el banco congelado (n = 1,391; `reports/fase3_candidatos.md`, `src/evaluation/comparar_fase3.py`). Selección: CV por hilo (Optuna), no el banco.
+Una sola medición sobre el banco congelado (n = 1,391; `reports/improvement/fase3_candidatos.md`, `src/evaluation/comparar_fase3.py`). Selección: CV por hilo (Optuna), no el banco.
 - **Fase 2 (Optuna, 12 pruebas, CV por hilo de 2 pliegues):** receta actual 0.6312 → mejor 0.6486 (lr 3.92e-5, 4 épocas, wd 0.0060, warmup 0.116, peso de hilos 1.53, peso de clase Odio/Amenazas ×1.91).
 - **Fase 3 (3 semillas por candidato):**
 
@@ -133,6 +133,6 @@ Una sola medición sobre el banco congelado (n = 1,391; `reports/fase3_candidato
 
   Todos mejoran a v3.3.0 en FPR (≤ 0.12 ✔) y F1 (≥ 0.70 ✔), con ΔF1 ≈ +0.02 (IC pareado cruza cero; McNemar p 0.018–0.048). **Ninguno alcanza Amenazas ≥ 0.60 ni de forma robusta Odio ≥ 0.65.** C se elige como profesor (mejor F1, sin empeorar Ofensivo ni FPR).
 - **Fase 4 (destilación a un solo modelo, 1 semilla):** configuración preregistrada (T 2, α 0.7) falló (Odio 0.485, test 0.808). Se probó una malla declarada de 3 variantes más; se eligió por **F1 de validación oficial** (no por el banco): T 1, α 0.5, receta B. Con 3 semillas: F1 banco 0.720 / 0.707 / 0.723 (media 0.717 ≈ 100 % del ensamble C), Odio 0.669 / 0.585 / 0.623 (media 0.626), Amenazas 0.470 / 0.496 / 0.504, FPR ≈ 0.111, test oficial 0.832 / 0.821 / 0.823. **Se despliega la semilla 42** (la de mejor F1 de validación entre las semillas no era la 42; se mantuvo la semilla fija por regla; sus 6/7 metas se deben en parte a la suerte de la semilla: la media entre semillas es la cifra honesta).
-- **Fase 5 (sesgos, `reports/fairness.md`):** brecha de F1 X − Facebook 0.103; FPR sobre No Tóxico **con jerga 0.379 vs sin jerga 0.074** en el test oficial (n = 29 con jerga; en v3.3.0 era 0.241): **v3.4.0 marca más texto no tóxico con jerga**; sonda afectiva 18/20 · 17/18 (v3.3.0: 19/20 · 18/18, ambas por encima del umbral). Odio por grupo: etnia 0.90, nacionalidad 0.81, LGBT 0.92 (n = 13), «otro» 0.61; mujeres/género sin potencia (n = 4). Sobremarcado de menciones de nacionalidad: 21.8 % de los No Tóxico que las mencionan.
+- **Fase 5 (sesgos, `reports/improvement/fairness.md`):** brecha de F1 X − Facebook 0.103; FPR sobre No Tóxico **con jerga 0.379 vs sin jerga 0.074** en el test oficial (n = 29 con jerga; en v3.3.0 era 0.241): **v3.4.0 marca más texto no tóxico con jerga**; sonda afectiva 18/20 · 17/18 (v3.3.0: 19/20 · 18/18, ambas por encima del umbral). Odio por grupo: etnia 0.90, nacionalidad 0.81, LGBT 0.92 (n = 13), «otro» 0.61; mujeres/género sin potencia (n = 4). Sobremarcado de menciones de nacionalidad: 21.8 % de los No Tóxico que las mencionan.
 - **Tamaño:** 418 MB (un modelo) frente a ≈ 5 GB (v3.3.0, 10 modelos).
 - **Lecciones:** dos entrenamientos simultáneos en una GPU de 8 GB la saturan (10× más lento); inferencia por lotes en `probs_propio` (diferencia 9e-7, mismas predicciones).

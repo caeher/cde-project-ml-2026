@@ -4,7 +4,7 @@ Catálogo de emojis con uso discriminatorio — reconstruido.
 
 PROBLEMA DE ORIGEN
 ------------------
-`data/raw/lexicon_emojis.csv` se guardó desde Excel en codificación cp850 (DOS).
+`data/sources/stage1_corpus/lexicon_emojis.csv` se guardó desde Excel en codificación cp850 (DOS).
 Las descripciones sobrevivieron con mojibake recuperable, pero **los glifos de los
 emojis se convirtieron en literales `?`** y se perdieron de forma irreversible.
 
@@ -139,7 +139,7 @@ def construir_catalogo() -> pd.DataFrame:
     return df
 
 
-def guardar(ruta="data/raw/lexicon_emojis_v2.csv"):
+def guardar(ruta="data/sources/stage1_corpus/lexicon_emojis_v2.csv"):
     df = construir_catalogo()
     df.to_csv(ruta, index=False, encoding="utf-8-sig")
     return df

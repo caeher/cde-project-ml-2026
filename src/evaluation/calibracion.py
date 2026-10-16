@@ -18,7 +18,7 @@ def escala(p, T):
 
 def nll(p, y): return -np.log(p[np.arange(len(y)), y] + 1e-12).mean()
 
-run, d = sys.argv[1], "data/dataset_v4"
+run, d = sys.argv[1], "data/history/v1.3.1"
 yv, yt = pd.read_csv(f"{d}/val.csv").label.values, pd.read_csv(f"{d}/test.csv").label.values
 L = lambda c: np.mean([np.load(f) for f in sorted(glob.glob(f"runs/{run}/semilla_*/probs_{c}.npy"))], 0)
 pv, pt = L("val"), L("test")

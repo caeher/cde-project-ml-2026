@@ -11,9 +11,9 @@ from src.evaluation.combinar_modelos import probs_propio, cache  # noqa: E402
 from src.evaluation.comparar_modelos import mcnemar  # noqa: E402
 from src.evaluation.comparar_v4 import f1m, ic_f1, ic_delta  # noqa: E402
 
-BANCO = RAIZ / "data/banco_congelado"
+BANCO = RAIZ / "data/evaluation/frozen_bank"
 def cargar():
-    """Banco CONGELADO (ver data/banco_congelado/MANIFEST.json con los SHA-256). Nunca entra a entrenamiento ni a selección."""
+    """Banco CONGELADO (ver data/evaluation/frozen_bank/MANIFEST.json con los SHA-256). Nunca entra a entrenamiento ni a selección."""
     t = [pd.read_csv(BANCO / f"{k}.csv").assign(banco=k) for k in ["migrantes", "externo2", "militares", "xenofobia"]]
     return pd.concat(t, ignore_index=True)[["banco", "texto_original", "label"]]
 def main():

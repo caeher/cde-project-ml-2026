@@ -1,6 +1,6 @@
 #!/bin/bash
 # Continuación: espera a que A termine su 3.ª semilla (2026), detiene su 4.ª, entrena B (3 semillas), crea C y compara.
-cd "$(dirname "$0")/.."; PY=.venv/Scripts/python.exe; D=data/dataset_final
+cd "$(dirname "$0")/.."; PY=.venv/Scripts/python.exe; D=data/dataset
 while [ ! -f models/candA/semilla_2026/modelo/config.json ]; do sleep 15; done
 sleep 20; powershell -c "Get-CimInstance Win32_Process -Filter \"Name='python.exe'\" | Where-Object { \$_.CommandLine -match 'candA' } | ForEach-Object { Stop-Process -Id \$_.ProcessId -Force }"
 rm -rf models/candA/_tmp_s7 models/candA/_tmp_s99; echo "[$(date +%T)] A (3 semillas) listo; candidato B"

@@ -6,7 +6,7 @@
   (c) hilo externo (nunca entrenado): mejora de F1-macro con IC 95 % pareado que NO cruza el cero
   (d) vulgaridad afectiva salvadoreña: afectivas → No Tóxico >= 17/20 e insultos detectados >= 16/18
 
-Uso: python src/evaluation/comparar_candidato.py --cand models/v3.2.0 --ref models/v3.1.0 --externo data/dataset_v6/externo_migrantes.csv --nombre_extra migrantes
+Uso: python src/evaluation/comparar_candidato.py --cand models/v3.2.0 --ref models/v3.1.0 --externo data/history/v1.5.0/externo_migrantes.csv --nombre_extra migrantes
 Necesita que ambos modelos tengan probs_test.npy y probs_adv.npy y que el candidato tenga probs_extra_<nombre>.npy.
 """
 import argparse, json, sys
@@ -32,7 +32,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--cand", required=True); ap.add_argument("--ref", required=True)
     ap.add_argument("--externo", required=True); ap.add_argument("--nombre_extra", default="migrantes")
-    ap.add_argument("--dataset", default="data/dataset_v6")
+    ap.add_argument("--dataset", default="data/history/v1.5.0")
     a = ap.parse_args(); D = RAIZ / a.dataset; R = {}
     te, adv = pd.read_csv(D / "test.csv"), pd.read_csv(D / "test_adversarial.csv"); y = te.label.values
     pr, pc = mp(a.ref, "probs_test").argmax(1), mp(a.cand, "probs_test").argmax(1)
@@ -48,7 +48,7 @@ def main():
     R["c"] = dict(ref=f1m(ye, er), cand=f1m(ye, ec), delta=f1m(ye, ec) - f1m(ye, er), ic=[lo2, hi2], p=float(m2["p_exacta"]))
     print(f"[c] hilo externo n={len(ye)}  ref F1 {R['c']['ref']:.4f} acierto {(er==ye).mean():.3f} | cand F1 {R['c']['cand']:.4f} acierto {(ec==ye).mean():.3f} | Δ {R['c']['delta']:+.4f} IC [{lo2:+.4f},{hi2:+.4f}] p={m2['p_exacta']:.4f}")
     print("    recall por clase  ref", [round(float((er[ye == k] == k).mean()), 3) for k in range(4)], " cand", [round(float((ec[ye == k] == k).mean()), 3) for k in range(4)])
-    v = pd.read_csv(RAIZ / "data/hard_cases/probe_vulgaridad_afectiva_SOLO_EVALUAR.csv")
+    v = pd.read_csv(RAIZ / "data/evaluation/hard_cases/probe_vulgaridad_afectiva_SOLO_EVALUAR.csv")
     vc = predecir_dir(a.cand, v.texto); af = v.tipo == "afectiva"
     n_af, n_in = int((vc[af] == 0).sum()), int((vc[~af] != 0).sum())
     R["d"] = dict(afectivas_ok=n_af, de=int(af.sum()), insultos_ok=n_in, de_i=int((~af).sum()))

@@ -11,7 +11,7 @@ import json, subprocess, sys, tempfile
 from pathlib import Path
 
 RAIZ = Path(__file__).resolve().parents[2]
-SALIDA = RAIZ / "reports/v3_arquitectura"
+SALIDA = RAIZ / "reports/stage2/v3_arquitectura"
 SEMILLAS = [42, 1337, 2026]
 REINTENTOS = 3   # esta GPU falla de forma intermitente; sin reintento se pierden semillas
 

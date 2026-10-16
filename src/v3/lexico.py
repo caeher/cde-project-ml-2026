@@ -55,7 +55,7 @@ def _variante_plausible(v: str, canon: str) -> bool:
 
 
 def cargar() -> dict[str, Familia]:
-    d = pd.read_csv(RAIZ / "data/raw/lexicon_salvadoreno.csv")
+    d = pd.read_csv(RAIZ / "data/sources/stage1_corpus/lexicon_salvadoreno.csv")
     d.columns = [c.lstrip("﻿") for c in d.columns]
     d = d[d["Texto_Original"].notna()].copy()
     canon = []

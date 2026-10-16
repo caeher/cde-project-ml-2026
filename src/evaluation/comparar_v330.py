@@ -18,7 +18,7 @@ from src.evaluation.comparar_modelos import mcnemar  # noqa: E402
 from src.evaluation.comparar_v4 import f1m  # noqa: E402
 from sklearn.metrics import f1_score
 
-CAND = RAIZ / "models/v3.3.0-rc1"; D = RAIZ / "data/dataset_v7"
+CAND = RAIZ / "models/v3.3.0-rc1"; D = RAIZ / "data/history/v1.6.0"
 
 
 def mp(run, n): return np.mean([np.load(f) for f in sorted(Path(run).glob(f"semilla_*/{n}.npy"))], 0)
@@ -48,7 +48,7 @@ def main():
     R["c"] = dict(f1_am_ref=f1_am(ym, rm), f1_am_cand=f1_am(ym, cm_), ic=[float(lo), float(hi)], rec_ref=float((rm[ym == 3] == 3).mean()), rec_cand=float((cm_[ym == 3] == 3).mean()))
     print(f"[c] militares n={len(ym)} (Amenazas {int((ym == 3).sum())})  F1-Amenazas ref {R['c']['f1_am_ref']:.3f} cand {R['c']['f1_am_cand']:.3f}  IC Δ [{lo:+.3f},{hi:+.3f}]")
     print(f"    recall Amenazas ref {R['c']['rec_ref']:.3f} cand {R['c']['rec_cand']:.3f} (v3.1.0 {float((v31[ym == 3] == 3).mean()):.3f}) | acierto ref {(rm == ym).mean():.3f} cand {(cm_ == ym).mean():.3f} (McNemar p={mm['p_exacta']:.3f})")
-    v = pd.read_csv(RAIZ / "data/hard_cases/probe_vulgaridad_afectiva_SOLO_EVALUAR.csv")
+    v = pd.read_csv(RAIZ / "data/evaluation/hard_cases/probe_vulgaridad_afectiva_SOLO_EVALUAR.csv")
     import app.api.main as M
     M._modelos.clear(); M.MODELOS = CAND; vc = np.array([M.predecir(t)["label"] for t in v.texto]); af = v.tipo == "afectiva"
     a_ok, i_ok = int((vc[af] == 0).sum()), int((vc[~af] != 0).sum()); R["d"] = dict(afectivas=a_ok, insultos=i_ok); print(f"[d] afectivas→NT {a_ok}/20 · insultos {i_ok}/18")

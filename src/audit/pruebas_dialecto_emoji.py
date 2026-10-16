@@ -199,7 +199,7 @@ if __name__ == "__main__":
     df["ok"] = df.pred == df.esperado
     df["clase_esperada"] = df.esperado.map(dict(enumerate(CLASES)))
     df["clase_predicha"] = df.pred.map(dict(enumerate(CLASES)))
-    df.to_csv("/sessions/bold-practical-shannon/mnt/proyecto/reports/pruebas_dialecto_emoji.csv",
+    df.to_csv("/sessions/bold-practical-shannon/mnt/proyecto/reports/stage2/pruebas_dialecto_emoji.csv",
               index=False, encoding="utf-8-sig")
     print(f"guardado {len(df)} casos")
     print(df.groupby("bateria").ok.agg(["sum", "size"]).to_string())

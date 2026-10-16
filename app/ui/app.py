@@ -59,4 +59,4 @@ with col_out:
 with st.expander("Límites del modelo (leer antes de usarlo)"):
     st.markdown("- Entrenado con texto de X (y Facebook en la parte original); etiquetas de consenso de anotadores LLM sin validación humana.\n"
                 "- Las groserías afectivas salvadoreñas son difíciles: el contexto importa y el modelo puede fallar.\n"
-                "- No evalúa imágenes, sarcasmo complejo ni contexto del hilo.\n- Informe de sesgos: `reports/fairness.md`.")
+                "- No evalúa imágenes, sarcasmo complejo ni contexto del hilo.\n- Informe de sesgos: `reports/improvement/fairness.md`.")

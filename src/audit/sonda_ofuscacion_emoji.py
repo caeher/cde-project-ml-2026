@@ -11,7 +11,7 @@ from pathlib import Path
 import numpy as np, pandas as pd, torch
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 
-RAIZ = Path("/home/willian/ues/esp/proyecto"); S = RAIZ / "reports/v2_auditoria"
+RAIZ = Path("/home/willian/ues/esp/proyecto"); S = RAIZ / "reports/stage2/v2_auditoria"
 E = RAIZ / "Métricas de Evaluación/2v/_extraido"
 MODS = {
     "mbert_v1": E / "mbert_v1/mbert-sv",

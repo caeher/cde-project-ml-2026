@@ -17,7 +17,7 @@ from transformers import AutoTokenizer, AutoModelForSequenceClassification
 
 RAIZ = Path("/home/willian/ues/esp/proyecto")
 EXTR = RAIZ / "Métricas de Evaluación/2v/_extraido"
-SALIDA = RAIZ / "reports/v2_auditoria"
+SALIDA = RAIZ / "reports/stage2/v2_auditoria"
 SALIDA.mkdir(parents=True, exist_ok=True)
 
 MODELOS = {
@@ -28,9 +28,9 @@ MODELOS = {
 }
 
 CONJUNTOS = {
-    "test":  (RAIZ / "data/dataset_b2/test.csv",             "texto_modelo"),
-    "adv":   (RAIZ / "data/dataset_b2/test_adversarial.csv", "texto_normalizado"),
-    "val":   (RAIZ / "data/dataset_b2/val.csv",              "texto_modelo"),
+    "test":  (RAIZ / "data/history/v1.1.0/test.csv",             "texto_modelo"),
+    "adv":   (RAIZ / "data/history/v1.1.0/test_adversarial.csv", "texto_normalizado"),
+    "val":   (RAIZ / "data/history/v1.1.0/val.csv",              "texto_modelo"),
 }
 
 MAX_LEN = 128

@@ -88,7 +88,7 @@ def entrenar(modelo_hf, alias, train_csv, salida, *, epochs=4, lr=2e-5, bs=16,
     fijar_semilla(semilla)
     t0 = time.time()
     tr = leer(train_csv)
-    va = leer(val_csv if val_csv else RAIZ / "data/dataset_v3/val.csv")
+    va = leer(val_csv if val_csv else RAIZ / "data/history/v1.2.0/val.csv")
 
     tok = AutoTokenizer.from_pretrained(modelo_hf)
     mod = AutoModelForSequenceClassification.from_pretrained(
@@ -179,7 +179,7 @@ def entrenar(modelo_hf, alias, train_csv, salida, *, epochs=4, lr=2e-5, bs=16,
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("modelo_hf"); ap.add_argument("alias")
-    ap.add_argument("--train", default=str(RAIZ / "data/dataset_b2/train.csv"))
+    ap.add_argument("--train", default=str(RAIZ / "data/history/v1.1.0/train.csv"))
     ap.add_argument("--salida", default=None)
     ap.add_argument("--epochs", type=int, default=4)
     ap.add_argument("--lr", type=float, default=2e-5)

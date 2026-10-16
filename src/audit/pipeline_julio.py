@@ -10,7 +10,7 @@ import numpy as np, pandas as pd, torch
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 from sklearn.metrics import f1_score, accuracy_score, confusion_matrix
 
-RAIZ = Path("/home/willian/ues/esp/proyecto"); S = RAIZ / "reports/v2_auditoria"
+RAIZ = Path("/home/willian/ues/esp/proyecto"); S = RAIZ / "reports/stage2/v2_auditoria"
 MIT = RAIZ / "Métricas de Evaluación/2v/_extraido/prototipoV2/02_modelo_prototipo/modelo_mitigado"
 CFG = json.loads((MIT / "config_umbrales.json").read_text())
 U = CFG["umbrales"]
@@ -53,8 +53,8 @@ def logits(textos, tok, mod, dev, bs=32):
 
 
 def main():
-    test = pd.read_csv(RAIZ / "data/dataset_b2/test.csv"); test.columns=[c.lstrip("﻿") for c in test.columns]
-    adv  = pd.read_csv(RAIZ / "data/dataset_b2/test_adversarial.csv"); adv.columns=[c.lstrip("﻿") for c in adv.columns]
+    test = pd.read_csv(RAIZ / "data/history/v1.1.0/test.csv"); test.columns=[c.lstrip("﻿") for c in test.columns]
+    adv  = pd.read_csv(RAIZ / "data/history/v1.1.0/test_adversarial.csv"); adv.columns=[c.lstrip("﻿") for c in adv.columns]
     y = test["label"].values
 
     Pt = softmax(np.load(S / "logits_xlmr_mit_test.npy"))

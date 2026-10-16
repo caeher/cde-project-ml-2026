@@ -1,10 +1,10 @@
 #!/bin/bash
 # Fase 3-5 encadenada, UNA tarea de GPU a la vez. Espera a que termine Optuna y luego: candidato A -> B -> C -> comparación -> destilación -> sesgos.
-cd "$(dirname "$0")/.."; PY=.venv/Scripts/python.exe; D=data/dataset_final
-while [ ! -f reports/optuna_cv_hilo.json ]; do sleep 30; done
+cd "$(dirname "$0")/.."; PY=.venv/Scripts/python.exe; D=data/dataset
+while [ ! -f reports/improvement/optuna_cv_hilo.json ]; do sleep 30; done
 echo "[$(date +%T)] Optuna listo"
 $PY - <<'P'
-import json; r=json.load(open('reports/optuna_cv_hilo.json',encoding='utf-8')); m=r['mejor']
+import json; r=json.load(open('reports/improvement/optuna_cv_hilo.json',encoding='utf-8')); m=r['mejor']
 open('runs/mejor_b.args','w').write(f"--lr {m['lr']} --epocas {m['epocas']} --wd {m['wd']} --warmup {m['warmup']} --peso_hilos {m['peso_hilos']} --peso_clase_extra {m['peso_clase_extra']}")
 P
 COM="--train $D/train.csv --val $D/val.csv --test $D/test.csv --adv $D/test_adversarial.csv --seeds 42 1337 2026 --peso_nuevos 0 --guardar_modelos"

@@ -1,8 +1,8 @@
 # Datos sensibles / pesados
-data/raw/*
-data/interim/*
-data/processed/*
-data/external/*
+data/sources/stage1_corpus/*
+data/annotation/stage1/*
+data/history/v1.0.0/*
+data/sources/external/*
 !data/**/.gitkeep
 
 # Modelos
@@ -44,8 +44,8 @@ Thumbs.db
 .idea/
 
 # PII: mapa ID -> URL real. Nunca versionar (ver informe, sección 3).
-data/interim/mapa_procedencia.csv
-data/interim/gold_standard_completo.csv
+data/annotation/stage1/mapa_procedencia.csv
+data/annotation/stage1/gold_standard_completo.csv
 
 # Material ajeno al proyecto / grabaciones / salidas locales
 Plusmo_*

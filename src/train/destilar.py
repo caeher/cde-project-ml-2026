@@ -4,7 +4,7 @@
 Profesor: promedio de probabilidades de los componentes (carpetas models/<v>/semilla_*/modelo) con la temperatura del manifest.
 Estudiante: un RoBERTuito (misma receta que el candidato) entrenado con
     L = alfa * T^2 * KL(profesor_T || estudiante_T) + (1 - alfa) * CE(etiqueta dura, con etiquetas blandas de anotadores si existen)
-sobre data/dataset_final/train.csv (+ textos sin etiquetar opcionales con la etiqueta blanda del profesor, solo regularización).
+sobre data/dataset/train.csv (+ textos sin etiquetar opcionales con la etiqueta blanda del profesor, solo regularización).
 El banco congelado NO se usa. Selección del punto de parada: F1-macro en val oficial.
 
 Uso: python src/train/destilar.py --profesor models/v3.3.0 --out models/v3.4.0 [--sin_etiquetar ruta.csv:columna]
@@ -22,7 +22,7 @@ RAIZ = Path(__file__).resolve().parents[2]; sys.path.insert(0, str(RAIZ))
 from src.features.normalization import normalizar  # noqa: E402
 
 CLASES = ["No Tóxico", "Lenguaje Ofensivo", "Discurso de Odio", "Amenazas/Violencia"]
-BASE = "pysentimiento/robertuito-base-cased"; D = RAIZ / "data/dataset_final"
+BASE = "pysentimiento/robertuito-base-cased"; D = RAIZ / "data/dataset"
 
 
 def f1m(y, p): return f1_score(y, p, average="macro", zero_division=0)

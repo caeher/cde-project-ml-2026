@@ -4,7 +4,7 @@
 Las etiquetas son MIS etiquetas por intención al escribir cada plantilla, no un gold standard:
 sirven para ver comportamiento en hilos nuevos, no para reportar F1 oficial.
 Se descarta cualquier mensaje que coincida con train/val/test/batería.
-Salidas: reports/prueba_hilos_500.csv y reports/prueba_hilos_500.md
+Salidas: reports/improvement/prueba_hilos_500.csv y reports/improvement/prueba_hilos_500.md
 """
 import random, re, sys, unicodedata
 from pathlib import Path
@@ -125,7 +125,7 @@ def generar():
 
 def main():
     df = generar()
-    d = RAIZ / "data" / "dataset_v4"
+    d = RAIZ / "data/history/v1.3.1"
     prohibidas = set()
     for f, c in [("train", "texto_original"), ("val", "texto_original"), ("test", "texto_original"), ("test_adversarial", "texto")]:
         prohibidas |= set(pd.read_csv(d / f"{f}.csv")[c].map(clave))
@@ -136,7 +136,7 @@ def main():
     df["predicho"] = [r["label"] for r in res]
     df["confianza"] = [round(r["confianza"], 3) for r in res]
     df["ok"] = df.predicho == df.esperado
-    df.to_csv(RAIZ / "reports/prueba_hilos_500.csv", index=False, encoding="utf-8-sig")
+    df.to_csv(RAIZ / "reports/improvement/prueba_hilos_500.csv", index=False, encoding="utf-8-sig")
     print(f"mensajes evaluados: {len(df)}")
     return df
 

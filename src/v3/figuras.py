@@ -24,7 +24,7 @@ from matplotlib.ticker import FuncFormatter
 RAIZ = Path(__file__).resolve().parents[2]
 FIG = RAIZ / "reports/figures/etapa2"
 FIG.mkdir(parents=True, exist_ok=True)
-S, A = RAIZ / "reports/v3_resultados", RAIZ / "reports/v3_arquitectura"
+S, A = RAIZ / "reports/stage2/v3_resultados", RAIZ / "reports/stage2/v3_arquitectura"
 
 # ── parámetros del sistema de diseño ────────────────────────────────────
 SERIE = ["#2a78d6", "#eb6834", "#1baf7a", "#eda100", "#e87ba4", "#008300"]
@@ -292,11 +292,11 @@ def fig_equidad():
 # ══════════════════════════════════════════════════════ 9. robustez
 def fig_robustez():
     import pandas as pd
-    sd = pd.read_csv(RAIZ / "reports/v2_auditoria/sonda_predicciones.csv")
+    sd = pd.read_csv(RAIZ / "reports/stage2/v2_auditoria/sonda_predicciones.csv")
     p_v3 = np.load(S / "logits_v3_final_sonda.npy").argmax(1)
     modelos = [("Etapa II", p_v3, SERIE[0]),
-               ("mBERT B2", np.load(RAIZ / "reports/v2_auditoria/logits_mbert_b2_sonda.npy").argmax(1), SERIE[1]),
-               ("XLM-R v1", np.load(RAIZ / "reports/v2_auditoria/logits_xlmr_v1_sonda.npy").argmax(1), "#b9c6d8")]
+               ("mBERT B2", np.load(RAIZ / "reports/stage2/v2_auditoria/logits_mbert_b2_sonda.npy").argmax(1), SERIE[1]),
+               ("XLM-R v1", np.load(RAIZ / "reports/stage2/v2_auditoria/logits_xlmr_v1_sonda.npy").argmax(1), "#b9c6d8")]
     fams = sorted(sd.familia.unique())
     corto = {f: f.split(". ", 1)[1] for f in fams}
     fig, ax = plt.subplots(figsize=(7.2, 4.2))
@@ -345,7 +345,7 @@ def fig_evadibilidad():
 # ═══════════════════════════════════════════════════ 11. calibración
 def fig_calibracion():
     import pandas as pd
-    te = pd.read_csv(RAIZ / "data/dataset_v3/test.csv")
+    te = pd.read_csv(RAIZ / "data/history/v1.2.0/test.csv")
     te.columns = [c.lstrip("﻿") for c in te.columns]
     L = np.load(S / "logits_v3_final_test.npy")
     P = np.exp(L - L.max(-1, keepdims=True)); P /= P.sum(-1, keepdims=True)

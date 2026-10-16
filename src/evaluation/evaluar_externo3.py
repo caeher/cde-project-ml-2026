@@ -10,7 +10,7 @@ from src.evaluation.comparar_modelos import mcnemar  # noqa: E402
 from src.evaluation.comparar_v4 import f1m, ic_delta, ic_f1  # noqa: E402
 from sklearn.metrics import confusion_matrix
 
-e = pd.read_csv(RAIZ / "data/hilos_reales/etiquetas/consenso_externo3.csv"); e = e[e.consenso >= 0].reset_index(drop=True)
+e = pd.read_csv(RAIZ / "data/annotation/threads/labels/consenso_externo3.csv"); e = e[e.consenso >= 0].reset_index(drop=True)
 y, tx = e.consenso.values, e.texto.tolist()
 print("n =", len(y), "| clases", np.bincount(y, minlength=4).tolist())
 P = {n: cache(f"{n}__ext3", lambda r=r: probs_propio(r, tx)) for n, r in [("v3.0.0", "models/v3.0.0"), ("v3.1.0", "models/v3.1.0"), ("v3.2.0-rc1", "models/v3.2.0-rc1")]}
@@ -26,4 +26,4 @@ for n in ["v3.0.0", "v3.2.0-rc1", "v3.2.0 (ensamble)"]:
     print(f"  {n:<20} vs v3.1.0: ΔF1 {f1m(y, pr[n]) - f1m(y, ref):+.4f} IC [{lo:+.3f},{hi:+.3f}] McNemar b/c {m['b']}/{m['c']} p={m['p_exacta']:.4f}")
 print("\nMatriz de confusión del ensamble v3.2.0:"); print(pd.DataFrame(confusion_matrix(y, pr["v3.2.0 (ensamble)"], labels=[0, 1, 2, 3]), index=["esp0", "esp1", "esp2", "esp3"], columns=["p0", "p1", "p2", "p3"]))
 e["v3.1.0"], e["v3.2.0"] = pr["v3.1.0"], pr["v3.2.0 (ensamble)"]
-e.to_csv(RAIZ / "data/hilos_reales/predicciones/eval_externo3.csv", index=False, encoding="utf-8-sig")
+e.to_csv(RAIZ / "data/annotation/threads/predictions/eval_externo3.csv", index=False, encoding="utf-8-sig")

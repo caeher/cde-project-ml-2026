@@ -28,7 +28,7 @@ PLACEHOLDERS = ["@usuario", "http://url", "correo@ejemplo.com", "0000-0000"]
 
 def tokens_emoji() -> list[str]:
     """Los :nombre: que produce el normalizador para el catálogo del proyecto."""
-    d = pd.read_csv(RAIZ / "data/dataset_b2/lexicon_emojis.csv")
+    d = pd.read_csv(RAIZ / "data/history/v1.1.0/lexicon_emojis.csv")
     d.columns = [c.lstrip("﻿") for c in d.columns]
     out: set[str] = set()
     for e in d["emoji"]:

@@ -2,8 +2,8 @@
 """
 Normalizador: src/features/normalization.py v1.2 (el de la Etapa II).
 
-Construye data/dataset_v4/ incorporando los 4,328 registros reales de X
-recolectados el 7 de octubre de 2026 (data/new-10-7-2026/).
+Construye data/history/v1.3.1/ incorporando los 4,328 registros reales de X
+recolectados el 7 de octubre de 2026 (data/sources/x_oct2026/).
 
 Reglas:
   1. val y test NO se modifican (comparabilidad con todas las etapas).
@@ -21,10 +21,10 @@ RAIZ = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(RAIZ))
 from src.features.normalization import normalizar, normalizar_agresivo, perfil_texto  # noqa: E402
 
-B2 = RAIZ / "data/dataset_b2"          # val, test y batería: idénticos byte a byte a dataset_v3
-BASE_E2 = RAIZ / "data/dataset_v3/train.csv"   # train de 6,416 de la Etapa II (repo v3, commit 95d3ba6)
-NUEVOS = RAIZ / "data/new-10-7-2026"
-SALIDA = RAIZ / "data/dataset_v4"
+B2 = RAIZ / "data/history/v1.1.0"          # val, test y batería: idénticos byte a byte a dataset_v3
+BASE_E2 = RAIZ / "data/history/v1.2.0/train.csv"   # train de 6,416 de la Etapa II (repo v3, commit 95d3ba6)
+NUEVOS = RAIZ / "data/sources/x_oct2026"
+SALIDA = RAIZ / "data/history/v1.3.1"
 
 ARCHIVOS = {"dataset_x2000.csv": "Willian", "lenguaje_ofensivo.csv": "Cristian", "thenewdata_X.csv": "Julio"}
 MAPA = {"no tóxico": 0, "no toxico": 0, "lenguaje ofensivo": 1, "discurso de odio": 2,
@@ -90,7 +90,7 @@ def main():
     fuga = nuevos.k.isin(prohibidas)
     log["eliminadas_fuga_val_test_bateria"] = int(fuga.sum())
     nuevos[fuga][["fuente_archivo", "Texto_Original", "Clase_Toxicidad"]].to_csv(
-        RAIZ / "reports/v4_filas_con_fuga.csv", index=False, encoding="utf-8-sig")
+        RAIZ / "reports/improvement/v4_filas_con_fuga.csv", index=False, encoding="utf-8-sig")
     nuevos = nuevos[~fuga]
 
     # --- 2. Conflictos de etiqueta entre anotadores: se excluyen y se reportan ---
@@ -98,7 +98,7 @@ def main():
     conflicto = nuevos.k.isin(n_et[n_et > 1].index)
     log["eliminadas_conflicto_etiqueta"] = int(conflicto.sum())
     nuevos[conflicto][["fuente_archivo", "recolector", "Texto_Original", "Clase_Toxicidad"]].to_csv(
-        RAIZ / "reports/v4_conflictos_etiqueta.csv", index=False, encoding="utf-8-sig")
+        RAIZ / "reports/improvement/v4_conflictos_etiqueta.csv", index=False, encoding="utf-8-sig")
     nuevos = nuevos[~conflicto]
 
     # --- 3. Duplicados internos y contra el train actual ---

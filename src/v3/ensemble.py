@@ -19,7 +19,7 @@ RAIZ = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(RAIZ))
 from src.features.normalization import normalizar
 
-SALIDA = RAIZ / "reports/v3_resultados"
+SALIDA = RAIZ / "reports/stage2/v3_resultados"
 # Solo modelos entrenados sobre el corpus corregido. Se excluye a propósito el
 # TwitterXLM-R sobre B2: aunque mejoraba el F1 del conjunto, arrastra el atajo
 # sintáctico «te voy a X» (14 falsos positivos de 24 en la sonda de
@@ -56,10 +56,10 @@ def probs(ruta, textos, bs=32):
 
 def main():
     SALIDA.mkdir(parents=True, exist_ok=True)
-    val = leer(RAIZ / "data/dataset_v3/val.csv")
-    test = leer(RAIZ / "data/dataset_v3/test.csv")
-    adv = leer(RAIZ / "data/dataset_v3/test_adversarial.csv")
-    sonda = leer(RAIZ / "reports/v2_auditoria/sonda_predicciones.csv")
+    val = leer(RAIZ / "data/history/v1.2.0/val.csv")
+    test = leer(RAIZ / "data/history/v1.2.0/test.csv")
+    adv = leer(RAIZ / "data/history/v1.2.0/test_adversarial.csv")
+    sonda = leer(RAIZ / "reports/stage2/v2_auditoria/sonda_predicciones.csv")
 
     conj = {
         "val": (val.texto_modelo.astype(str).tolist(), val.label.values),

@@ -8,13 +8,13 @@
 
 | Entregable | Estado |
 |---|---|
-| Dataset B2 (`data/dataset_b2/`) — 3,293 train, val y test intactos | Listo |
+| Dataset B2 (`data/history/v1.1.0/`) — 3,293 train, val y test intactos | Listo |
 | Catálogo de emojis reconstruido — 51 entradas | Listo |
 | Conjunto diagnóstico adversarial — 75 casos | Listo |
 | Auditoría de ambos modelos (`Informe_Auditoria_de_Modelos.docx`) | Listo |
 | Comparativa estadística (`Informe_Comparativa_mBERT_vs_XLMR.docx`) | Listo |
 | Script de comparación pareada (`src/evaluation/comparar_modelos.py`) | Listo |
-| Predicciones de XLM-R sobre test (`reports/preds_xlmr.csv`) | Listo |
+| Predicciones de XLM-R sobre test (`reports/stage2/preds_xlmr.csv`) | Listo |
 
 ---
 
@@ -36,7 +36,7 @@
 
 | # | Tarea |
 |---|---|
-| 8 | Reentrenar XLM-R con `data/dataset_b2/` y los **pesos nuevos** `[0.9198, 0.9376, 0.9720, 1.2233]` |
+| 8 | Reentrenar XLM-R con `data/history/v1.1.0/` y los **pesos nuevos** `[0.9198, 0.9376, 0.9720, 1.2233]` |
 | 9 | Evaluar sobre `test.csv` y comparar con el 0.8058 del v1 |
 | 10 | Correr `test_adversarial.csv` y comparar con la línea base **48/75** |
 | 11 | Exportar `reports/preds_xlmr_b2.csv` con dos columnas: `ID,y_pred` |
@@ -51,7 +51,7 @@
 | 2 | Corregir `trivial_baselines`: la clase mayoritaria es **0.128**, no 0.087. El recall de esa clase es 1, no su proporción | Alta |
 | 3 | Añadir al pipeline el guardado de predicciones en cada corrida. Es la causa de que no se pudiera hacer McNemar | Alta |
 | 4 | Añadir un slice de evaluación por emoji en `slices.py` | Media |
-| 5 | Reentrenar mBERT con `data/dataset_b2/` y los pesos nuevos |
+| 5 | Reentrenar mBERT con `data/history/v1.1.0/` y los pesos nuevos |
 | 6 | Evaluar sobre `test.csv` y comparar con el 0.7862 del v1 |
 | 7 | Correr `test_adversarial.csv` |
 | 8 | Exportar `reports/preds_mbert_b2.csv` con `ID,y_pred` |
@@ -86,7 +86,7 @@ Cristian 5-8  ─┴─→  requieren GPU; ambos con el MISMO dataset y los MISM
 Willian 4  ─→  comparar_modelos.py  ─→  resultado final de la comparativa
 ```
 
-**Regla:** los dos reentrenamientos tienen que usar `data/dataset_b2/` y los mismos pesos de clase. Si uno entrena con B2 y el otro con el v1, la comparación no vale.
+**Regla:** los dos reentrenamientos tienen que usar `data/history/v1.1.0/` y los mismos pesos de clase. Si uno entrena con B2 y el otro con el v1, la comparación no vale.
 
 ---
 

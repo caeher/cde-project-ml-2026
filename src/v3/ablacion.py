@@ -22,9 +22,9 @@ import json, subprocess, sys, tempfile
 from pathlib import Path
 
 RAIZ = Path(__file__).resolve().parents[2]
-SALIDA = RAIZ / "reports/v3_arquitectura"
-B2 = RAIZ / "data/dataset_b2/train.csv"
-V3 = RAIZ / "data/dataset_v3/train.csv"
+SALIDA = RAIZ / "reports/stage2/v3_arquitectura"
+B2 = RAIZ / "data/history/v1.1.0/train.csv"
+V3 = RAIZ / "data/history/v1.2.0/train.csv"
 
 #  alias                  csv  vocab  peso_sintetico  fases_solo_reales
 EXPERIMENTOS = [

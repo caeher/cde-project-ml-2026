@@ -7,7 +7,7 @@ from sklearn.metrics import (f1_score, accuracy_score, confusion_matrix,
                              precision_recall_fscore_support, log_loss)
 
 RAIZ = Path("/home/willian/ues/esp/proyecto")
-S = RAIZ / "reports/v2_auditoria"
+S = RAIZ / "reports/stage2/v2_auditoria"
 CLASES = ["No Tóxico", "Lenguaje Ofensivo", "Discurso de Odio", "Amenazas/Violencia"]
 MODS = ["mbert_v1", "mbert_b2", "xlmr_v1", "xlmr_mit"]
 
@@ -41,7 +41,7 @@ def boot_f1(y, yp, n=2000, seed=42):
     return float(np.percentile(out, 2.5)), float(np.percentile(out, 97.5)), float(np.mean(out))
 
 
-test = leer("data/dataset_b2/test.csv"); val = leer("data/dataset_b2/val.csv")
+test = leer("data/history/v1.1.0/test.csv"); val = leer("data/history/v1.1.0/val.csv")
 res = {}
 print(f"{'modelo':10s} {'conj':5s} {'F1-macro':>9s} {'Acc':>7s} {'aciertos':>10s} {'ECE':>7s}")
 for m in MODS:

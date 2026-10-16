@@ -13,7 +13,7 @@ import numpy as np, pandas as pd
 from transformers import AutoTokenizer
 warnings.filterwarnings("ignore")
 
-RAIZ = Path("/home/willian/ues/esp/proyecto"); S = RAIZ / "reports/v3_arquitectura"
+RAIZ = Path("/home/willian/ues/esp/proyecto"); S = RAIZ / "reports/stage2/v3_arquitectura"
 S.mkdir(parents=True, exist_ok=True)
 
 CANDIDATOS = {
@@ -31,9 +31,9 @@ CANDIDATOS = {
 def leer(p):
     d = pd.read_csv(RAIZ / p); d.columns = [c.lstrip("﻿") for c in d.columns]; return d
 
-corpus = leer("data/dataset_b2/train.csv")
+corpus = leer("data/history/v1.1.0/train.csv")
 textos = corpus[corpus.origen == "real"]["texto_modelo"].astype(str).tolist()
-lex = leer("data/raw/lexicon_salvadoreno.csv")
+lex = leer("data/sources/stage1_corpus/lexicon_salvadoreno.csv")
 col_jerga = "Texto_Original"
 jerga = sorted({str(w).strip().lower() for w in lex[col_jerga] if isinstance(w, str) and 2 < len(str(w)) < 20 and " " not in str(w)})
 print(f"corpus real: {len(textos)} textos · léxico salvadoreño: {len(jerga)} entradas ({col_jerga})\n")

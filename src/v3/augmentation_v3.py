@@ -329,7 +329,7 @@ def insertar_emoji(texto: str, emo: str, rnd: random.Random) -> str:
 def generar(seed: int = SEED) -> pd.DataFrame:
     rnd = random.Random(seed)
     fams = cargar_lexico()
-    emo = pd.read_csv(RAIZ / "data/dataset_b2/lexicon_emojis.csv")
+    emo = pd.read_csv(RAIZ / "data/history/v1.1.0/lexicon_emojis.csv")
     emo.columns = [c.lstrip("﻿") for c in emo.columns]
 
     filas: list[dict] = []
@@ -464,10 +464,10 @@ def generar(seed: int = SEED) -> pd.DataFrame:
 
     # ── Higiene: nada que toque val, test o la batería adversarial
     prohibido: set[str] = set()
-    for p, col in [("data/dataset_b2/val.csv", "texto_modelo"),
-                   ("data/dataset_b2/test.csv", "texto_modelo"),
-                   ("data/dataset_b2/test_adversarial.csv", "texto_normalizado"),
-                   ("data/dataset_b2/test_adversarial.csv", "texto")]:
+    for p, col in [("data/history/v1.1.0/val.csv", "texto_modelo"),
+                   ("data/history/v1.1.0/test.csv", "texto_modelo"),
+                   ("data/history/v1.1.0/test_adversarial.csv", "texto_normalizado"),
+                   ("data/history/v1.1.0/test_adversarial.csv", "texto")]:
         d = pd.read_csv(RAIZ / p); d.columns = [c.lstrip("﻿") for c in d.columns]
         prohibido |= {clave(x) for x in d[col]}
     antes = len(df)
@@ -509,7 +509,7 @@ def _equilibrar(df: pd.DataFrame, tope: int, seed: int) -> pd.DataFrame:
 
 if __name__ == "__main__":
     df = generar()
-    sal = RAIZ / "data/dataset_v3"; sal.mkdir(exist_ok=True)
+    sal = RAIZ / "data/history/v1.2.0"; sal.mkdir(exist_ok=True)
     df.to_csv(sal / "sinteticos_v3.csv", index=False, encoding="utf-8-sig")
     print(f"generados: {len(df)}   descartados por higiene: {df.attrs['descartados']}")
     print(f"plantillas: {df.plantilla_id.nunique()}   máx por plantilla: {df.plantilla_id.value_counts().max()}")

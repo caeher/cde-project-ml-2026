@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Informe de sesgos y ética (plan de mejora, fase 5; rúbrica Etapa II: «Análisis de sesgos y ética», 15 pts).
 
-Sobre el BANCO CONGELADO (data/banco_congelado/) y el test oficial, para un modelo o ensamble:
+Sobre el BANCO CONGELADO (data/evaluation/frozen_bank/) y el test oficial, para un modelo o ensamble:
   1. Por plataforma (X vs Facebook) en el test oficial: F1-macro y recall por clase, con IC bootstrap.
   2. Por jerga salvadoreña vs sin jerga (test oficial, columna n_jerga): FPR sobre No Tóxico y recall de Odio.
   3. Por GRUPO OBJETIVO del discurso de odio (heurística por palabras clave; ver LIMITES): recall de Odio con IC y brecha máxima.
@@ -58,14 +58,14 @@ def probs_modelo(modelo, textos, etiqueta):
 
 
 def main():
-    ap = argparse.ArgumentParser(); ap.add_argument("--modelo", default="v3.3.0"); ap.add_argument("--salida", default="reports/fairness.md"); a = ap.parse_args()
+    ap = argparse.ArgumentParser(); ap.add_argument("--modelo", default="v3.3.0"); ap.add_argument("--salida", default="reports/improvement/fairness.md"); a = ap.parse_args()
     L = [f"# Informe de sesgos y ética — modelo {a.modelo}", "",
          "Generado por `src/evaluation/fairness.py` sobre el banco congelado y el test oficial. IC bootstrap 95 % entre corchetes; *sin potencia* = n < 20.", ""]
     # ---- datos
-    te = pd.read_csv(RAIZ / "data/dataset_final/test.csv"); yt = te.label.values
+    te = pd.read_csv(RAIZ / "data/dataset/test.csv"); yt = te.label.values
     from src.evaluation.combinar_modelos import cache  # noqa: F401
     pt = probs_modelo(a.modelo, te.texto_original.tolist(), "test_oficial_fair")
-    bk = [pd.read_csv(RAIZ / f"data/banco_congelado/{k}.csv").assign(banco=k) for k in ["migrantes", "externo2", "militares", "xenofobia"]]
+    bk = [pd.read_csv(RAIZ / f"data/evaluation/frozen_bank/{k}.csv").assign(banco=k) for k in ["migrantes", "externo2", "militares", "xenofobia"]]
     bk = pd.concat(bk, ignore_index=True); yb = bk.label.values; pb = probs_modelo(a.modelo, bk.texto_original.tolist(), "banco_fair")
     # ---- 0 resumen
     L += ["## 0. Resumen global", "", "| Conjunto | n | F1-macro [IC] | Recall NT / OF / OD / AM | FPR (NT) |", "|---|---|---|---|---|"]

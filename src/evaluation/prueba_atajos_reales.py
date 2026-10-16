@@ -18,7 +18,7 @@ PAT = re.compile(r"\b(venezolan\w*|venec\w*|hondure\w*|nicaragüens\w*|nicas?|me
 
 
 def cargar():
-    H = RAIZ / "data/hilos_reales/etiquetas"; fr = []
+    H = RAIZ / "data/annotation/threads/labels"; fr = []
     for f, col in [("consenso_1155.csv", "texto_original"), ("consenso_nuevos.csv", "texto"), ("consenso_migrantes.csv", "texto")]:
         d = pd.read_csv(H / f); d = d[d.consenso >= 0]; fr.append(pd.DataFrame({"texto": d[col], "label": d.consenso}))
     d = pd.concat(fr, ignore_index=True); return d[d.texto.str.contains(PAT)].reset_index(drop=True)

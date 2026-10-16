@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 """Fase 3/4 del plan: tabla comparable de candidatos (A, B, C = A+B, estudiante destilado) frente a la línea base v3.3.0.
 UNA sola medición sobre el banco congelado + test oficial + sonda de vulgaridad afectiva. La selección entre candidatos la fija la CV por hilo
-(reports/optuna_cv_hilo.json: referencia = receta A, mejor = receta B); este script solo informa y comprueba las metas.
+(reports/improvement/optuna_cv_hilo.json: referencia = receta A, mejor = receta B); este script solo informa y comprueba las metas.
 
 Metas del plan: recall Odio ≥ 0.65 · recall Amenazas ≥ 0.60 · FPR ≤ 0.12 · F1-macro banco ≥ 0.70 · test oficial ≥ 0.83 · afectivas ≥ 17/20 e insultos ≥ 16/18.
 Uso: python src/evaluation/comparar_fase3.py v3.3.0 candA candB candC [student ...]   (nombres = carpetas de models/; si hay manifest.json se usa como ensamble)
-Salida: reports/fase3_candidatos.md y .json
+Salida: reports/improvement/fase3_candidatos.md y .json
 """
 import json, sys
 from pathlib import Path
@@ -16,7 +16,7 @@ from src.evaluation.combinar_modelos import probs_propio, cache  # noqa: E402
 from src.evaluation.comparar_modelos import mcnemar  # noqa: E402
 from src.evaluation.comparar_v4 import f1m, ic_f1, ic_delta  # noqa: E402
 
-D = RAIZ / "data/dataset_final"; B = RAIZ / "data/banco_congelado"
+D = RAIZ / "data/dataset"; B = RAIZ / "data/evaluation/frozen_bank"
 
 
 def probs(nombre, etiqueta, textos):
@@ -38,7 +38,7 @@ def main():
     nombres = sys.argv[1:] or ["v3.3.0", "candA"]
     bk = pd.concat([pd.read_csv(B / f"{k}.csv").assign(banco=k) for k in ["migrantes", "externo2", "militares", "xenofobia"]], ignore_index=True)
     yb, tb = bk.label.values, bk.texto_original.tolist(); te = pd.read_csv(D / "test.csv"); yt = te.label.values; va = pd.read_csv(D / "val.csv")
-    pr = pd.read_csv(RAIZ / "data/hard_cases/probe_vulgaridad_afectiva_SOLO_EVALUAR.csv"); af = (pr.tipo == "afectiva").values
+    pr = pd.read_csv(RAIZ / "data/evaluation/hard_cases/probe_vulgaridad_afectiva_SOLO_EVALUAR.csv"); af = (pr.tipo == "afectiva").values
     R, PRED = {}, {}
     for n in nombres:
         pb = probs(n, "bancoF", tb); pt = probs(n, "testF", te.texto_original.tolist()); pv = probs(n, "valF", va.texto_original.tolist()); pp = probs(n, "probeF", pr.texto.tolist())
@@ -57,8 +57,8 @@ def main():
     for n in nombres:
         r = R[n]; ok = {"Odio": r["recall"][2] >= .65, "Amenazas": r["recall"][3] >= .60, "FPR": r["fpr"] <= .12, "F1": r["f1_banco"] >= .70, "test": r["f1_test"] >= .83, "afect": r["afectivas"] >= 17, "insultos": r["insultos"] >= 16}
         L.append(f"- {n}: " + " · ".join(f"{k} {'✔' if v else '✘'}" for k, v in ok.items()) + f"  ({sum(ok.values())}/7)")
-    (RAIZ / "reports/fase3_candidatos.md").write_text("\n".join(L), encoding="utf-8")
-    (RAIZ / "reports/fase3_candidatos.json").write_text(json.dumps(R, indent=2, ensure_ascii=False), encoding="utf-8"); print("\n".join(L))
+    (RAIZ / "reports/improvement/fase3_candidatos.md").write_text("\n".join(L), encoding="utf-8")
+    (RAIZ / "reports/improvement/fase3_candidatos.json").write_text(json.dumps(R, indent=2, ensure_ascii=False), encoding="utf-8"); print("\n".join(L))
 
 
 if __name__ == "__main__":

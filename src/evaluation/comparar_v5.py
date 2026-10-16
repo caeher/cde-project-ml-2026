@@ -10,7 +10,7 @@ CRITERIOS DE ADOPCIÓN, fijados ANTES de ver resultados:
   (c) hilos reservados (nunca vistos, hilos completos): mejora de F1-macro con IC 95 % pareado que NO cruza el cero.
 Se adopta solo si se cumplen (a), (b) y (c). Los casos probe (n pequeño) y la memorización son diagnóstico, no criterio.
 
-Uso: python src/evaluation/comparar_v5.py --v5 runs/v5a --dataset data/dataset_v5a --base models/v3.0.0
+Uso: python src/evaluation/comparar_v5.py --v5 runs/v5a --dataset data/history/v1.4.0-a --base models/v3.0.0
 """
 import argparse, json, re, sys, unicodedata
 from pathlib import Path

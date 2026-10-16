@@ -4,11 +4,11 @@ import json
 from pathlib import Path
 import numpy as np, pandas as pd
 
-RAIZ = Path("/home/willian/ues/esp/proyecto"); S = RAIZ / "reports/v2_auditoria"
+RAIZ = Path("/home/willian/ues/esp/proyecto"); S = RAIZ / "reports/stage2/v2_auditoria"
 MODS = ["mbert_v1", "mbert_b2", "xlmr_v1", "xlmr_mit"]
 CL = ["No Tóxico", "Lenguaje Ofensivo", "Discurso de Odio", "Amenazas/Violencia"]
 
-adv = pd.read_csv(RAIZ / "data/dataset_b2/test_adversarial.csv")
+adv = pd.read_csv(RAIZ / "data/history/v1.1.0/test_adversarial.csv")
 adv.columns = [c.lstrip("﻿") for c in adv.columns]
 y = adv["label_esperado"].values
 

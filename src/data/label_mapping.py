@@ -3,7 +3,7 @@ Consolidación de etiquetas al esquema canónico de 4 clases.
 
 CONTEXTO DEL PROBLEMA
 ---------------------
-`data/raw/corpus_salvadoreno.csv` contiene 16 valores distintos en
+`data/sources/stage1_corpus/corpus_salvadoreno.csv` contiene 16 valores distintos en
 `Clase_Toxicidad` donde la taxonomía del proyecto define 4. El EDA revela que
 NO se trata de ruido aleatorio: 348 de las 360 filas anómalas provienen de un
 solo anotador (Julio), que aplicó el nivel de SUBCLASE en la columna de CLASE

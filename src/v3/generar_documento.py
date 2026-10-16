@@ -14,17 +14,17 @@ from docx import Document
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 
 RAIZ = Path(__file__).resolve().parents[2]
-PLANTILLA = RAIZ / "docs/etapa-1/plantilla_etapa1.docx"
-DESTINO = RAIZ / "reports/9-12-2026/Etapa II - Analisis de Discurso de Odio en Redes Sociales en El Salvador.docx"
+PLANTILLA = RAIZ / "docs/stage1/plantilla_etapa1.docx"
+DESTINO = RAIZ / "reports/stage2/9-12-2026/Etapa II - Analisis de Discurso de Odio en Redes Sociales en El Salvador.docx"
 
-S, A = RAIZ / "reports/v3_resultados", RAIZ / "reports/v3_arquitectura"
+S, A = RAIZ / "reports/stage2/v3_resultados", RAIZ / "reports/stage2/v3_arquitectura"
 D = {
     "final": json.loads((S / "evaluacion_v3_final.json").read_text()),
     "ens": json.loads((S / "ensemble.json").read_text()),
     "cv": json.loads((A / "validacion_cruzada.json").read_text()),
     "hpo": json.loads((A / "hpo_robertuito_mejor.json").read_text()),
     "fair": json.loads((S / "fairness.json").read_text()),
-    "meta": json.loads((RAIZ / "data/dataset_v3/metadata.json").read_text()),
+    "meta": json.loads((RAIZ / "data/history/v1.2.0/metadata.json").read_text()),
 }
 
 _n_tabla = 0
@@ -960,14 +960,14 @@ def construir():
     p1(doc, "Reejecución independiente de los cuatro checkpoints entregados, con tabla de "
             "contraste entre cifra publicada y cifra reproducida, lista de errores con su "
             "evidencia aritmética y prueba de evadibilidad del filtro de reglas. "
-            "Archivo: reports/9-12-2026/Informe_Auditoria_Entrega_2v.pdf.")
+            "Archivo: reports/stage2/9-12-2026/Informe_Auditoria_Entrega_2v.pdf.")
     h2(doc, "Anexo B: Informe técnico de resultados de la Etapa II")
     p1(doc, "Detalle de las veinte pruebas de optimización, las nueve variantes de ablación por "
             "arquitectura y las tablas completas de la batería adversarial y la sonda dirigida. "
-            "Archivo: reports/9-12-2026/Informe_V3_Resultados_Etapa3.pdf.")
+            "Archivo: reports/stage2/9-12-2026/Informe_V3_Resultados_Etapa3.pdf.")
     h2(doc, "Anexo C: Artefactos de evaluación")
     p1(doc, "Logits, predicciones por instancia, resultados de las pruebas pareadas y de la "
-            "prueba de evadibilidad, en reports/v3_resultados/ y reports/v3_arquitectura/ del "
+            "prueba de evadibilidad, en reports/stage2/v3_resultados/ y reports/stage2/v3_arquitectura/ del "
             "repositorio.")
 
     DESTINO.parent.mkdir(parents=True, exist_ok=True)

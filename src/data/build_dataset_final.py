@@ -2,9 +2,9 @@
 """Constructor ÚNICO del dataset final (plan de mejora, fase 0). Sustituye a build_dataset_v5/v6/v7/v8.
 
 Salidas:
-  data/dataset_final/{train,val,test,test_adversarial}.csv + metadata.json
+  data/dataset/{train,val,test,test_adversarial}.csv + metadata.json
       train = base sin octubre + casos difíciles + hilos del POOL con etiquetas de consenso (y etiquetas blandas p0..p3)
-  data/banco_congelado/{migrantes,externo2,militares,xenofobia}.csv + MANIFEST.json (SHA-256)
+  data/evaluation/frozen_bank/{migrantes,externo2,militares,xenofobia}.csv + MANIFEST.json (SHA-256)
       el banco NUNCA entra a entrenamiento ni a selección.
 Reglas:
   - se quita la publicación original de cada hilo (primera fila por hilo), que no es una respuesta;
@@ -21,7 +21,7 @@ RAIZ = Path(__file__).resolve().parents[2]; sys.path.insert(0, str(RAIZ))
 from src.features.normalization import normalizar, normalizar_agresivo  # noqa: E402
 
 CLASES = ["No Tóxico", "Lenguaje Ofensivo", "Discurso de Odio", "Amenazas/Violencia"]
-H = RAIZ / "data/hilos_reales"
+H = RAIZ / "data/annotation/threads"
 BANCO_HILOS = {"militares_pandilleros", "xenofobia_federico"}  # del consenso externo 3 y 4; migrantes y externo 2 son sus propios archivos
 
 
@@ -44,7 +44,7 @@ def votos(df, cols):
 
 
 def tabla(archivo, col_texto, cols_voto, quitar_op=True):
-    d = pd.read_csv(H / "etiquetas" / archivo)
+    d = pd.read_csv(H / "labels" / archivo)
     d = d.sort_values("ID").copy(); d["texto"] = d[col_texto]; p = votos(d, cols_voto)
     for k in range(4): d[f"p{k}"] = p[:, k]
     d["label"] = d["consenso"]
@@ -67,12 +67,12 @@ def construir(salida_train=True, pool_extra=None):
     t4 = tabla("consenso_externo4.csv", "texto", ["a", "b", "d"])
     t5 = tabla("consenso_externo2.csv", "texto", ["a", "b", "d"])
     t6 = tabla("consenso_migrantes.csv", "texto", ["a", "b", "d"])
-    extra = [tabla(f.name, "texto", ["a", "b", "d"], quitar_op=False) for f in sorted((H / "etiquetas").glob("consenso_fase1_r*.csv"))]  # fase 1 del plan: la publicación original ya se quitó al preparar los lotes
+    extra = [tabla(f.name, "texto", ["a", "b", "d"], quitar_op=False) for f in sorted((H / "labels").glob("consenso_fase1_r*.csv"))]  # fase 1 del plan: la publicación original ya se quitó al preparar los lotes
     todo = pd.concat([t1, t2, t3, t4] + extra, ignore_index=True)
     banco = {"militares": todo[todo.hilo == "militares_pandilleros"], "xenofobia": todo[todo.hilo == "xenofobia_federico"], "externo2": t5, "migrantes": t6}
     pool = todo[~todo.hilo.isin(BANCO_HILOS)].copy()
     if pool_extra is not None: pool = pd.concat([pool, pool_extra], ignore_index=True)
-    V4 = RAIZ / "data/dataset_v4"; V5 = RAIZ / "data/dataset_v5f"
+    V4 = RAIZ / "data/history/v1.3.1"; V5 = RAIZ / "data/history/v1.4.0"
     base = pd.read_csv(V5 / "train.csv"); base = base[base.origen != "real_hilo"].copy()  # base sin octubre + casos difíciles
     val, test, adv = (pd.read_csv(V4 / f) for f in ["val.csv", "test.csv", "test_adversarial.csv"])
     prohibidas = claves(val.texto_original) | claves(test.texto_original) | claves(adv.texto)
@@ -100,13 +100,13 @@ def main():
             print("SELFTEST 2 (la comprobación dura aborta ante una fuga en train): OK ->", e)
         return
     train, val, test, adv, banco, pool, retiradas = construir()
-    out = RAIZ / "data/dataset_final"; out.mkdir(exist_ok=True); bd = RAIZ / "data/banco_congelado"; bd.mkdir(exist_ok=True)
+    out = RAIZ / "data/dataset"; out.mkdir(exist_ok=True); bd = RAIZ / "data/evaluation/frozen_bank"; bd.mkdir(exist_ok=True)
     train.to_csv(out / "train.csv", index=False, encoding="utf-8")
     for f, d in [("val.csv", val), ("test.csv", test), ("test_adversarial.csv", adv)]: d.to_csv(out / f, index=False, encoding="utf-8")
-    man = {"test_oficial": {"archivo": "data/dataset_final/test.csv", "sha256": sha(out / "test.csv"), "n": len(test)}}
+    man = {"test_oficial": {"archivo": "data/dataset/test.csv", "sha256": sha(out / "test.csv"), "n": len(test)}}
     for k, b in banco.items():
         f = bd / f"{k}.csv"; b.rename(columns={"texto": "texto_original"}).to_csv(f, index=False, encoding="utf-8-sig")
-        man[k] = {"archivo": f"data/banco_congelado/{k}.csv", "sha256": sha(f), "n": len(b), "clases": {CLASES[c]: int((b.label == c).sum()) for c in range(4)}}
+        man[k] = {"archivo": f"data/evaluation/frozen_bank/{k}.csv", "sha256": sha(f), "n": len(b), "clases": {CLASES[c]: int((b.label == c).sum()) for c in range(4)}}
     (bd / "MANIFEST.json").write_text(json.dumps(man, ensure_ascii=False, indent=2), encoding="utf-8")
     hil = train[train.origen == "real_hilo"]
     meta = {"train_total": len(train), "base_y_casos": int((train.origen != "real_hilo").sum()), "filas_hilos_pool": len(hil), "hilos_en_pool": sorted(hil.plantilla_id.unique().tolist()),

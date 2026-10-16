@@ -100,7 +100,7 @@ loss         = CrossEntropyLoss(weight=pesos_clase)
 
 > **Usar la variante `cased` de mBERT.** La `uncased` aplica `strip_accents=True` y destruye las tildes dentro del propio tokenizador.
 
-Pesos de clase (calculados solo sobre `train`, en `data/processed/metadata.json`):
+Pesos de clase (calculados solo sobre `train`, en `data/history/v1.0.0/metadata.json`):
 
 | Clase | Peso |
 |---|---|
@@ -153,7 +153,7 @@ jupyter notebook notebooks/02_eda_y_preparacion_final.ipynb
 
 ## Siguientes pasos
 
-1. Descargar y armonizar los datasets públicos en `data/external/` con `armonizar_externo()` (notebook 02, sección 9).
+1. Descargar y armonizar los datasets públicos en `data/sources/external/` con `armonizar_externo()` (notebook 02, sección 9).
 2. Ejecutar las celdas de tokenización con acceso a Hugging Face y confirmar `max_length`.
 3. *Fine-tuning* en dos etapas: datos públicos, luego corpus salvadoreño (*domain adaptation*). Comparar contra el baseline clásico del Anexo A.
 4. Reportar F1-macro global **y desagregado por plataforma**.
@@ -186,7 +186,7 @@ RoBERTuito (`pysentimiento/robertuito-base-cased`), ensemble de 5 semillas, sin 
 | Batería adversarial | 127 / 144 |
 | ECE | 0.0561 → 0.0271 |
 
-La comparación contra v4 (con datos de octubre) y contra la línea base de 3 semillas está en `reports/Resultado_reentrenamiento_v4.md`. Limitaciones: Facebook (F1 0.7686 frente a 0.9041 en X) y los cortes con sarcasmo/ironía.
+La comparación contra v4 (con datos de octubre) y contra la línea base de 3 semillas está en `reports/improvement/Resultado_reentrenamiento_v4.md`. Limitaciones: Facebook (F1 0.7686 frente a 0.9041 en X) y los cortes con sarcasmo/ironía.
 
 ```bash
 uvicorn app.api.main:app --port 8000      # API: POST /predecir {"texto": "..."}
@@ -194,7 +194,7 @@ streamlit run app/ui/app.py               # dashboard
 ```
 
 ### Actualización (14 de octubre de 2026): modelo v5 en la API
-La API usa ahora `models/v3.1.0` (RoBERTuito, 5 semillas, + hilos reales de X y casos difíciles; T = 1.832). Frente al modelo anterior: F1-macro en el test oficial 0.8327 (antes 0.8499, Δ −0.017, p = 0.136) pero en un hilo real nuevo (CECOT, n = 209) 0.613 frente a 0.470 (p < 0.0001) y la batería sube de 127 a 129. Detalle, límites y estrategia: `reports/Resultado_reentrenamiento_v4.md`, `docs/Estrategia_mejora.md`. Las etiquetas de los hilos están sin validar por un segundo anotador.
+La API usa ahora `models/v3.1.0` (RoBERTuito, 5 semillas, + hilos reales de X y casos difíciles; T = 1.832). Frente al modelo anterior: F1-macro en el test oficial 0.8327 (antes 0.8499, Δ −0.017, p = 0.136) pero en un hilo real nuevo (CECOT, n = 209) 0.613 frente a 0.470 (p < 0.0001) y la batería sube de 127 a 129. Detalle, límites y estrategia: `reports/improvement/Resultado_reentrenamiento_v4.md`, `docs/improvement/Estrategia_mejora.md`. Las etiquetas de los hilos están sin validar por un segundo anotador.
 
 ### Versiones (14 de octubre de 2026)
 Numeración en `CHANGELOG.md`: **v3.0.0** (Etapa II, 5 semillas), **v3.1.0** (+ hilos reales y casos difíciles; es la que usa la API), **v3.2.0-rc1** (candidato con etiquetas por consenso; no adoptado por no cumplir un criterio de frontera, p = 0.053).
@@ -207,4 +207,4 @@ La API usa el ensamble **v3.3.0** (10 modelos; T = 1.314): test oficial 0.8386, 
 
 
 ### Actualización: v3.4.0 (15 de octubre de 2026)
-La API usa **un solo modelo** (v3.4.0, 418 MB, destilado de un ensamble de 6 modelos con hiperparámetros de Optuna). Banco congelado (n = 1,391): F1-macro 0.720 [0.687, 0.754] (v3.3.0: 0.693), recall Odio 0.669 (media entre semillas 0.626), Amenazas 0.470, falsos positivos 0.112; test oficial 0.832. Arranque: `.\scripts\arrancar_demo.ps1`. Informe de sesgos: `reports/fairness.md`. Detalle y límites en `CHANGELOG.md`.
+La API usa **un solo modelo** (v3.4.0, 418 MB, destilado de un ensamble de 6 modelos con hiperparámetros de Optuna). Banco congelado (n = 1,391): F1-macro 0.720 [0.687, 0.754] (v3.3.0: 0.693), recall Odio 0.669 (media entre semillas 0.626), Amenazas 0.470, falsos positivos 0.112; test oficial 0.832. Arranque: `.\scripts\arrancar_demo.ps1`. Informe de sesgos: `reports/improvement/fairness.md`. Detalle y límites en `CHANGELOG.md`.

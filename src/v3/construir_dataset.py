@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Ensambla data/dataset_v3/.
+Ensambla data/history/v1.2.0/.
 
 train = reales de B2 + sintéticos de B2 + sintéticos V3, con el normalizador
 corregido y sin ninguna fila que toque val, test o la batería adversarial.
@@ -20,8 +20,8 @@ sys.path.insert(0, str(RAIZ))
 from src.features.normalization import normalizar
 from src.v3.augmentation_v3 import generar
 
-B2 = RAIZ / "data/dataset_b2"
-V3 = RAIZ / "data/dataset_v3"
+B2 = RAIZ / "data/history/v1.1.0"
+V3 = RAIZ / "data/history/v1.2.0"
 CLASES = ["No Tóxico", "Lenguaje Ofensivo", "Discurso de Odio", "Amenazas/Violencia"]
 
 

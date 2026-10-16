@@ -14,7 +14,7 @@ import numpy as np, pandas as pd
 from sklearn.model_selection import StratifiedKFold
 
 RAIZ = Path(__file__).resolve().parents[2]
-SALIDA = RAIZ / "reports/v3_arquitectura"
+SALIDA = RAIZ / "reports/stage2/v3_arquitectura"
 N_PLIEGUES = 5
 
 
@@ -26,8 +26,8 @@ def main():
     cfg = json.loads((SALIDA / "hpo_robertuito_mejor.json").read_text())
     par, modelo_hf = cfg["mejores_parametros"], cfg["modelo"]
 
-    tr = leer(RAIZ / "data/dataset_v3/train.csv")
-    va = leer(RAIZ / "data/dataset_v3/val.csv")
+    tr = leer(RAIZ / "data/history/v1.2.0/train.csv")
+    va = leer(RAIZ / "data/history/v1.2.0/val.csv")
     va["origen"] = "real"
     for c in tr.columns:
         if c not in va.columns:

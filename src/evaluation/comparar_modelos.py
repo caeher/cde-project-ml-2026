@@ -11,14 +11,14 @@ USO
 1) Cada responsable exporta un CSV con dos columnas: ID y y_pred
 
        import pandas as pd
-       test = pd.read_csv("data/processed/test.csv")
+       test = pd.read_csv("data/history/v1.0.0/test.csv")
        test["y_pred"] = mis_predicciones          # enteros 0..3, mismo orden
-       test[["ID", "y_pred"]].to_csv("reports/preds_mbert.csv", index=False)
+       test[["ID", "y_pred"]].to_csv("reports/stage2/preds_mbert.csv", index=False)
 
 2) Se ejecuta la comparación
 
        python src/evaluation/comparar_modelos.py \
-              reports/preds_mbert.csv reports/preds_xlmr.csv \
+              reports/stage2/preds_mbert.csv reports/stage2/preds_xlmr.csv \
               --nombres mBERT XLM-R
 
 REQUISITO
@@ -149,7 +149,7 @@ if __name__ == "__main__":
     ap.add_argument("preds_a")
     ap.add_argument("preds_b")
     ap.add_argument("--nombres", nargs=2, default=["modelo_A", "modelo_B"])
-    ap.add_argument("--test", default="data/processed/test.csv")
-    ap.add_argument("--salida", default="reports/comparativa_pareada.csv")
+    ap.add_argument("--test", default="data/history/v1.0.0/test.csv")
+    ap.add_argument("--salida", default="reports/stage2/comparativa_pareada.csv")
     a = ap.parse_args()
     comparar(a.preds_a, a.preds_b, a.nombres, a.test, a.salida)

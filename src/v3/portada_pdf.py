@@ -14,7 +14,7 @@ from pathlib import Path
 import fitz
 
 RAIZ = Path(__file__).resolve().parents[2]
-ETAPA1 = RAIZ / "docs/etapa-1/Etapa I - Analisis de Discurso de Odio en Redes Sociales en El Salvador.pdf"
+ETAPA1 = RAIZ / "docs/stage1/Etapa I - Analisis de Discurso de Odio en Redes Sociales en El Salvador.pdf"
 
 # (texto a sustituir, texto nuevo, tamaño, color, alineación)
 CAMBIOS = [

@@ -176,7 +176,7 @@ frecuencia como marcadores afectivos o de énfasis entre pares.
 - *«Qué verga, maje, qué alegre verte»* → No Tóxico
 - *«Sos un cerote de mierda»* → Lenguaje Ofensivo
 
-Consultar `data/raw/lexicon_salvadoreno.csv` ante dudas de significado local.
+Consultar `data/sources/stage1_corpus/lexicon_salvadoreno.csv` ante dudas de significado local.
 
 ## 6. Procedimiento
 
@@ -194,4 +194,4 @@ Consultar `data/raw/lexicon_salvadoreno.csv` ante dudas de significado local.
 - Los desacuerdos se resuelven por **adjudicación razonada de una tercera pasada**, nunca
   promediando ni por mayoría automática.
 - Toda adjudicación queda registrada con su justificación en
-  `data/interim/adjudicacion_desacuerdos.csv`.
+  `data/annotation/stage1/adjudicacion_desacuerdos.csv`.

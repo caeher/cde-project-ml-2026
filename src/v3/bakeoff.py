@@ -5,7 +5,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 from src.v3.entrenar import entrenar, RAIZ
 
-SALIDA = RAIZ / "reports/v3_arquitectura"
+SALIDA = RAIZ / "reports/stage2/v3_arquitectura"
 
 CANDIDATOS = [
     # alias,            modelo_hf,                                      bs, acum
@@ -27,7 +27,7 @@ def main():
             print(f"[salto] {alias} ya hecho", flush=True); continue
         print(f"\n{'='*70}\n>>> {alias}  ({hf})\n{'='*70}", flush=True)
         try:
-            r = entrenar(hf, alias, RAIZ / "data/dataset_b2/train.csv",
+            r = entrenar(hf, alias, RAIZ / "data/history/v1.1.0/train.csv",
                          RAIZ / "models/v3" / alias, epochs=4, lr=2e-5, bs=bs, acum=acum)
             print(f"<<< {alias}: val F1-macro = {r['val_f1_macro']:.4f}  ({r['minutos']} min)", flush=True)
         except Exception as e:

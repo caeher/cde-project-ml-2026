@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """Candidato v3.4.0-rc1 (= v3.3.0-rc1 + hilos de Odio lgbt_bandera, lgbt_ultimahora, racismo_orgullo) frente a v3.3.0-rc1 (mismos datos menos esos hilos).
-Reservado entero: xenofobia_federico (882 → 238; 94 Odio). Política vigente (docs/Estrategia_mejora.md): la batería de 144 es solo diagnóstico.
+Reservado entero: xenofobia_federico (882 → 238; 94 Odio). Política vigente (docs/improvement/Estrategia_mejora.md): la batería de 144 es solo diagnóstico.
 
 CRITERIOS fijados ANTES de ver resultados:
   (a) test oficial: sin regresión significativa (McNemar p >= 0.05 si el candidato baja);
@@ -16,7 +16,7 @@ from src.evaluation.combinar_modelos import probs_propio, cache  # noqa: E402
 from src.evaluation.comparar_modelos import mcnemar  # noqa: E402
 from src.evaluation.comparar_v4 import f1m  # noqa: E402
 from sklearn.metrics import f1_score
-CAND = RAIZ / "models/v3.4.0-rc1"; D = RAIZ / "data/dataset_v8"; REF = "v3.3.0-rc1"
+CAND = RAIZ / "models/v3.4.0-rc1"; D = RAIZ / "data/history/v1.7.0"; REF = "v3.3.0-rc1"
 def mp(r, n): return np.mean([np.load(f) for f in sorted(Path(r).glob(f"semilla_*/{n}.npy"))], 0)
 def boot(y, a, b, fn, n=4000, seed=42):
     r = np.random.default_rng(seed); v = []
@@ -33,7 +33,7 @@ def main():
     R["b"] = dict(f1_ref=f1o(yx, rx), f1_cand=f1o(yx, cx), ic=[float(lo), float(hi)], rec_ref=float((rx[yx == 2] == 2).mean()), rec_cand=float((cx[yx == 2] == 2).mean()))
     print(f"[b] xenofobia n={len(yx)} (Odio {int((yx == 2).sum())})  F1-Odio ref {R['b']['f1_ref']:.3f} cand {R['b']['f1_cand']:.3f}  IC Δ [{lo:+.3f},{hi:+.3f}] | recall Odio ref {R['b']['rec_ref']:.3f} cand {R['b']['rec_cand']:.3f} | acierto ref {(rx == yx).mean():.3f} cand {(cx == yx).mean():.3f}")
     import app.api.main as M
-    v = pd.read_csv(RAIZ / "data/hard_cases/probe_vulgaridad_afectiva_SOLO_EVALUAR.csv"); M._modelos.clear(); M.MODELOS = CAND
+    v = pd.read_csv(RAIZ / "data/evaluation/hard_cases/probe_vulgaridad_afectiva_SOLO_EVALUAR.csv"); M._modelos.clear(); M.MODELOS = CAND
     vc = np.array([M.predecir(t)["label"] for t in v.texto]); af = v.tipo == "afectiva"; a_ok, i_ok = int((vc[af] == 0).sum()), int((vc[~af] != 0).sum())
     R["c"] = dict(afectivas=a_ok, insultos=i_ok); print(f"[c] afectivas→NT {a_ok}/20 · insultos {i_ok}/18")
     fp = [0, 0, 0]; rm = rc = None

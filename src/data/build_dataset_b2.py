@@ -42,8 +42,8 @@ from src.features.normalization import (normalizar, normalizar_agresivo,  # noqa
                                         perfil_texto)
 
 SEED = 42
-V1 = ROOT / "data/processed"
-B2 = ROOT / "data/dataset_b2"
+V1 = ROOT / "data/history/v1.0.0"
+B2 = ROOT / "data/history/v1.1.0"
 
 
 def clave(s: pd.Series) -> pd.Series:
@@ -56,7 +56,7 @@ def main():
     rng = np.random.default_rng(SEED)
 
     # ---------------------------------------------------------- 1. Léxico
-    lex = guardar_lexicon(str(ROOT / "data/raw/lexicon_emojis_v2.csv"))
+    lex = guardar_lexicon(str(ROOT / "data/sources/stage1_corpus/lexicon_emojis_v2.csv"))
     lex.to_csv(B2 / "lexicon_emojis.csv", index=False, encoding="utf-8-sig")
     print(f"[1] léxico de emojis reconstruido: {len(lex)} entradas")
 
@@ -100,7 +100,7 @@ def main():
         syn[c] = perf[c].values
 
     # Conteo de jerga con el mismo léxico que el v1
-    lexs = pd.read_csv(ROOT / "data/raw/lexicon_salvadoreno.csv", dtype=str)
+    lexs = pd.read_csv(ROOT / "data/sources/stage1_corpus/lexicon_salvadoreno.csv", dtype=str)
     terms = {t for t in lexs.Texto_Original.astype(str).str.lower().str.strip() if len(t) > 2}
     import re
     syn["n_jerga"] = syn.texto_original.apply(
@@ -183,7 +183,7 @@ def main():
     with open(B2 / "metadata.json", "w", encoding="utf-8") as f:
         json.dump(meta, f, ensure_ascii=False, indent=2, default=str)
 
-    print(f"\n[6] guardado en data/dataset_b2/")
+    print(f"\n[6] guardado en data/history/v1.1.0/")
     print(f"    distribución train: {tr_b2.clase.value_counts().to_dict()}")
     print(f"    train con emoji: {con_emoji(tr)} -> {con_emoji(tr_b2)}")
     print(f"    pesos de clase: {pesos_d}")

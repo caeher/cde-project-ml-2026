@@ -15,7 +15,7 @@ from pathlib import Path
 import optuna
 
 RAIZ = Path(__file__).resolve().parents[2]
-SALIDA = RAIZ / "reports/v3_arquitectura"
+SALIDA = RAIZ / "reports/stage2/v3_arquitectura"
 optuna.logging.set_verbosity(optuna.logging.WARNING)
 
 
@@ -42,7 +42,7 @@ def entrenar_aislado(modelo_hf: str, alias: str, train: Path, cfg: dict) -> dict
 
 
 def main(modelo_hf: str, base: str, n_pruebas: int = 20,
-         train: Path = RAIZ / "data/dataset_v3/train.csv"):
+         train: Path = RAIZ / "data/history/v1.2.0/train.csv"):
     registro: list[dict] = []
     ruta = SALIDA / f"hpo_{base}.json"
 
@@ -83,7 +83,7 @@ def main(modelo_hf: str, base: str, n_pruebas: int = 20,
 
 
 if __name__ == "__main__":
-    tr = RAIZ / "data/dataset_v3/train.csv"
+    tr = RAIZ / "data/history/v1.2.0/train.csv"
     if len(sys.argv) > 4:
         tr = Path(sys.argv[4])
     main(sys.argv[1], sys.argv[2], int(sys.argv[3]) if len(sys.argv) > 3 else 20, tr)

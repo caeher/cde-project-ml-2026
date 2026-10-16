@@ -72,10 +72,10 @@ def evaluar(ruta: Path, alias: str, salida: Path) -> dict:
     mod = AutoModelForSequenceClassification.from_pretrained(str(ruta)).eval()
     dev = torch.device("cuda" if torch.cuda.is_available() else "cpu"); mod.to(dev)
 
-    test = leer(RAIZ / "data/dataset_v3/test.csv")
-    val = leer(RAIZ / "data/dataset_v3/val.csv")
-    adv = leer(RAIZ / "data/dataset_v3/test_adversarial.csv")
-    sonda = leer(RAIZ / "reports/v2_auditoria/sonda_predicciones.csv")
+    test = leer(RAIZ / "data/history/v1.2.0/test.csv")
+    val = leer(RAIZ / "data/history/v1.2.0/val.csv")
+    adv = leer(RAIZ / "data/history/v1.2.0/test_adversarial.csv")
+    sonda = leer(RAIZ / "reports/stage2/v2_auditoria/sonda_predicciones.csv")
 
     R: dict = {"alias": alias, "ruta": str(ruta)}
 
@@ -139,7 +139,7 @@ def evaluar(ruta: Path, alias: str, salida: Path) -> dict:
     # ─── McNemar contra las referencias de la entrega 2v ─────────────────
     R["mcnemar"] = {}
     for ref in ["xlmr_v1", "mbert_b2", "xlmr_mit"]:
-        f = RAIZ / f"reports/v2_auditoria/logits_{ref}_test.npy"
+        f = RAIZ / f"reports/stage2/v2_auditoria/logits_{ref}_test.npy"
         if not f.exists(): continue
         pr_ = np.load(f).argmax(1)
         a, b_ = (yp == y), (pr_ == y)
@@ -183,6 +183,6 @@ def imprimir(R):
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("ruta"); ap.add_argument("alias")
-    ap.add_argument("--salida", default=str(RAIZ / "reports/v3_resultados"))
+    ap.add_argument("--salida", default=str(RAIZ / "reports/stage2/v3_resultados"))
     a = ap.parse_args()
     imprimir(evaluar(Path(a.ruta), a.alias, Path(a.salida)))
