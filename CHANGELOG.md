@@ -136,3 +136,11 @@ Una sola medición sobre el banco congelado (n = 1,391; `reports/improvement/fas
 - **Fase 5 (sesgos, `reports/improvement/fairness.md`):** brecha de F1 X − Facebook 0.103; FPR sobre No Tóxico **con jerga 0.379 vs sin jerga 0.074** en el test oficial (n = 29 con jerga; en v3.3.0 era 0.241): **v3.4.0 marca más texto no tóxico con jerga**; sonda afectiva 18/20 · 17/18 (v3.3.0: 19/20 · 18/18, ambas por encima del umbral). Odio por grupo: etnia 0.90, nacionalidad 0.81, LGBT 0.92 (n = 13), «otro» 0.61; mujeres/género sin potencia (n = 4). Sobremarcado de menciones de nacionalidad: 21.8 % de los No Tóxico que las mencionan.
 - **Tamaño:** 418 MB (un modelo) frente a ≈ 5 GB (v3.3.0, 10 modelos).
 - **Lecciones:** dos entrenamientos simultáneos en una GPU de 8 GB la saturan (10× más lento); inferencia por lotes en `probs_propio` (diferencia 9e-7, mismas predicciones).
+
+
+## Reestructuración del repositorio (16 de octubre de 2026)
+Solo se reordenó: no cambió ningún dato ni ninguna cifra (mismos SHA-256 del dataset y del banco congelado, misma tabla de candidatos, mismo informe de sesgos y mismas predicciones de la API). Plan y razones: `docs/improvement/Plan_refactorizacion.md`; etiqueta previa: `pre-restructure`.
+- `data/` por propósito: `sources/`, `annotation/`, `dataset/` (vigente), `history/` y `evaluation/` (ver `data/README.md`).
+- **Versionado propio del dataset** (`dataset v1.x.x`, distinto del modelo v3.x.x): el vigente es **dataset v1.8.0**; las carpetas `dataset_b2 … dataset_v8` pasan a `data/history/v1.1.0 … v1.7.0` (`data/history/VERSIONS.md`). El modelo v3.4.0 registra `"dataset": "1.8.0"`.
+- `src/paths.py` concentra las rutas; `src/evaluation/metrics.py` y `src/models/inference.py` reúnen funciones que vivían dentro de scripts con versión (los módulos viejos las re-exportan).
+- `reports/` y `docs/` agrupados en `stage1`, `stage2`, `improvement`, `defense` y `prompts`; pruebas en `tests/` (`python -m unittest discover tests`).

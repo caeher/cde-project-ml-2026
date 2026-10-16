@@ -23,31 +23,7 @@ CLASES = ["No Tóxico", "Lenguaje Ofensivo", "Discurso de Odio", "Amenazas/Viole
 META = 0.80
 
 
-def f1m(y, p):
-    return f1_score(y, p, average="macro", labels=[0, 1, 2, 3], zero_division=0)
-
-
-def ic_f1(y, p, n=4000, seed=42):
-    """Igual que src/v3/ensemble.py: 4000 remuestreos, semilla 42, percentiles 2.5/97.5."""
-    r = np.random.default_rng(seed); v = []
-    for _ in range(n):
-        i = r.integers(0, len(y), len(y))
-        if len(np.unique(y[i])) < 2:
-            continue
-        v.append(f1m(y[i], p[i]))
-    return np.percentile(v, [2.5, 97.5])
-
-
-def ic_delta(y, pa, pb, n=5000, seed=42):
-    """Bootstrap pareado de Δ = F1(b) − F1(a), mismos índices para ambos."""
-    r = np.random.default_rng(seed); v = []
-    for _ in range(n):
-        i = r.integers(0, len(y), len(y))
-        if len(np.unique(y[i])) < 4:
-            continue
-        v.append(f1m(y[i], pb[i]) - f1m(y[i], pa[i]))
-    v = np.array(v)
-    return float(np.percentile(v, 2.5)), float(np.percentile(v, 97.5)), float((v <= 0).mean())
+from src.evaluation.metrics import f1m, ic_f1, ic_delta  # noqa: E402,F401  (re-exportadas: otros scripts las importan desde aquí)
 
 
 def cargar(run: Path, test, adv):

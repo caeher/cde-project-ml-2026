@@ -12,15 +12,16 @@ from pathlib import Path
 import numpy as np, pandas as pd
 from scipy.optimize import minimize_scalar
 RAIZ = Path(__file__).resolve().parents[2]; sys.path.insert(0, str(RAIZ))
+from src import paths as P  # noqa: E402
 from src.evaluation.combinar_modelos import probs_propio, cache  # noqa: E402
 from src.evaluation.comparar_modelos import mcnemar  # noqa: E402
 from src.evaluation.comparar_v4 import f1m, ic_f1, ic_delta  # noqa: E402
 
-D = RAIZ / "data/dataset"; B = RAIZ / "data/evaluation/frozen_bank"
+D = P.DATASET; B = P.FROZEN_BANK
 
 
 def probs(nombre, etiqueta, textos):
-    ruta = RAIZ / "models" / nombre; man = ruta / "manifest.json"
+    ruta = P.MODELS / nombre; man = ruta / "manifest.json"
     if man.exists():
         comp = json.loads(man.read_text(encoding="utf-8"))["componentes"]
         return np.mean([cache(f"{c}__{etiqueta}", lambda c=c: probs_propio(f"models/{c}", textos)) for c in comp], 0)
@@ -38,13 +39,13 @@ def main():
     nombres = sys.argv[1:] or ["v3.3.0", "candA"]
     bk = pd.concat([pd.read_csv(B / f"{k}.csv").assign(banco=k) for k in ["migrantes", "externo2", "militares", "xenofobia"]], ignore_index=True)
     yb, tb = bk.label.values, bk.texto_original.tolist(); te = pd.read_csv(D / "test.csv"); yt = te.label.values; va = pd.read_csv(D / "val.csv")
-    pr = pd.read_csv(RAIZ / "data/evaluation/hard_cases/probe_vulgaridad_afectiva_SOLO_EVALUAR.csv"); af = (pr.tipo == "afectiva").values
+    pr = pd.read_csv(P.AFFECTIVE_PROBE); af = (pr.tipo == "afectiva").values
     R, PRED = {}, {}
     for n in nombres:
         pb = probs(n, "bancoF", tb); pt = probs(n, "testF", te.texto_original.tolist()); pv = probs(n, "valF", va.texto_original.tolist()); pp = probs(n, "probeF", pr.texto.tolist())
         T = temperatura(pv, va.label.values); p = pb.argmax(1); PRED[n] = p; lo, hi = ic_f1(yb, p); pa = pp.argmax(1)
         R[n] = dict(f1_banco=f1m(yb, p), ic=[lo, hi], acierto=float((p == yb).mean()), recall=[float((p[yb == c] == c).mean()) for c in range(4)], fpr=float((p[yb == 0] != 0).mean()),
-                    f1_test=f1m(yt, pt.argmax(1)), afectivas=int((pa[af] == 0).sum()), insultos=int((pa[~af] != 0).sum()), T=T, n_modelos=len(list((RAIZ / "models" / n).glob("semilla_*/modelo"))) or None)
+                    f1_test=f1m(yt, pt.argmax(1)), afectivas=int((pa[af] == 0).sum()), insultos=int((pa[~af] != 0).sum()), T=T, n_modelos=len(list((P.MODELS / n).glob("semilla_*/modelo"))) or None)
     base = nombres[0]; L = ["# Candidatos frente a la línea base (banco congelado n = %d)" % len(yb), "",
                             "| Modelo | F1-macro [IC 95 %] | Recall Odio | Recall Amenazas | Recall Ofensivo | FPR (NT) | Test oficial F1 | Afectivas / Insultos | T |", "|---|---|---|---|---|---|---|---|---|"]
     for n in nombres:
@@ -57,8 +58,8 @@ def main():
     for n in nombres:
         r = R[n]; ok = {"Odio": r["recall"][2] >= .65, "Amenazas": r["recall"][3] >= .60, "FPR": r["fpr"] <= .12, "F1": r["f1_banco"] >= .70, "test": r["f1_test"] >= .83, "afect": r["afectivas"] >= 17, "insultos": r["insultos"] >= 16}
         L.append(f"- {n}: " + " · ".join(f"{k} {'✔' if v else '✘'}" for k, v in ok.items()) + f"  ({sum(ok.values())}/7)")
-    (RAIZ / "reports/improvement/fase3_candidatos.md").write_text("\n".join(L), encoding="utf-8")
-    (RAIZ / "reports/improvement/fase3_candidatos.json").write_text(json.dumps(R, indent=2, ensure_ascii=False), encoding="utf-8"); print("\n".join(L))
+    (P.REPORTS_IMPROVEMENT / "fase3_candidatos.md").write_text("\n".join(L), encoding="utf-8")
+    (P.REPORTS_IMPROVEMENT / "fase3_candidatos.json").write_text(json.dumps(R, indent=2, ensure_ascii=False), encoding="utf-8"); print("\n".join(L))
 
 
 if __name__ == "__main__":

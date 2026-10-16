@@ -39,29 +39,9 @@ from sklearn.metrics import classification_report, f1_score
 CLASES = ["No Tóxico", "Lenguaje Ofensivo", "Discurso de Odio", "Amenazas/Violencia"]
 
 
-def mcnemar(correcto_a: np.ndarray, correcto_b: np.ndarray) -> dict:
-    """
-    McNemar pareada.
-
-    b = casos que solo B acierta · c = casos que solo A acierta.
-    Con discordancia baja (< 25) la binomial exacta es preferible a la
-    aproximación chi-cuadrado, que se vuelve poco fiable.
-    """
-    b = int((correcto_b & ~correcto_a).sum())
-    c = int((correcto_a & ~correcto_b).sum())
-    n_disc = b + c
-    if n_disc == 0:
-        return {"b": 0, "c": 0, "discordantes": 0, "p_exacta": 1.0,
-                "p_chi2": 1.0, "significativo": False, "metodo": "sin discordancia"}
-    p_exacta = stats.binomtest(b, n_disc, 0.5).pvalue
-    chi2 = (abs(b - c) - 1) ** 2 / n_disc
-    p_chi2 = stats.chi2.sf(chi2, 1)
-    return {
-        "b": b, "c": c, "discordantes": n_disc,
-        "p_exacta": p_exacta, "p_chi2": p_chi2,
-        "significativo": bool(p_exacta < 0.05),
-        "metodo": "binomial exacta" if n_disc < 25 else "chi-cuadrado con corrección",
-    }
+import sys  # noqa: E402
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+from src.evaluation.metrics import mcnemar  # noqa: E402,F401  (re-exportada: otros scripts la importan desde aquí)
 
 
 def bootstrap_diferencia(y, pa, pb, n=5000, semilla=42) -> dict:

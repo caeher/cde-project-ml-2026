@@ -113,33 +113,33 @@ Pesos de clase (calculados solo sobre `train`, en `data/history/v1.0.0/metadata.
 
 ## Estructura
 
+Reorganizada el 16 de octubre de 2026 por propósito (detalle y razones: `docs/improvement/Plan_refactorizacion.md`). Rutas en código: `src/paths.py`.
+
 ```
 .
-├── data/
-│   ├── raw/          # Originales, inmutables
-│   ├── interim/      # Intermedios (no versionados)
-│   ├── processed/    # train / val / test / corpus_limpio / metadata.json
-│   └── external/     # HatEval, Spanish Hate Speech Superset, DETOXIS, CLANDESTINO
-├── docs/
-│   ├── guia_anotacion.md          # Taxonomía y casos límite
-│   ├── perfil_de_trabajo_TFM.pdf
-│   ├── etapa-1/                   # Informe Etapa I, dimensionamiento, riesgos
-│   └── etapa-2/                   # Rúbrica
-├── notebooks/
-│   ├── 01_eda_y_limpieza.ipynb            # Auditoría inicial y criterio de normalización
-│   └── 02_eda_y_preparacion_final.ipynb   # EDA definitivo y splits (+ Anexo A: baseline)
-├── src/
-│   ├── data/label_mapping.py       # Taxonomía y mapeo de etiquetas
-│   ├── features/normalization.py   # Pipeline única (entrenamiento + inferencia)
-│   ├── models/ · evaluation/ · utils/
-├── models/           # Checkpoints (no versionados)
-├── reports/
-│   ├── Informe_EDA_y_Preparacion_de_Datos.pdf   # Criterio de normalización
-│   ├── Informe_EDA_para_FineTuning.pdf          # EDA definitivo
-│   └── figures/
-└── app/
-    ├── api/          # FastAPI
-    └── ui/           # Dashboard
+├── data/                          # ver data/README.md
+│   ├── sources/                   # lo recolectado: corpus Etapa I (privado), X oct. 2026, hilos de X
+│   ├── annotation/                # anotación: Etapa I (privado) e hilos (blind → labels por consenso)
+│   ├── dataset/                   # ★ EL dataset vigente (dataset v1.8.0)
+│   ├── history/                   # versiones anteriores v1.0.0 … v1.7.0 (VERSIONS.md)
+│   └── evaluation/                # banco congelado y casos difíciles: nunca entrenan
+├── src/                           # ver src/README.md
+│   ├── paths.py                   # todas las rutas
+│   ├── data/                      # constructores del dataset (build_dataset_final.py = vigente), mapeo de etiquetas, threads/
+│   ├── features/normalization.py  # normalización única (entrenamiento + inferencia)
+│   ├── models/inference.py        # probabilidades de los modelos propios + caché
+│   ├── train/                     # entrenar_v5, optuna_cv_hilo, destilar
+│   ├── evaluation/                # metrics.py, banco_externo, comparar_fase3, fairness, …
+│   ├── v3/                        # código de la Etapa II (RoBERTuito)
+│   └── audit/                     # auditoría 2v (mBERT / XLM-R)
+├── app/                           # api/ (FastAPI) · ui/ (Streamlit) · pruebas/
+├── scripts/                       # arrancar_demo.ps1, pipelines de entrenamiento
+├── tests/                         # pruebas rápidas sin GPU: python -m unittest discover tests
+├── notebooks/                     # EDA (01, 02) y Colab (03)
+├── reports/                       # stage1/ · stage2/ · improvement/ · figures/
+├── docs/                          # guia_anotacion.md · stage1/ · stage2/ · improvement/ · defense/ · prompts/
+├── archivo/                       # snapshots históricos (scripts de build v5–v8, normalización v1.1)
+└── models/                        # pesos (no versionados)
 ```
 
 ## Instalación

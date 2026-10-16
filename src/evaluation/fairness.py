@@ -18,6 +18,7 @@ from pathlib import Path
 import numpy as np, pandas as pd
 
 RAIZ = Path(__file__).resolve().parents[2]; sys.path.insert(0, str(RAIZ))
+from src import paths as P  # noqa: E402
 from src.evaluation.comparar_v4 import f1m  # noqa: E402
 
 CLASES = ["No Tóxico", "Ofensivo", "Odio", "Amenazas"]
@@ -52,7 +53,7 @@ def fmt(x, ci, n): return f"{x:.3f} [{ci[0]:.3f}, {ci[1]:.3f}]" + ("  *sin poten
 
 def probs_modelo(modelo, textos, etiqueta):
     from src.evaluation.combinar_modelos import probs_propio, cache
-    man = RAIZ / "models" / modelo / "manifest.json"
+    man = P.MODELS / modelo / "manifest.json"
     comp = json.loads(man.read_text(encoding="utf-8"))["componentes"] if man.exists() else [modelo]
     return np.mean([cache(f"{c}__{etiqueta}", lambda c=c: probs_propio(f"models/{c}", textos)) for c in comp], 0).argmax(1)
 
@@ -62,10 +63,10 @@ def main():
     L = [f"# Informe de sesgos y ética — modelo {a.modelo}", "",
          "Generado por `src/evaluation/fairness.py` sobre el banco congelado y el test oficial. IC bootstrap 95 % entre corchetes; *sin potencia* = n < 20.", ""]
     # ---- datos
-    te = pd.read_csv(RAIZ / "data/dataset/test.csv"); yt = te.label.values
+    te = pd.read_csv(P.DATASET / "test.csv"); yt = te.label.values
     from src.evaluation.combinar_modelos import cache  # noqa: F401
     pt = probs_modelo(a.modelo, te.texto_original.tolist(), "test_oficial_fair")
-    bk = [pd.read_csv(RAIZ / f"data/evaluation/frozen_bank/{k}.csv").assign(banco=k) for k in ["migrantes", "externo2", "militares", "xenofobia"]]
+    bk = [pd.read_csv(P.FROZEN_BANK / f"{k}.csv").assign(banco=k) for k in ["migrantes", "externo2", "militares", "xenofobia"]]
     bk = pd.concat(bk, ignore_index=True); yb = bk.label.values; pb = probs_modelo(a.modelo, bk.texto_original.tolist(), "banco_fair")
     # ---- 0 resumen
     L += ["## 0. Resumen global", "", "| Conjunto | n | F1-macro [IC] | Recall NT / OF / OD / AM | FPR (NT) |", "|---|---|---|---|---|"]

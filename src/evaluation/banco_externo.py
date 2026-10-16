@@ -7,11 +7,12 @@ import sys
 from pathlib import Path
 import numpy as np, pandas as pd
 RAIZ = Path(__file__).resolve().parents[2]; sys.path.insert(0, str(RAIZ))
+from src import paths as P  # noqa: E402
 from src.evaluation.combinar_modelos import probs_propio, cache  # noqa: E402
 from src.evaluation.comparar_modelos import mcnemar  # noqa: E402
 from src.evaluation.comparar_v4 import f1m, ic_f1, ic_delta  # noqa: E402
 
-BANCO = RAIZ / "data/evaluation/frozen_bank"
+BANCO = P.FROZEN_BANK
 def cargar():
     """Banco CONGELADO (ver data/evaluation/frozen_bank/MANIFEST.json con los SHA-256). Nunca entra a entrenamiento ni a selección."""
     t = [pd.read_csv(BANCO / f"{k}.csv").assign(banco=k) for k in ["migrantes", "externo2", "militares", "xenofobia"]]

@@ -22,25 +22,26 @@ from sklearn.metrics import roc_auc_score
 from transformers import AutoModelForSequenceClassification, AutoTokenizer
 
 RAIZ = Path(__file__).resolve().parents[2]; sys.path.insert(0, str(RAIZ))
+from src import paths as P  # noqa: E402
 from src.evaluation.comparar_modelos import mcnemar  # noqa: E402
 from src.evaluation.comparar_v4 import f1m, ic_delta  # noqa: E402
 import app.api.main as M  # noqa: E402
 
 EXT = ["pysentimiento/robertuito-hate-speech", "Hate-speech-CNERG/dehatebert-mono-spanish",
        "JonatanGk/roberta-base-bne-finetuned-hate-speech-offensive-spanish", "bgonzalezbustamante/bert-spanish-toxicity"]
-CACHE = RAIZ / "runs/ext"; CACHE.mkdir(exist_ok=True, parents=True)
+from src.models.inference import CACHE  # noqa: E402,F401
 DEV = "cuda" if torch.cuda.is_available() else "cpu"
 
 
 def conjuntos():
-    H = RAIZ / "data/annotation/threads"; V = RAIZ / "data/history/v1.5.0"; S = {}
+    H = P.THREADS; V = P.history("1.5.0"); S = {}
     v = pd.read_csv(V / "val.csv"); S["val"] = (v.texto_original.tolist(), v.label.values)
     t = pd.read_csv(V / "test.csv"); S["test"] = (t.texto_original.tolist(), t.label.values)
     c = pd.read_csv(H / "labels/consenso_1155.csv"); c = c[(c.consenso >= 0) & c.hilo.isin(["cecot", "miss_el_salvador"])]
     S["cm"] = (c.texto_original.tolist(), c.consenso.values)
     m = pd.read_csv(H / "test_externo_migrantes.csv"); S["mig"] = (m.texto_original.tolist(), m.label.values)
     e = pd.read_csv(H / "labels/consenso_externo2.csv"); e = e[e.consenso >= 0]; S["ext2"] = (e.texto.tolist(), e.consenso.values)
-    p = pd.read_csv(RAIZ / "data/evaluation/hard_cases/probe_vulgaridad_afectiva_SOLO_EVALUAR.csv"); S["afec"] = (p.texto.tolist(), p.label.values)
+    p = pd.read_csv(P.AFFECTIVE_PROBE); S["afec"] = (p.texto.tolist(), p.label.values)
     return S
 
 
@@ -54,21 +55,7 @@ def probs_ext(mid, textos):
     return np.vstack(out)
 
 
-@torch.no_grad()
-def probs_propio(ruta, textos):
-    from src.features.normalization import normalizar
-    M._modelos.clear(); M.MODELOS = Path(ruta); M._cargar()
-    tx = [normalizar(str(t)) for t in textos]; orden = np.argsort([len(t) for t in tx]); out = np.zeros((len(tx), 4))  # por lotes y ordenado por longitud: mismo resultado, mucho más rápido
-    for i in range(0, len(tx), 64):
-        idx = orden[i:i + 64]; enc = M._tok([tx[j] for j in idx], truncation=True, max_length=128, padding=True, return_tensors="pt").to(M._dev)
-        out[idx] = np.mean([torch.softmax(m(**enc).logits.double(), -1).cpu().numpy() for m in M._modelos], 0)
-    return out
-
-
-def cache(nombre, fn):
-    f = CACHE / (re.sub(r"[^\w.-]", "_", nombre) + ".npy")
-    if f.exists(): return np.load(f)
-    a = fn(); np.save(f, a); return a
+from src.models.inference import probs_propio, cache  # noqa: E402,F401  (re-exportadas: otros scripts las importan desde aquí)
 
 
 def main():
@@ -123,7 +110,7 @@ def main():
         ok1, ok2, ok3 = r["ic"][0] > 0, not (r["p_test"] < 0.05 and r["f1_test"] < R["v3.1.0 solo"]["f1_test"]), r["afect"] >= 17 and r["ins"] >= 16
         print(f"  {nom:<40} (1) {'sí' if ok1 else 'NO'} · (2) {'sí' if ok2 else 'NO'} · (3) {'sí' if ok3 else 'NO'} -> {'ADOPTAR' if ok1 and ok2 and ok3 else 'no adoptar'}")
         R[nom]["adoptar"] = bool(ok1 and ok2 and ok3)
-    (RAIZ / "reports/improvement/combinacion_modelos.json").write_text(json.dumps(R, indent=2, ensure_ascii=False, default=float))
+    (P.REPORTS_IMPROVEMENT / "combinacion_modelos.json").write_text(json.dumps(R, indent=2, ensure_ascii=False, default=float))
 
 
 if __name__ == "__main__":

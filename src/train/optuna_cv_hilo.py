@@ -8,7 +8,9 @@ import argparse, json, subprocess, sys, time
 from pathlib import Path
 import numpy as np, pandas as pd, optuna
 from sklearn.metrics import f1_score
-RAIZ = Path(__file__).resolve().parents[2]; D = RAIZ / "data/dataset"; OUT = RAIZ / "runs/optuna"; PY = sys.executable
+RAIZ = Path(__file__).resolve().parents[2]; sys.path.insert(0, str(RAIZ))
+from src import paths as P  # noqa: E402
+D = P.DATASET; OUT = P.RUNS / "optuna"; PY = sys.executable
 
 
 def pliegues(tr):
@@ -52,6 +54,6 @@ def main():
     hechas = len([t for t in est.trials if t.state.name == "COMPLETE"])
     est.optimize(objetivo, n_trials=max(0, a.pruebas - hechas))
     res = dict(mejor=est.best_params, f1_cv=est.best_value, referencia=sorted(est.trials, key=lambda t: t.number)[0].value, pruebas=[dict(n=t.number, f1=t.value, params=t.params, recall=t.user_attrs.get("recall")) for t in est.trials])
-    (RAIZ / "reports/improvement/optuna_cv_hilo.json").write_text(json.dumps(res, ensure_ascii=False, indent=2)); print("MEJOR:", res["mejor"], "F1", round(res["f1_cv"], 4), "| referencia (receta actual):", round(res["referencia"], 4))
+    (P.REPORTS_IMPROVEMENT / "optuna_cv_hilo.json").write_text(json.dumps(res, ensure_ascii=False, indent=2)); print("MEJOR:", res["mejor"], "F1", round(res["f1_cv"], 4), "| referencia (receta actual):", round(res["referencia"], 4))
 if __name__ == "__main__":
     main()

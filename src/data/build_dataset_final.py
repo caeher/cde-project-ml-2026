@@ -18,10 +18,11 @@ from pathlib import Path
 import numpy as np, pandas as pd
 
 RAIZ = Path(__file__).resolve().parents[2]; sys.path.insert(0, str(RAIZ))
+from src import paths as P  # noqa: E402
 from src.features.normalization import normalizar, normalizar_agresivo  # noqa: E402
 
 CLASES = ["No Tóxico", "Lenguaje Ofensivo", "Discurso de Odio", "Amenazas/Violencia"]
-H = RAIZ / "data/annotation/threads"
+H = P.THREADS
 BANCO_HILOS = {"militares_pandilleros", "xenofobia_federico"}  # del consenso externo 3 y 4; migrantes y externo 2 son sus propios archivos
 
 
@@ -72,7 +73,7 @@ def construir(salida_train=True, pool_extra=None):
     banco = {"militares": todo[todo.hilo == "militares_pandilleros"], "xenofobia": todo[todo.hilo == "xenofobia_federico"], "externo2": t5, "migrantes": t6}
     pool = todo[~todo.hilo.isin(BANCO_HILOS)].copy()
     if pool_extra is not None: pool = pd.concat([pool, pool_extra], ignore_index=True)
-    V4 = RAIZ / "data/history/v1.3.1"; V5 = RAIZ / "data/history/v1.4.0"
+    V4 = P.history("1.3.1"); V5 = P.history("1.4.0")
     base = pd.read_csv(V5 / "train.csv"); base = base[base.origen != "real_hilo"].copy()  # base sin octubre + casos difíciles
     val, test, adv = (pd.read_csv(V4 / f) for f in ["val.csv", "test.csv", "test_adversarial.csv"])
     prohibidas = claves(val.texto_original) | claves(test.texto_original) | claves(adv.texto)
@@ -100,16 +101,16 @@ def main():
             print("SELFTEST 2 (la comprobación dura aborta ante una fuga en train): OK ->", e)
         return
     train, val, test, adv, banco, pool, retiradas = construir()
-    out = RAIZ / "data/dataset"; out.mkdir(exist_ok=True); bd = RAIZ / "data/evaluation/frozen_bank"; bd.mkdir(exist_ok=True)
+    out = P.DATASET; out.mkdir(exist_ok=True); bd = P.FROZEN_BANK; bd.mkdir(exist_ok=True)
     train.to_csv(out / "train.csv", index=False, encoding="utf-8")
     for f, d in [("val.csv", val), ("test.csv", test), ("test_adversarial.csv", adv)]: d.to_csv(out / f, index=False, encoding="utf-8")
-    man = {"test_oficial": {"archivo": "data/dataset/test.csv", "sha256": sha(out / "test.csv"), "n": len(test)}}
+    man = {"test_oficial": {"archivo": (out / "test.csv").relative_to(RAIZ).as_posix(), "sha256": sha(out / "test.csv"), "n": len(test)}}
     for k, b in banco.items():
         f = bd / f"{k}.csv"; b.rename(columns={"texto": "texto_original"}).to_csv(f, index=False, encoding="utf-8-sig")
-        man[k] = {"archivo": f"data/evaluation/frozen_bank/{k}.csv", "sha256": sha(f), "n": len(b), "clases": {CLASES[c]: int((b.label == c).sum()) for c in range(4)}}
+        man[k] = {"archivo": f.relative_to(RAIZ).as_posix(), "sha256": sha(f), "n": len(b), "clases": {CLASES[c]: int((b.label == c).sum()) for c in range(4)}}
     (bd / "MANIFEST.json").write_text(json.dumps(man, ensure_ascii=False, indent=2), encoding="utf-8")
     hil = train[train.origen == "real_hilo"]
-    meta = {"train_total": len(train), "base_y_casos": int((train.origen != "real_hilo").sum()), "filas_hilos_pool": len(hil), "hilos_en_pool": sorted(hil.plantilla_id.unique().tolist()),
+    meta = {"version": P.DATASET_VERSION, "train_total": len(train), "base_y_casos": int((train.origen != "real_hilo").sum()), "filas_hilos_pool": len(hil), "hilos_en_pool": sorted(hil.plantilla_id.unique().tolist()),
             "pool_por_clase": {CLASES[c]: int((hil.label == c).sum()) for c in range(4)}, "train_por_clase": {CLASES[c]: int((train.label == c).sum()) for c in range(4)},
             "retiradas_por_coincidir_con_test_o_banco": retiradas, "banco_n": {k: len(v) for k, v in banco.items()},
             "verificacion": "0 textos de train en val, test, batería ni banco congelado (crudo y normalizado)"}

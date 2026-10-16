@@ -19,10 +19,11 @@ from transformers import (AutoModelForSequenceClassification, AutoTokenizer, Dat
                           Trainer, TrainingArguments)
 
 RAIZ = Path(__file__).resolve().parents[2]; sys.path.insert(0, str(RAIZ))
+from src import paths as P  # noqa: E402
 from src.features.normalization import normalizar  # noqa: E402
 
 CLASES = ["No Tóxico", "Lenguaje Ofensivo", "Discurso de Odio", "Amenazas/Violencia"]
-BASE = "pysentimiento/robertuito-base-cased"; D = RAIZ / "data/dataset"
+BASE = "pysentimiento/robertuito-base-cased"; D = P.DATASET
 
 
 def f1m(y, p): return f1_score(y, p, average="macro", zero_division=0)
