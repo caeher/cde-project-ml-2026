@@ -1,27 +1,19 @@
-# ── Pesos y checkpoints ────────────────────────────────────────────────
-# No se versionan: el modelo final pesa 418 MB y GitHub corta en 100 MB por
-# fichero. Los scripts de src/v3/ son deterministas con semilla fija, así que
-# el modelo se reconstruye desde el código. Su SHA-256 está en el manifiesto.
-models/
-*.safetensors
-*.bin
-*.pt
-*.ckpt
-*.joblib
-
-# ── Entregas de los compañeros (9.6 GB de ZIP y pesos) ─────────────────
-Métricas de Evaluación/
-
-# ── Datos crudos, intermedios y PII ────────────────────────────────────
+# Datos sensibles / pesados
 data/raw/*
 data/interim/*
 data/processed/*
 data/external/*
 !data/**/.gitkeep
-data/interim/mapa_procedencia.csv
-data/interim/gold_standard_completo.csv
 
-# ── Python ─────────────────────────────────────────────────────────────
+# Modelos
+models/*
+!models/.gitkeep
+*.bin
+*.safetensors
+*.pt
+*.ckpt
+
+# Python
 __pycache__/
 *.py[cod]
 .venv/
@@ -31,23 +23,35 @@ env/
 .pytest_cache/
 .mypy_cache/
 
-# ── Entorno y secretos ─────────────────────────────────────────────────
+# Entorno / secretos
 .env
 *.key
 
-# ── Experimentos ───────────────────────────────────────────────────────
+# Experimentos
 wandb/
 mlruns/
 runs/
 outputs/
-_run/
-_run2/
-_hpo/
 
-# ── SO y editores ──────────────────────────────────────────────────────
-# Metadatos de procedencia que Windows adjunta a los ficheros descargados
-*:Zone.Identifier
+# Reportes generados
+reports/figures/*
+!reports/figures/.gitkeep
+
+# SO / editores
 .DS_Store
 Thumbs.db
 .vscode/
 .idea/
+
+# PII: mapa ID -> URL real. Nunca versionar (ver informe, sección 3).
+data/interim/mapa_procedencia.csv
+data/interim/gold_standard_completo.csv
+
+# Material ajeno al proyecto / grabaciones / salidas locales
+Plusmo_*
+detalle_plusmo.md
+transcripcion*.txt
+Claude outputs/
+Métricas de Evaluación/
+logs/
+*.docx~

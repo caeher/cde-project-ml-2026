@@ -1,0 +1,35 @@
+{
+  "train_base": "/sessions/bold-practical-shannon/mnt/proyecto/data/dataset_b2/train.csv",
+  "filas_recibidas": 4328,
+  "reetiquetadas_politica_odio_a_ofensivo": 384,
+  "eliminadas_fuga_val_test_bateria": 80,
+  "eliminadas_conflicto_etiqueta": 0,
+  "eliminadas_duplicado_interno": 6,
+  "eliminadas_fuga_heredada_train_b2": 23,
+  "eliminadas_ya_en_train": 168,
+  "nuevas_incorporadas": 4074,
+  "nuevas_fuera_de_sv": 230,
+  "train_v4_total": 7344,
+  "train_v4_reales": 6217,
+  "train_v4_sinteticos": 1127,
+  "distribucion_train_v4": {
+    "No Tóxico": 1686,
+    "Lenguaje Ofensivo": 2587,
+    "Discurso de Odio": 1459,
+    "Amenazas/Violencia": 1612
+  },
+  "nuevas_por_clase": {
+    "No Tóxico": 795,
+    "Lenguaje Ofensivo": 1709,
+    "Discurso de Odio": 613,
+    "Amenazas/Violencia": 957
+  },
+  "pesos_clase": [
+    1.089,
+    0.7097,
+    1.2584,
+    1.139
+  ],
+  "val_n": 459,
+  "test_n": 460
+}

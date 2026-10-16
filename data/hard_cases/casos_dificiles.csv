@@ -1,0 +1,89 @@
+grupo,texto,label,par
+modismo_matar,Esta noche voy a matar el tiempo viendo series,0,a
+modismo_matar,Esta noche te voy a matar a golpes si no pagás lo que debés,3,a
+modismo_matar,Se la va a matar la selección si juega así contra Honduras,0,b
+modismo_matar,Se la va a matar a usted si lo agarro solo en la calle,3,b
+modismo_matar,Me muero de risa con ese video,0,c
+modismo_matar,Ojalá te mueras de un balazo en la calle,3,c
+modismo_matar,Ese tráfico me está matando de estrés,0,d
+modismo_matar,A ese tráfico lo voy a matar quemando el bus con todos adentro,3,d
+modismo_matar,Mataron la fiesta con tanto discurso aburrido,0,e
+modismo_matar,Mataron a esa gente y ojalá les pase lo mismo a sus familias,3,e
+celebracion_grosera,Ala verga qué golazo se mandó el cipote,0,a
+celebracion_grosera,Ala verga qué pendejo sos vos y toda tu familia,1,a
+celebracion_grosera,Puta qué chivo quedó el estadio nuevo,0,b
+celebracion_grosera,Puta qué asco de gente hay en este país,1,b
+celebracion_grosera,Está de la gran puta la comida de este lugar y me encantó,0,c
+celebracion_grosera,Está de la gran puta ese tipo y su mamá,1,c
+celebracion_grosera,Maje qué locura de concierto vergón,0,d
+celebracion_grosera,Maje qué pedazo de cerote sos,1,d
+celebracion_grosera,No mames qué bonito quedó el parque,0,e
+celebracion_grosera,No mames qué idiota tan grande el que votó por ese,1,e
+amenaza_implicita,Ya sabemos dónde vivís y pronto vamos a visitarte con los muchachos,3,a
+amenaza_implicita,Ya sabemos dónde vivís y pronto vamos a visitarte con pupusas,0,a
+amenaza_implicita,Se le va a acabar la suerte pronto y no va a ser bonito,3,b
+amenaza_implicita,Se le va a acabar la suerte pronto con la lotería y va a ser feliz,0,b
+amenaza_implicita,Vamos a ir con machetes a arreglar cuentas con ese tipo,3,c
+amenaza_implicita,Vamos a ir con machetes a limpiar el terreno de la comunidad el sábado,0,c
+amenaza_implicita,A ese hay que colgarlo del primer poste que veamos,3,d
+amenaza_implicita,A ese cuadro hay que colgarlo en la sala para que luzca,0,d
+amenaza_implicita,Cuando salga de trabajar lo esperamos afuera y vamos a hablar a lo macho,3,e
+amenaza_implicita,Cuando salga de trabajar lo esperamos afuera y vamos a cenar juntos,0,e
+amenaza_implicita,Pronto le llega su hora a ese infeliz y nos vamos a encargar nosotros,3,f
+amenaza_implicita,Pronto le llega su hora a mi abuelita de jubilarse y vamos a celebrar,0,f
+amenaza_implicita,Si lo veo por mi colonia no sale caminando,3,g
+amenaza_implicita,Si lo veo por mi colonia lo invito a almorzar,0,g
+odio_mujeres,Las mujeres no sirven para manejar ni para mandar ni para nada,2,a
+odio_mujeres,Las mujeres de mi oficina son las que más han aportado al proyecto,0,a
+odio_mujeres,Qué asco de feminazis son una plaga que habría que sacar del país,2,b
+odio_mujeres,Qué asco de reunión tan larga y mal organizada,1,b
+odio_mujeres,Mujer tenía que ser para esto es que no pueden con nada,2,c
+odio_mujeres,Ese jefe tenía que ser para esto es que no puede con nada,1,c
+odio_mujeres,Las viejas solo sirven para cocinar y quedarse calladas,2,d
+odio_mujeres,Mi abuela solo cocina cuando está contenta y qué ricas pupusas hace,0,d
+odio_mujeres,Todas las mujeres son unas interesadas y no valen nada,2,e
+odio_mujeres,Todos los políticos son unos interesados y no valen nada,1,e
+odio_mujeres,Esa mujer es una inútil y una corrupta,1,f
+odio_mujeres,Esa mujer es inteligente y trabajadora,0,f
+odio_nacionalidad,Los venecos vinieron a quitarnos el trabajo son una plaga,2,a
+odio_nacionalidad,Los venezolanos que conozco trabajan duro y son muy amables,0,a
+odio_nacionalidad,Todo hondureño es ladrón y mentiroso no los quiero en mi país,2,b
+odio_nacionalidad,Ese hondureño que me robó el celular es un ladrón,1,b
+odio_nacionalidad,Los nicas son basura y deberían regresarse a su país,2,c
+odio_nacionalidad,Los nicaragüenses celebran hoy su fiesta patria en Managua,0,c
+odio_nacionalidad,Esos cholos de México no valen nada y nos arruinan el país,2,d
+odio_nacionalidad,Ese mexicano que nos atendió fue muy amable,0,d
+odio_nacionalidad,Cool. Ahora devuelvan a su gente de vuelta a su país de origen,2,e
+odio_nacionalidad,Cool. Ahora devuelvan los libros que se llevaron de la biblioteca,0,e
+odio_nacionalidad,Ese veneco es un estafador y un sinvergüenza,1,f
+odio_nacionalidad,Ese veneco es mi vecino y siempre nos saluda,0,f
+odio_lgbt,Los gays son una enfermedad y deberían estar encerrados,2,a
+odio_lgbt,Mi compañero es gay y es el mejor diseñador del equipo,0,a
+odio_lgbt,Qué asco los maricones esos desfilando por la calle,2,b
+odio_lgbt,Qué asco el tráfico desfilando por la calle toda la tarde,1,b
+odio_lgbt,Ese partido de maricones no gobierna ni su casa,2,c
+odio_lgbt,Ese partido de pendejos no gobierna ni su casa,1,c
+odio_indigena,Los indios no deberían tener tierras son unos atrasados,2,a
+odio_indigena,Las comunidades indígenas celebran hoy su festival en Izalco,0,a
+odio_indigena,Esos indios sucios solo estorban en el país,2,b
+odio_indigena,Esos políticos sucios solo estorban en el país,1,b
+politica_no_odio,Los arenales son unos ladrones y corruptos,1,a
+politica_no_odio,Los dirigentes de ese partido enfrentan una investigación por corrupción,0,a
+politica_no_odio,Los fmlnistas son una bola de pendejos mentirosos,1,b
+politica_no_odio,Los diputados presentaron hoy la reforma al presupuesto,0,b
+politica_no_odio,Ese dictador de mierda arruinó el país,1,c
+politica_no_odio,Ese presidente anunció el nuevo estadio nacional,0,c
+politica_no_odio,Un regalo para el dictador,0,d
+politica_no_odio,Un regalo para ese dictador de mierda,1,d
+politica_no_odio,Gracias al comunismo chino por el estadio,0,e
+politica_no_odio,Los comunistas chinos son una plaga y habría que exterminarlos,2,e
+neutro_nacionalidad,Xie xie China por el regalo del estadio,0,a
+neutro_nacionalidad,Los chinos son una plaga que viene a invadirnos,2,a
+neutro_nacionalidad,Los mexicanos cantaron el himno antes del partido,0,b
+neutro_nacionalidad,Los mexicanos son lo peor y ojalá no vuelvan nunca,2,b
+neutro_nacionalidad,El partido contra Honduras empieza a las ocho,0,c
+neutro_nacionalidad,Los hondureños no sirven ni para jugar fútbol ni para nada,2,c
+ingles_neutro,Bread and circuses,0,a
+ingles_neutro,Bukele is building a new stadium and the project is at 75%,0,b
+ingles_neutro,Man you're making your neighbors jealous,0,c
+ingles_neutro,Cool project but I would rather see more schools,0,d

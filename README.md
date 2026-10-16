@@ -175,3 +175,36 @@ jupyter notebook notebooks/02_eda_y_preparacion_final.ipynb
 ## Consideraciones éticas
 
 Los datos se recolectaron por captura manual de publicaciones públicas, cumpliendo los términos de servicio de las plataformas. Los usuarios están seudonimizados y las URLs de origen quedan fuera del dataset publicable (contienen el *handle* real de la cuenta). El corpus contiene lenguaje ofensivo y discurso de odio explícito por la naturaleza de la tarea de investigación.
+
+## Sistema final (Etapa II, cierre del 7 de octubre de 2026)
+
+RoBERTuito (`pysentimiento/robertuito-base-cased`), ensemble de 5 semillas, sin los datos de octubre, con temperature scaling (T = 1.349, ajustada en val). Pesos en `models/v3.0.0/` (no versionados).
+
+| Métrica (test, n = 460) | Valor |
+|---|---|
+| F1-macro | 0.8499, IC 95 % [0.8143, 0.8820] |
+| Batería adversarial | 127 / 144 |
+| ECE | 0.0561 → 0.0271 |
+
+La comparación contra v4 (con datos de octubre) y contra la línea base de 3 semillas está en `reports/Resultado_reentrenamiento_v4.md`. Limitaciones: Facebook (F1 0.7686 frente a 0.9041 en X) y los cortes con sarcasmo/ironía.
+
+```bash
+uvicorn app.api.main:app --port 8000      # API: POST /predecir {"texto": "..."}
+streamlit run app/ui/app.py               # dashboard
+```
+
+### Actualización (14 de octubre de 2026): modelo v5 en la API
+La API usa ahora `models/v3.1.0` (RoBERTuito, 5 semillas, + hilos reales de X y casos difíciles; T = 1.832). Frente al modelo anterior: F1-macro en el test oficial 0.8327 (antes 0.8499, Δ −0.017, p = 0.136) pero en un hilo real nuevo (CECOT, n = 209) 0.613 frente a 0.470 (p < 0.0001) y la batería sube de 127 a 129. Detalle, límites y estrategia: `reports/Resultado_reentrenamiento_v4.md`, `docs/Estrategia_mejora.md`. Las etiquetas de los hilos están sin validar por un segundo anotador.
+
+### Versiones (14 de octubre de 2026)
+Numeración en `CHANGELOG.md`: **v3.0.0** (Etapa II, 5 semillas), **v3.1.0** (+ hilos reales y casos difíciles; es la que usa la API), **v3.2.0-rc1** (candidato con etiquetas por consenso; no adoptado por no cumplir un criterio de frontera, p = 0.053).
+
+### Actualización: v3.2.0 (14 de octubre de 2026)
+La API usa el ensamble **v3.2.0** (10 modelos: v3.1.0 + v3.2.0-rc1; T = 1.619). Test oficial 0.8429; hilo de migrantes acierto 0.808; atajos 1.00 en las 6 familias; groserías afectivas 19/20. Los modelos públicos de odio no mejoraron la combinación. Detalle y límites: `CHANGELOG.md`.
+
+### Actualización: v3.3.0 (14 de octubre de 2026)
+La API usa el ensamble **v3.3.0** (10 modelos; T = 1.314): test oficial 0.8386, batería 129/144, Amenazas F1 0.618 en un hilo reservado (v3.2.0: 0.575), atajos 1.00 en 6 familias, groserías afectivas 19/20. Rollback a v3.2.0 en `CHANGELOG.md`.
+
+
+### Actualización: v3.4.0 (15 de octubre de 2026)
+La API usa **un solo modelo** (v3.4.0, 418 MB, destilado de un ensamble de 6 modelos con hiperparámetros de Optuna). Banco congelado (n = 1,391): F1-macro 0.720 [0.687, 0.754] (v3.3.0: 0.693), recall Odio 0.669 (media entre semillas 0.626), Amenazas 0.470, falsos positivos 0.112; test oficial 0.832. Arranque: `.\scripts\arrancar_demo.ps1`. Informe de sesgos: `reports/fairness.md`. Detalle y límites en `CHANGELOG.md`.

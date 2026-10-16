@@ -1,0 +1,501 @@
+﻿tema,pos,texto,esperado,predicho,confianza,ok
+Partido de la selección,1,"Pronto le llega su hora a el árbitro, lo vamos a buscar a la casa 🔪",3,3,0.926,True
+Partido de la selección,2,Vaya sinvergüenza el que escribió eso sobre el partido,1,1,0.978,True
+Partido de la selección,3,"Están arruinando todo, esos los hondureños no son de aquí ni valen nada",2,2,0.775,True
+Partido de la selección,4,"No seas mamón, el partido no es tan complicado",1,0,0.714,False
+Partido de la selección,5,"Qué mamón el árbitro, siempre arruina el partido 💩",1,1,0.973,True
+Partido de la selección,6,Qué sinvergüenza tan grande tu opinión sobre el partido,1,1,0.97,True
+Partido de la selección,7,"El árbitro es un mamón corrupto, ya basta de tanta basura política",1,1,0.981,True
+Partido de la selección,8,"Ya van a ver, cuando los encuentre en el estadio los mato a todos ya verán",3,3,0.973,True
+Partido de la selección,9,"Dejen entrar a los hondureños y mire cómo queda el estadio, puro desastre.",2,1,0.415,False
+Partido de la selección,10,Pregunta sincera: ¿cómo afecta el partido a las familias?,0,0,0.967,True
+Partido de la selección,11,"Los los hondureños son una enfermedad, que se vayan de el estadio",2,2,0.91,True
+Partido de la selección,12,"Todo el que defiende a el árbitro es un baboso, así de simple",1,1,0.943,True
+Partido de la selección,13,se me hace que el árbitro está haciendo lo que puede con el partido,0,0,0.891,True
+Partido de la selección,14,"Qué bueno que murió, ojalá les pase lo mismo a todos los que hablan de el partido",3,3,0.771,True
+Partido de la selección,15,"Pura mierda el partido, organizado por unos pendejos!!!",1,1,0.979,True
+Partido de la selección,16,"Me da pena lo de el partido, mucha fuerza a todos los afectados",0,0,0.946,True
+Partido de la selección,17,Te voy a descuartizar si no cierras esa boca sobre el partido,3,3,0.812,True
+Partido de la selección,18,Qué patán tan grande tu opinión sobre el partido,1,1,0.985,True
+Partido de la selección,19,Me parece que el árbitro podría explicar mejor lo de el partido,0,0,0.964,True
+Partido de la selección,20,¿Alguien tiene fotos de el estadio de hoy?,0,0,0.988,True
+Partido de la selección,21,"El árbitro es un pendejo, no sirve para nada",1,1,0.957,True
+Partido de la selección,22,"Te voy a apuñalar, inútil, ya verás 💀",3,3,0.98,True
+Partido de la selección,23,Opino distinto: el partido fue más complicado de lo que dicen,0,0,0.978,True
+Partido de la selección,24,Vos sos un inútil y el árbitro otro más!,1,1,0.968,True
+Partido de la selección,25,Los hondureños no deberían tener derechos en este país,2,2,0.954,True
+Partido de la selección,26,"El árbitro es un imbécil, no sirve para nada",1,1,0.96,True
+Partido de la selección,27,Los hondureños no deberían tener derechos en este país asco,2,2,0.971,True
+Partido de la selección,28,Te voy a matar si te vuelvo a ver en el estadio!!!,3,3,0.966,True
+Partido de la selección,29,Te voy a mandar el link para que veás lo de el partido mañana,0,0,0.974,True
+Partido de la selección,30,"Ya van a ver, cuando los encuentre en el estadio los mato a todos",3,3,0.977,True
+Partido de la selección,31,"Qué puchica lo de el partido, ni modo, a seguir adelante",0,0,0.921,True
+Partido de la selección,32,"M@ldito, te voy a partir la cara afuera de el estadio",3,3,0.964,True
+Partido de la selección,33,Hay que ver las dos caras de el partido antes de opinar,0,1,0.566,False
+Partido de la selección,34,Yo voy a matar el tiempo viendo cómo sigue el partido,0,0,0.885,True
+Partido de la selección,35,"LOS DE ESE PARTIDO SON UNOS BABOSOS, NO ENGAÑAN A NADIE",1,1,0.926,True
+Partido de la selección,36,"los hondureños son todos iguales, una plaga que hay que sacar de el estadio",2,2,0.92,True
+Partido de la selección,37,"Los los hondureños son una plaga, que se vayan de el estadio",2,2,0.785,True
+Partido de la selección,38,"Pronto le llega su hora a el árbitro, lo vamos a buscar a la casa ya verán",3,0,0.644,False
+Partido de la selección,39,"LO DE EL PARTIDO ES CULPA DE LOS HONDUREÑOS, SIEMPRE LO MISMO, GENTE DE MIERDA",2,1,0.836,False
+Partido de la selección,40,Solo los hondureños harían algo tan basura como lo de el partido,2,1,0.879,False
+Partido de la selección,41,Solo los hondureños harían algo tan una enfermedad como lo de el partido,2,1,0.594,False
+Partido de la selección,42,VOY A IR A BUSCAR A EL ÁRBITRO Y LO VOY A DEJAR SIN DIENTES 💀,3,3,0.9,True
+Partido de la selección,43,Hay que quemar el estadio con todos adentro,3,3,0.946,True
+Partido de la selección,44,"Estás bien patán, andá a hablar de el partido a otro lado",1,1,0.987,True
+Partido de la selección,45,"El que no chambea no come, pero aun así el partido nos afecta a todos",0,0,0.936,True
+Partido de la selección,46,A el árbitro hay que colgarlo en el estadio para que aprendan,3,3,0.473,True
+Partido de la selección,47,"Te voy a apuñalar, cerote, ya verás 🔪",3,3,0.988,True
+Partido de la selección,48,"No me vengan con los hondureños, esa gente es una vergüenza",2,2,0.778,True
+Partido de la selección,49,"todo el que defiende a el árbitro es un payaso, así de simple",1,1,0.921,True
+Partido de la selección,50,Alguien sabe a qué hora empieza el partido?,0,0,0.98,True
+Tráfico y buses,1,"Qué puchica lo de el tráfico, ni modo, a seguir adelante",0,0,0.853,True
+Tráfico y buses,2,voy a comer algo y ahorita les cuento qué tal el tráfico,0,0,0.983,True
+Tráfico y buses,3,"Compré boletos para ir a la terminal, ¿alguien más va?",0,0,0.971,True
+Tráfico y buses,4,"Ya estamos hartos de las mujeres, deberían estar fuera de la terminal asco",2,2,0.656,True
+Tráfico y buses,5,"Pronto le llega su hora a el motorista del bus, lo vamos a buscar a la casa",3,0,0.663,False
+Tráfico y buses,6,"Cállate sinvergüenza, nadie te preguntó",1,1,0.985,True
+Tráfico y buses,7,Eres un estúpido si crees eso de el tráfico,1,1,0.981,True
+Tráfico y buses,8,Solo las mujeres harían algo tan basura como lo de el tráfico,2,1,0.933,False
+Tráfico y buses,9,"Qué mierda de organización con el tráfico, unos estúpidos",1,1,0.977,True
+Tráfico y buses,10,"Están arruinando todo, esos las mujeres no son de aquí ni valen nada",2,2,0.506,True
+Tráfico y buses,11,qué payaso tan grande tu opinión sobre el tráfico,1,1,0.978,True
+Tráfico y buses,12,"Ya van a ver, cuando los encuentre en la terminal los mato a todos 💀",3,3,0.987,True
+Tráfico y buses,13,A el motorista del bus hay que colgarlo en la terminal para que aprendan,3,3,0.854,True
+Tráfico y buses,14,Hoy en la terminal no se hablaba de otra cosa que de el tráfico,0,0,0.883,True
+Tráfico y buses,15,"No me vengan con las mujeres, esa gente es basura",2,1,0.653,False
+Tráfico y buses,16,Te voy a descuartizar si no cierras esa boca sobre el tráfico,3,3,0.855,True
+Tráfico y buses,17,"Ojalá le caiga un rayo a el motorista del bus, que se muera!!!",3,3,0.978,True
+Tráfico y buses,18,"Qué asco de el tráfico, todo lo hacen mal esos estúpidos",1,1,0.971,True
+Tráfico y buses,19,"No seas sinvergüenza, el tráfico no es tan complicado",1,1,0.627,True
+Tráfico y buses,20,Hay que quemar la terminal con todos adentro.,3,3,0.971,True
+Tráfico y buses,21,te voy a mandar el link para que veás lo de el tráfico mañana,0,0,0.941,True
+Tráfico y buses,22,"Puta madre con el tráfico, qué desorden de pendejos",1,1,0.967,True
+Tráfico y buses,23,Ojalá se mueran todos los que organizaron el tráfico 💀,3,3,0.979,True
+Tráfico y buses,24,"M@LDITO, TE VOY A PARTIR LA CARA AFUERA DE LA TERMINAL",3,3,0.895,True
+Tráfico y buses,25,"No tengo claro qué pasó con el tráfico, ¿me explican?",0,0,0.959,True
+Tráfico y buses,26,"Estoy de acuerdo, hay que organizarse mejor con el tráfico",0,0,0.978,True
+Tráfico y buses,27,"Por culpa de las mujeres pasa lo de el tráfico, son una vergüenza",2,1,0.808,False
+Tráfico y buses,28,"Estás bien baboso, andá a hablar de el tráfico a otro lado",1,1,0.985,True
+Tráfico y buses,29,SOLO LAS MUJERES HARÍAN ALGO TAN UNA VERGÜENZA COMO LO DE EL TRÁFICO,2,1,0.86,False
+Tráfico y buses,30,voy a ir a darte unos balazos por lo que dijiste de el tráfico,3,3,0.831,True
+Tráfico y buses,31,"No me vengan con las mujeres, esa gente es una enfermedad",2,2,0.787,True
+Tráfico y buses,32,"Si sigues hablando de el tráfico te va a pasar algo, sé dónde vivís!",3,3,0.564,True
+Tráfico y buses,33,"Todo el que defiende a el motorista del bus es un imbécil, así de simple",1,1,0.951,True
+Tráfico y buses,34,Pregunta sincera: ¿cómo afecta el tráfico a las familias?,0,0,0.94,True
+Tráfico y buses,35,Vaya cerote el que escribió eso sobre el tráfico,1,1,0.981,True
+Tráfico y buses,36,QUÉ IMBÉCIL TAN GRANDE TU OPINIÓN SOBRE EL TRÁFICO,1,1,0.964,True
+Tráfico y buses,37,"Lo de el tráfico es culp4 de las mujeres, siempre lo mismo, gente de mierda",2,1,0.878,False
+Tráfico y buses,38,Vaya estúpido el que escribió eso sobre el tráfico,1,1,0.982,True
+Tráfico y buses,39,"Ojalá le caiga un rayo a el motorista del bus, que se muera ya verán",3,3,0.981,True
+Tráfico y buses,40,Les dejo la info completa sobre el tráfico para que la lean con calma,0,0,0.977,True
+Tráfico y buses,41,Opino distinto: el tráfico fue más complicado de lo que dicen,0,0,0.971,True
+Tráfico y buses,42,yo voy a matar el tiempo viendo cómo sigue el tráfico,0,0,0.721,True
+Tráfico y buses,43,"Qué asco las mujeres, son una enfermedad en la terminal",2,2,0.826,True
+Tráfico y buses,44,Me parece que el motorista del bus podría explicar mejor lo de el tráfico,0,0,0.887,True
+Tráfico y buses,45,"Qué bueno que murió, ojalá les pase lo mismo a todos los que hablan de el tráfico",3,3,0.891,True
+Tráfico y buses,46,Te voy a matar si te vuelvo a ver en la terminal,3,3,0.979,True
+Tráfico y buses,47,"Lo de el tráfico es culpa de las mujeres, siempre lo mismo, gente de mierda",2,1,0.807,False
+Tráfico y buses,48,Las mujeres no deberían tener derechos en este país,2,2,0.935,True
+Tráfico y buses,49,Eres un mamón si crees eso de el tráfico,1,1,0.973,True
+Tráfico y buses,50,"Cállate patán, nadie te preguntó",1,1,0.985,True
+Precio de la canasta,1,"Puta madre con el aumento de precios, qué desorden de inútiles",1,1,0.976,True
+Precio de la canasta,2,Qué bonito se ve el mercado después de el aumento de precios,0,0,0.983,True
+Precio de la canasta,3,"Qué asco los venezolanos, son basura en el mercado",2,2,0.947,True
+Precio de la canasta,4,"Pronto le llega su hora a el dueño de la tienda, lo vamos a buscar a la casa",3,0,0.947,False
+Precio de la canasta,5,Hay que quemar el mercado con todos adentro ya verán,3,3,0.97,True
+Precio de la canasta,6,"ojalá le caiga un rayo a el dueño de la tienda, que se muera!!!",3,3,0.978,True
+Precio de la canasta,7,"Me da pena lo de el aumento de precios, mucha fuerza a todos los afectados",0,0,0.956,True
+Precio de la canasta,8,"Lo de el aumento de precios es culpa de los venezolanos, siempre lo mismo, gente de mierda",2,2,0.697,True
+Precio de la canasta,9,VAYA IMBÉCIL EL QUE ESCRIBIÓ ESO SOBRE EL AUMENTO DE PRECIOS,1,1,0.963,True
+Precio de la canasta,10,Voy a ir a buscar a el dueño de la tienda y lo voy a dejar sin dientes,3,3,0.966,True
+Precio de la canasta,11,Eres un imbécil si crees eso de el aumento de precios,1,1,0.981,True
+Precio de la canasta,12,Voy a matar la curiosidad y buscar más datos sobre el aumento de precios,0,0,0.769,True
+Precio de la canasta,13,Alguien sabe a qué hora empieza el aumento de precios?,0,0,0.96,True
+Precio de la canasta,14,A el dueño de la tienda hay que colgarlo en el mercado para que aprendan,3,3,0.436,True
+Precio de la canasta,15,"No seas mamón, el aumento de precios no es tan complicado",1,0,0.537,False
+Precio de la canasta,16,"Gracias por compartir, no sabía lo de el aumento de precios",0,0,0.983,True
+Precio de la canasta,17,"Estás bien inútil, andá a hablar de el aumento de precios a otro lado",1,1,0.986,True
+Precio de la canasta,18,"Maldito cerote, siempre con lo mismo de el aumento de precios",1,1,0.981,True
+Precio de la canasta,19,"BUENOS DÍAS A TODOS, A VER CÓMO AMANECE EL AUMENTO DE PRECIOS HOY.",0,0,0.962,True
+Precio de la canasta,20,Te voy a descuartizar si no cierras esa boca sobre el aumento de precios,3,3,0.768,True
+Precio de la canasta,21,Hoy en el mercado no se hablaba de otra cosa que de el aumento de precios,0,0,0.879,True
+Precio de la canasta,22,OJALÁ SE MUERAN TODOS LOS QUE ORGANIZARON EL AUMENTO DE PRECIOS YA VERÁN,3,3,0.962,True
+Precio de la canasta,23,"Buenos días a todos, a ver cómo amanece el aumento de precios hoy saludos",0,0,0.992,True
+Precio de la canasta,24,"Cállate payaso, nadie te preguntó",1,1,0.985,True
+Precio de la canasta,25,"Por culpa de los venezolanos pasa lo de el aumento de precios, son un cáncer",2,2,0.941,True
+Precio de la canasta,26,"Por culpa de los venezolanos pasa lo de el aumento de precios, son una plaga",2,2,0.945,True
+Precio de la canasta,27,"Si sigues hablando de el aumento de precios te va a pasar algo, sé dónde vivís.",3,3,0.493,True
+Precio de la canasta,28,"Qué asco los venezolanos, son una plaga en el mercado",2,2,0.966,True
+Precio de la canasta,29,"Los de ese partido son unos payasos, no engañan a nadie 💩",1,1,0.974,True
+Precio de la canasta,30,"No tengo claro qué pasó con el aumento de precios, ¿me explican?",0,0,0.961,True
+Precio de la canasta,31,"QUÉ MIERDA DE ORGANIZACIÓN CON EL AUMENTO DE PRECIOS, UNOS IMBÉCILES",1,1,0.971,True
+Precio de la canasta,32,"Puta madre con el aumento de precios, qué desorden de imbéciles",1,1,0.972,True
+Precio de la canasta,33,"Dejen entrar a los venezolanos y mire cómo queda el mercado, puro desastre",2,2,0.713,True
+Precio de la canasta,34,Se me hace que el dueño de la tienda está haciendo lo que puede con el aumento de precios,0,0,0.824,True
+Precio de la canasta,35,Voy a ir a darte unos balazos por lo que dijiste de el aumento de precios,3,3,0.853,True
+Precio de la canasta,36,"Ya estamos hartos de los venezolanos, deberían estar fuera de el mercado.",2,2,0.952,True
+Precio de la canasta,37,"Ya mero llego a el mercado, ahí nos vemos",0,0,0.989,True
+Precio de la canasta,38,"Típico de los venezolanos, solo saben dar problemas con el aumento de precios",2,2,0.66,True
+Precio de la canasta,39,Hay que quemar el mercado con todos adentro!!!,3,3,0.957,True
+Precio de la canasta,40,"Los venezolanos nunca van a ser iguales a nosotros, son inferiores",2,2,0.906,True
+Precio de la canasta,41,"Te voy a apuñalar, patán, ya verás",3,3,0.975,True
+Precio de la canasta,42,Qué sinvergüenza tan grande tu opinión sobre el aumento de precios,1,1,0.973,True
+Precio de la canasta,43,Te voy a matar si te vuelvo a ver en el mercado 🔪,3,3,0.987,True
+Precio de la canasta,44,Solo los venezolanos harían algo tan una enfermedad como lo de el aumento de precios,2,2,0.904,True
+Precio de la canasta,45,"Cállate baboso, nadie te preguntó",1,1,0.984,True
+Precio de la canasta,46,Eres un pendejo si crees eso de el aumento de precios,1,1,0.979,True
+Precio de la canasta,47,"Los venezolanos son todos iguales, una plaga que hay que sacar de el mercado",2,2,0.977,True
+Precio de la canasta,48,"Qué asco de el aumento de precios, todo lo hacen mal esos payasos",1,1,0.974,True
+Precio de la canasta,49,Voy a comer algo y ahorita les cuento qué tal el aumento de precios,0,0,0.984,True
+Precio de la canasta,50,"Ya van a ver, cuando los encuentre en el mercado los mato a todos 🔪",3,3,0.988,True
+Elecciones y gobierno,1,"El que no chambea no come, pero aun así el debate nos afecta a todos",0,0,0.806,True
+Elecciones y gobierno,2,¿Alguien tiene fotos de la Asamblea de hoy?,0,0,0.987,True
+Elecciones y gobierno,3,Te voy a matar si te vuelvo a ver en la Asamblea ya verán,3,3,0.979,True
+Elecciones y gobierno,4,"Ya mero llego a la Asamblea, ahí nos vemos",0,0,0.987,True
+Elecciones y gobierno,5,"Están arruinando todo, esos los gays no son de aquí ni valen nada",2,2,0.816,True
+Elecciones y gobierno,6,Voy a comer algo y ahorita les cuento qué tal el debate,0,0,0.985,True
+Elecciones y gobierno,7,"Maldito pendejo, siempre con lo mismo de el debate",1,1,0.987,True
+Elecciones y gobierno,8,"Los los gays son basura, que se vayan de la Asamblea",2,2,0.85,True
+Elecciones y gobierno,9,Qué bonito se ve la Asamblea después de el debate,0,0,0.991,True
+Elecciones y gobierno,10,"Qué asco de el debate, todo lo hacen mal esos imbéciles",1,1,0.977,True
+Elecciones y gobierno,11,"Gracias por compartir, no sabía lo de el debate",0,0,0.985,True
+Elecciones y gobierno,12,Qué pendejo t4n grande tu opinión sobre el debate,1,1,0.985,True
+Elecciones y gobierno,13,"Qué asco los gays, son lo peor en la Asamblea",2,2,0.743,True
+Elecciones y gobierno,14,"Ya estamos hartos de los gays, deberían estar fuera de la Asamblea",2,2,0.693,True
+Elecciones y gobierno,15,Alguien sabe a qué hora empieza el debate?,0,0,0.975,True
+Elecciones y gobierno,16,"Te voy a apuñalar, baboso, ya verás 💀",3,3,0.983,True
+Elecciones y gobierno,17,"No me vengan con los gays, esa gente es una enfermedad",2,2,0.909,True
+Elecciones y gobierno,18,Qué imbécil tan grande tu opinión sobre el debate,1,1,0.981,True
+Elecciones y gobierno,19,"Típico de los gays, solo saben dar problemas con el debate",2,2,0.681,True
+Elecciones y gobierno,20,LES DEJO LA INFO COMPLETA SOBRE EL DEBATE PARA QUE LA LEAN CON CALMA,0,0,0.907,True
+Elecciones y gobierno,21,"Me da pena lo de el debate, mucha fuerza a todos los afectados",0,0,0.942,True
+Elecciones y gobierno,22,"Los gays son todos iguales, una plaga que hay que sacar de la Asamblea",2,2,0.885,True
+Elecciones y gobierno,23,A el diputado hay que colgarlo en la Asamblea para que aprendan,3,0,0.441,False
+Elecciones y gobierno,24,Qué baboso tan grande tu opinión sobre el debate,1,1,0.984,True
+Elecciones y gobierno,25,"Pura mierda el debate, organizado por unos babosos!!!",1,1,0.983,True
+Elecciones y gobierno,26,Voy a ir a darte unos balazos por lo que dijiste de el debate,3,3,0.818,True
+Elecciones y gobierno,27,"Ojalá le caiga un rayo a el diputado, que se muera",3,3,0.981,True
+Elecciones y gobierno,28,"Lo de el debate es culpa de los gays, siempre lo mismo, gente de mierda",2,2,0.741,True
+Elecciones y gobierno,29,"Los gays nunca van a ser iguales a nosotros, son inferiores",2,2,0.886,True
+Elecciones y gobierno,30,Te voy a descuartizar si no cierras esa boca sobre el debate,3,3,0.798,True
+Elecciones y gobierno,31,"Pronto le llega su hora a el diputado, lo vamos a buscar a la casa ya verán",3,0,0.677,False
+Elecciones y gobierno,32,Vamos a ir con machetes a la Asamblea a arreglar esto de el debate,3,0,0.711,False
+Elecciones y gobierno,33,"El diputado es un payaso, no sirve para nada",1,1,0.974,True
+Elecciones y gobierno,34,"Qué sinvergüenza el diputado, siempre arruina el debate 🤡",1,1,0.984,True
+Elecciones y gobierno,35,"Estás bien inútil, andá a hablar de el debate a otro lado",1,1,0.987,True
+Elecciones y gobierno,36,Opino distinto: el debate fue más complicado de lo que dicen,0,0,0.961,True
+Elecciones y gobierno,37,"Qué hijo de puta el diputado, nos arruinó el debate 💩",1,1,0.987,True
+Elecciones y gobierno,38,Se me hace que el diputado está haciendo lo que puede con el debate,0,0,0.83,True
+Elecciones y gobierno,39,Ojalá se mueran todos los que organizaron el debate.,3,3,0.971,True
+Elecciones y gobierno,40,"Ya van a ver, cuando los encuentre en la Asamblea los mato a todos",3,3,0.978,True
+Elecciones y gobierno,41,"Qué mierda de organización con el debate, unos inútiles",1,1,0.98,True
+Elecciones y gobierno,42,Solo los gays harían algo tan una plaga como lo de el debate,2,2,0.78,True
+Elecciones y gobierno,43,"Qué 4sco de el debate, todo lo hacen mal esos pendejos",1,1,0.982,True
+Elecciones y gobierno,44,"Estoy de acuerdo, hay que organizarse mejor con el debate",0,0,0.98,True
+Elecciones y gobierno,45,"Por culpa de los gays pasa lo de el debate, son una vergüenza",2,2,0.848,True
+Elecciones y gobierno,46,Te voy a matar si te vuelvo a ver en la Asamblea.,3,3,0.972,True
+Elecciones y gobierno,47,Voy a ir a buscar a el diputado y lo voy a dejar sin dientes 💀,3,3,0.98,True
+Elecciones y gobierno,48,"M@ldito, te voy a partir la cara afuera de la Asamblea",3,3,0.948,True
+Elecciones y gobierno,49,"Qué cerote el diputado, siempre arruina el debate 💩",1,1,0.986,True
+Elecciones y gobierno,50,"No seas sinvergüenza, el debate no es tan complicado",1,1,0.838,True
+Remesas y migración,1,"Los de ese partido son unos imbéciles, no engañan a nadie jaja",1,1,0.921,True
+Remesas y migración,2,Les dejo la info completa sobre la migración para que la lean con calma,0,0,0.975,True
+Remesas y migración,3,"qué imbécil el coyote, siempre arruina la migración.",1,1,0.951,True
+Remesas y migración,4,"Los migr4ntes nunca van a ser iguales a nosotros, son inferiores",2,2,0.936,True
+Remesas y migración,5,Hay que quemar la frontera con todos adentro ya verán,3,3,0.955,True
+Remesas y migración,6,"YA ESTAMOS HARTOS DE LOS MIGRANTES, DEBERÍAN ESTAR FUERA DE LA FRONTERA!!",2,3,0.554,False
+Remesas y migración,7,"Maldito cerote, siempre con lo mismo de la migración",1,1,0.96,True
+Remesas y migración,8,"Los migrantes son todos iguales, una plaga que hay que sacar de la frontera",2,2,0.954,True
+Remesas y migración,9,"qué asco de la migración, todo lo hacen mal esos inútiles",1,1,0.519,True
+Remesas y migración,10,Eres un payaso si crees eso de la migración,1,1,0.955,True
+Remesas y migración,11,Voy a ir a darte unos balazos por lo que dijiste de la migración,3,3,0.819,True
+Remesas y migración,12,Voy a ir a buscar a el coyote y lo voy a dejar sin dientes 💀,3,3,0.981,True
+Remesas y migración,13,"M@LDITO, TE VOY A PARTIR LA CARA AFUERA DE LA FRONTERA",3,3,0.896,True
+Remesas y migración,14,"Por culpa de los migrantes pasa lo de la migración, son una vergüenza",2,2,0.819,True
+Remesas y migración,15,"QUÉ MIERDA DE ORGANIZACIÓN CON LA MIGRACIÓN, UNOS ESTÚPIDOS",1,1,0.967,True
+Remesas y migración,16,"Me da pena lo de la migración, mucha fuerza a todos los afectados",0,0,0.945,True
+Remesas y migración,17,"Típico de los migrantes, solo saben dar problemas con la migración",2,2,0.858,True
+Remesas y migración,18,"Qué bueno que murió, ojalá les pase lo mismo a todos los que hablan de la migración",3,3,0.712,True
+Remesas y migración,19,"El que no chambea no come, pero aun así la migración nos afecta a todos",0,0,0.868,True
+Remesas y migración,20,"Qué asco los migrantes, son una enfermedad en la frontera",2,2,0.967,True
+Remesas y migración,21,"Los los migrantes son una vergüenza, que se vayan de la frontera",2,2,0.891,True
+Remesas y migración,22,"Qué asco los migrantes, son basura en la frontera",2,2,0.969,True
+Remesas y migración,23,"por culpa de los migrantes pasa lo de la migración, son un cáncer",2,2,0.957,True
+Remesas y migración,24,"Los de ese partido son unos estúpidos, no engañan a nadie 💩",1,1,0.979,True
+Remesas y migración,25,"Qué hijo de puta el coyote, nos arruinó la migración!!!",1,1,0.951,True
+Remesas y migración,26,Hay que quemar la frontera con todos adentro!,3,3,0.93,True
+Remesas y migración,27,"El coyote es un imbécil, no sirve para nada",1,1,0.981,True
+Remesas y migración,28,"pronto le llega su hora a el coyote, lo vamos a buscar a la casa ya verán",3,3,0.509,True
+Remesas y migración,29,"Está difícil lo de la migración, ojalá mejore pronto",0,0,0.988,True
+Remesas y migración,30,"No me vengan con los migrantes, esa gente es lo peor",2,2,0.93,True
+Remesas y migración,31,te voy a matar si te vuelvo a ver en la frontera ya verán,3,3,0.976,True
+Remesas y migración,32,Qué imbécil tan grande tu opinión sobre la migración,1,1,0.967,True
+Remesas y migración,33,Vamos a ir con machetes a la frontera a arreglar esto de la migración,3,0,0.6,False
+Remesas y migración,34,"Ojalá le caiga un rayo a el coyote, que se muera!!!",3,3,0.981,True
+Remesas y migración,35,Hoy en la frontera no se hablaba de otra cosa que de la migración,0,0,0.897,True
+Remesas y migración,36,Voy a matar la curiosidad y buscar más datos sobre la migración,0,0,0.877,True
+Remesas y migración,37,Les voy a meter un balazo a esos sinvergüenzas!!!,3,3,0.963,True
+Remesas y migración,38,"Dejen entrar a los migrantes y mire cómo queda la frontera, puro desastre!!",2,2,0.645,True
+Remesas y migración,39,"PRONTO LE LLEGA SU HORA A EL COYOTE, LO VAMOS A BUSCAR A LA CASA 🔪",3,3,0.868,True
+Remesas y migración,40,Mi mamá dice que la migración nunca había estado así 🙂,0,0,0.904,True
+Remesas y migración,41,Qué bonito se ve la frontera después de la migración,0,0,0.983,True
+Remesas y migración,42,Te voy a mandar el link para que veás lo de la migración mañana,0,0,0.965,True
+Remesas y migración,43,Ojalá se mueran todos los que organizaron la migración!,3,3,0.974,True
+Remesas y migración,44,Alguien sabe a qué hora empieza la migración?,0,0,0.976,True
+Remesas y migración,45,Qué payaso tan grande tu opinión sobre la migración,1,1,0.963,True
+Remesas y migración,46,"Maldito mamón, siempre con lo mismo de la migración",1,1,0.969,True
+Remesas y migración,47,"El coyote es un mamón corrupto, ya basta de tanta basura política",1,1,0.982,True
+Remesas y migración,48,"Qué cerote el coyote, siempre arruina la migración.",1,1,0.943,True
+Remesas y migración,49,"Buenos días a todos, a ver cómo amanece la migración hoy saludos",0,0,0.992,True
+Remesas y migración,50,"Qué maje tan buena onda el coyote, la verdad nos ayudó con la migración",0,0,0.985,True
+Lluvias e inundaciones,1,Voy a ir a darte unos balazos por lo que dijiste de la tormenta,3,3,0.906,True
+Lluvias e inundaciones,2,Les voy a meter un balazo a esos inútiles 💀,3,3,0.982,True
+Lluvias e inundaciones,3,"pura mierda la tormenta, organizado por unos babosos 🤡",1,1,0.988,True
+Lluvias e inundaciones,4,Voy a ir a buscar a el alcalde y lo voy a dejar sin dientes 💀,3,3,0.968,True
+Lluvias e inundaciones,5,"No seas baboso, la tormenta no es tan complicado",1,0,0.581,False
+Lluvias e inundaciones,6,"Dejen entrar a los indígenas y mire cómo queda la colonia, puro desastre",2,2,0.473,True
+Lluvias e inundaciones,7,"Maldito cerote, siempre con lo mismo de la tormenta",1,1,0.97,True
+Lluvias e inundaciones,8,Qué bonito se ve la colonia después de la tormenta,0,0,0.986,True
+Lluvias e inundaciones,9,"Gracias por compartir, no sabía lo de la tormenta",0,0,0.986,True
+Lluvias e inundaciones,10,"Compré boletos para ir a la colonia, ¿alguien más va?",0,0,0.976,True
+Lluvias e inundaciones,11,Solo los indígenas harían algo tan una enfermedad como lo de la tormenta,2,2,0.896,True
+Lluvias e inundaciones,12,"no me vengan con los indígenas, esa gente es basura",2,2,0.905,True
+Lluvias e inundaciones,13,"Los los indígenas son una vergüenza, que se vayan de la colonia",2,2,0.917,True
+Lluvias e inundaciones,14,"Estás bien payaso, andá a hablar de la tormenta a otro lado",1,1,0.986,True
+Lluvias e inundaciones,15,"No me vengan con los indígenas, esa gente es lo peor",2,2,0.923,True
+Lluvias e inundaciones,16,"Pura mierda la tormenta, organizado por unos estúpidos!!!",1,1,0.977,True
+Lluvias e inundaciones,17,"Por culpa de los indígenas pasa lo de la tormenta, son basura",2,2,0.849,True
+Lluvias e inundaciones,18,"No seas estúpido, la tormenta no es tan complicado",1,1,0.787,True
+Lluvias e inundaciones,19,Te voy a matar si te vuelvo a ver en la colonia!!!,3,3,0.974,True
+Lluvias e inundaciones,20,Se me hace que el alcalde está haciendo lo que puede con la tormenta,0,0,0.927,True
+Lluvias e inundaciones,21,"Qué maje tan buena onda el alcalde, la verdad nos ayudó con la tormenta",0,0,0.989,True
+Lluvias e inundaciones,22,"Puta madre con la tormenta, qué desorden de sinvergüenzas",1,1,0.978,True
+Lluvias e inundaciones,23,Hay que quemar la colonia con todos adentro!,3,3,0.956,True
+Lluvias e inundaciones,24,Hoy en la colonia no se hablaba de otra cosa que de la tormenta,0,0,0.95,True
+Lluvias e inundaciones,25,"Qué puchica lo de la tormenta, ni modo, a seguir adelante",0,0,0.943,True
+Lluvias e inundaciones,26,"Los de ese partido son unos inútiles, no engañan a nadie.",1,1,0.959,True
+Lluvias e inundaciones,27,"Si sigues hablando de la tormenta te va a pasar algo, sé dónde vivís!!!",3,3,0.645,True
+Lluvias e inundaciones,28,"El alcalde es un imbécil corrupto, ya basta de tanta basura política",1,1,0.983,True
+Lluvias e inundaciones,29,Vaya inútil el que escribió eso sobre la tormenta,1,1,0.981,True
+Lluvias e inundaciones,30,"Qué mierda de organización con la tormenta, unos inútiles",1,1,0.976,True
+Lluvias e inundaciones,31,"lo de la tormenta es culpa de los indígenas, siempre lo mismo, gente de mierda",2,2,0.911,True
+Lluvias e inundaciones,32,Alguien sabe a qué hora empieza la tormenta?,0,0,0.976,True
+Lluvias e inundaciones,33,"Típico de los indígenas, solo saben dar problemas con la tormenta",2,2,0.846,True
+Lluvias e inundaciones,34,"Estoy de acuerdo, hay que organizarse mejor con la tormenta",0,0,0.975,True
+Lluvias e inundaciones,35,"PRONTO LE LLEGA SU HORA A EL ALCALDE, LO VAMOS A BUSCAR A LA CASA 💀",3,3,0.641,True
+Lluvias e inundaciones,36,"qué bueno que murió, ojalá les pase lo mismo a todos los que hablan de la tormenta",3,3,0.752,True
+Lluvias e inundaciones,37,Te voy a descuartizar si no cierras esa boca sobre la tormenta,3,3,0.94,True
+Lluvias e inundaciones,38,"Por culpa de los indígenas pasa lo de la tormenta, son una vergüenza",2,2,0.812,True
+Lluvias e inundaciones,39,Vamos a ir con machetes a la colonia a arreglar esto de la tormenta,3,0,0.728,False
+Lluvias e inundaciones,40,"Los los indígenas son basura, que se vayan de la colonia",2,2,0.937,True
+Lluvias e inundaciones,41,Solo los indígenas harían algo tan una plaga como lo de la tormenta,2,2,0.885,True
+Lluvias e inundaciones,42,Pregunta sincera: ¿cómo afecta la tormenta a las familias?,0,0,0.966,True
+Lluvias e inundaciones,43,ERES UN BABOSO SI CREES ESO DE LA TORMENTA,1,1,0.958,True
+Lluvias e inundaciones,44,Les voy a meter un balazo a esos pendejos.,3,3,0.963,True
+Lluvias e inundaciones,45,"No seas sinvergüenza, la tormenta no es tan complicado",1,1,0.583,True
+Lluvias e inundaciones,46,"Buenos días a todos, a ver cómo amanece la tormenta hoy #ElSalvador",0,0,0.993,True
+Lluvias e inundaciones,47,Les voy a meter un balazo a esos cerotes ya verán,3,3,0.979,True
+Lluvias e inundaciones,48,"Qué asco de la tormenta, todo lo hacen mal esos inútiles",1,1,0.969,True
+Lluvias e inundaciones,49,Ojalá se mueran todos los que organizaron la tormenta 🔪,3,3,0.986,True
+Lluvias e inundaciones,50,Voy a comer algo y ahorita les cuento qué tal la tormenta,0,0,0.987,True
+Seguridad y barrios,1,Te voy a descuartizar si no cierras esa boca sobre la seguridad,3,3,0.88,True
+Seguridad y barrios,2,"Los los nicas son una enfermedad, que se vayan de el barrio",2,2,0.966,True
+Seguridad y barrios,3,"Gracias por compartir, no sabía lo de la seguridad",0,0,0.983,True
+Seguridad y barrios,4,"Estás bien patán, andá a hablar de la seguridad a otro lado",1,1,0.987,True
+Seguridad y barrios,5,"Qué estúpido el vecino, siempre arruina la seguridad.",1,1,0.922,True
+Seguridad y barrios,6,"Pronto le llega su hora a el vecino, lo vamos a buscar a la casa",3,0,0.939,False
+Seguridad y barrios,7,Te voy a matar si te vuelvo a ver en el barrio,3,3,0.979,True
+Seguridad y barrios,8,"Me da pena lo de la seguridad, mucha fuerza a todos los afectados",0,0,0.954,True
+Seguridad y barrios,9,Eres un cerote si crees eso de la seguridad,1,1,0.981,True
+Seguridad y barrios,10,A el vecino hay que colgarlo en el barrio para que aprendan,3,3,0.534,True
+Seguridad y barrios,11,"Está difícil lo de la seguridad, ojalá mejore pronto",0,0,0.988,True
+Seguridad y barrios,12,Vos sos un mamón y el vecino otro más,1,1,0.958,True
+Seguridad y barrios,13,"ya estamos hartos de los nicas, deberían estar fuera de el barrio 🤮",2,2,0.868,True
+Seguridad y barrios,14,"Ya mero llego a el barrio, ahí nos vemos",0,0,0.988,True
+Seguridad y barrios,15,"Los de ese partido son unos cerotes, no engañan a nadie!!!",1,1,0.951,True
+Seguridad y barrios,16,"El vecino es un estúpido corrupto, ya basta de tanta basura política",1,1,0.982,True
+Seguridad y barrios,17,Vaya inútil el que escribió eso sobre la seguridad,1,1,0.983,True
+Seguridad y barrios,18,"Qué hijo de puta el vecino, nos arruinó la seguridad 💩",1,1,0.982,True
+Seguridad y barrios,19,Voy a ir a buscar a el vecino y lo voy a dejar sin dientes!,3,3,0.972,True
+Seguridad y barrios,20,"Los nicas nunca van a ser iguales a nosotros, son inferiores",2,2,0.867,True
+Seguridad y barrios,21,voy a ir a darte unos balazos por lo que dijiste de la seguridad,3,3,0.916,True
+Seguridad y barrios,22,"Lo de la seguridad es culpa de los nicas, siempre lo mismo, gente de mierda",2,2,0.739,True
+Seguridad y barrios,23,"Pura mierda la seguridad, organizado por unos estúpidos 💩",1,1,0.988,True
+Seguridad y barrios,24,"Los nicas son todos iguales, una plaga que hay que sacar de el barrio",2,2,0.967,True
+Seguridad y barrios,25,Te voy a mandar el link para que veás lo de la seguridad mañana,0,0,0.935,True
+Seguridad y barrios,26,"Buenos días a todos, a ver cómo amanece la seguridad hoy 👍",0,0,0.992,True
+Seguridad y barrios,27,Me parece que el vecino podría explicar mejor lo de la seguridad,0,0,0.957,True
+Seguridad y barrios,28,Ojalá se mueran todos los que organizaron la seguridad 💀,3,3,0.984,True
+Seguridad y barrios,29,"Ya van a ver, cuando los encuentre en el barrio los mato a todos!!!",3,3,0.984,True
+Seguridad y barrios,30,"Típico de los nicas, solo saben dar problemas con la seguridad",2,2,0.722,True
+Seguridad y barrios,31,"M@ldito, te voy a partir la cara afuera de el barrio",3,3,0.98,True
+Seguridad y barrios,32,"Estás bien imbécil, andá a hablar de la seguridad a otro lado",1,1,0.987,True
+Seguridad y barrios,33,"El que no chambea no come, pero aun así la seguridad nos afecta a todos",0,0,0.888,True
+Seguridad y barrios,34,Hay que quemar el barrio con todos adentro!!!,3,3,0.905,True
+Seguridad y barrios,35,Vamos a ir con machetes a el barrio a arreglar esto de la seguridad,3,0,0.672,False
+Seguridad y barrios,36,"Dejen entrar a los nicas y mire cómo queda el barrio, puro desastre 🤮",2,2,0.765,True
+Seguridad y barrios,37,"Qué maje tan buena onda el vecino, la verdad nos ayudó con la seguridad",0,0,0.989,True
+Seguridad y barrios,38,"Si sigues hablando de la seguridad te va a pasar algo, sé dónde vivís 🔪",3,3,0.957,True
+Seguridad y barrios,39,Vos sos un sinvergüenza y el vecino otro más jaja,1,1,0.961,True
+Seguridad y barrios,40,Yo voy a matar el tiempo viendo cómo sigue la seguridad 👍,0,0,0.707,True
+Seguridad y barrios,41,"Puta madre con la seguridad, qué desorden de sinvergüenzas",1,1,0.982,True
+Seguridad y barrios,42,Vos sos un payaso y el vecino otro más.,1,1,0.965,True
+Seguridad y barrios,43,Los nicas no deberían tener derechos en este país,2,2,0.957,True
+Seguridad y barrios,44,Mi mamá dice que la seguridad nunca había estado así 👍,0,0,0.864,True
+Seguridad y barrios,45,"el vecino es un baboso corrupto, ya basta de tanta basura política",1,1,0.981,True
+Seguridad y barrios,46,Voy a comer algo y ahorita les cuento qué tal la seguridad,0,0,0.987,True
+Seguridad y barrios,47,Solo los nicas harían algo tan una plaga como lo de la seguridad,2,2,0.827,True
+Seguridad y barrios,48,"No me vengan con los nicas, esa gente es lo peor",2,2,0.74,True
+Seguridad y barrios,49,"Los los nicas son un cáncer, que se vayan de el barrio",2,2,0.961,True
+Seguridad y barrios,50,"Qué bueno que murió, ojalá les pase lo mismo a todos los que hablan de la seguridad",3,3,0.769,True
+Mujeres en el trabajo,1,"No me vengan con las mujeres, esa gente es una plaga",2,2,0.65,True
+Mujeres en el trabajo,2,"Los de ese partido son unos babosos, no engañan a nadie jaja",1,1,0.925,True
+Mujeres en el trabajo,3,Hay que quemar la oficina con todos adentro!,3,3,0.957,True
+Mujeres en el trabajo,4,Les voy a meter un balazo a esos imbéciles ya verán,3,3,0.981,True
+Mujeres en el trabajo,5,"El jefe es un sinvergüenza, no sirve para nada",1,1,0.981,True
+Mujeres en el trabajo,6,"Están 4rruinando todo, esos las mujeres no son de aquí ni valen nada",2,2,0.556,True
+Mujeres en el trabajo,7,Eres un estúpido si crees eso de el estudio,1,1,0.982,True
+Mujeres en el trabajo,8,"Si sigues hablando de el estudio te va a pasar algo, sé dónde vivís",3,3,0.5,True
+Mujeres en el trabajo,9,"Las mujeres son todos iguales, una plaga que hay que sacar de la oficina",2,2,0.555,True
+Mujeres en el trabajo,10,"Qué hijo de puta el jefe, nos arruinó el estudio!!!",1,1,0.978,True
+Mujeres en el trabajo,11,"Qué cerote el jefe, siempre arruina el estudio!!!",1,1,0.965,True
+Mujeres en el trabajo,12,"Qué mierda de organización con el estudio, unos cerotes",1,1,0.979,True
+Mujeres en el trabajo,13,Eres un patán si crees eso de el estudio,1,1,0.98,True
+Mujeres en el trabajo,14,"Pronto le llega su hora a el jefe, lo vamos a buscar a la casa 💀",3,3,0.729,True
+Mujeres en el trabajo,15,"típico de las mujeres, solo saben dar problemas con el estudio",2,2,0.508,True
+Mujeres en el trabajo,16,Las mujeres no deberían tener derechos en este país asco,2,2,0.952,True
+Mujeres en el trabajo,17,Te voy a descuartizar si no cierras esa boca sobre el estudio,3,3,0.849,True
+Mujeres en el trabajo,18,"Qué asco de el estudio, todo lo hacen mal esos cerotes",1,1,0.98,True
+Mujeres en el trabajo,19,"Todo el que defiende a el jefe es un mamón, así de simple",1,1,0.946,True
+Mujeres en el trabajo,20,LES DEJO LA INFO COMPLETA SOBRE EL ESTUDIO PARA QUE LA LEAN CON CALMA,0,0,0.9,True
+Mujeres en el trabajo,21,"Gracias por compartir, no sabía lo de el estudio",0,0,0.986,True
+Mujeres en el trabajo,22,¿Alguien tiene fotos de la oficina de hoy?,0,0,0.987,True
+Mujeres en el trabajo,23,"Estoy de acuerdo, hay que organizarse mejor con el estudio",0,0,0.978,True
+Mujeres en el trabajo,24,"Te voy a apuñalar, pendejo, ya verás ya verán",3,3,0.976,True
+Mujeres en el trabajo,25,Solo las mujeres harían algo tan una plaga como lo de el estudio,2,1,0.602,False
+Mujeres en el trabajo,26,Yo voy a matar el tiempo viendo cómo sigue el estudio jaja,0,0,0.809,True
+Mujeres en el trabajo,27,Eres un baboso si crees eso de el estudio,1,1,0.982,True
+Mujeres en el trabajo,28,Vos sos un inútil y el jefe otro más 🤡,1,1,0.99,True
+Mujeres en el trabajo,29,"M@ldito, te voy a partir la cara afuera de la oficina",3,3,0.961,True
+Mujeres en el trabajo,30,"El que no chambea no come, pero aun así el estudio nos afecta a todos",0,0,0.889,True
+Mujeres en el trabajo,31,"Ya mero llego a la oficina, ahí nos vemos",0,0,0.988,True
+Mujeres en el trabajo,32,"Te voy a apuñalar, payaso, ya verás",3,3,0.978,True
+Mujeres en el trabajo,33,Solo las mujeres harían algo tan lo peor como lo de el estudio,2,1,0.913,False
+Mujeres en el trabajo,34,"Estás bien mamón, andá a hablar de el estudio a otro lado",1,1,0.984,True
+Mujeres en el trabajo,35,"Dejen entrar a las mujeres y mire cómo queda la oficina, puro desastre",2,1,0.799,False
+Mujeres en el trabajo,36,Voy a comer algo y ahorita les cuento qué tal el estudio,0,0,0.987,True
+Mujeres en el trabajo,37,TE VOY A MATAR SI TE VUELVO A VER EN LA OFICINA,3,3,0.91,True
+Mujeres en el trabajo,38,"Por culpa de las mujeres pasa lo de el estudio, son lo peor",2,1,0.619,False
+Mujeres en el trabajo,39,"Qué chivo el estudio, lo disfruté un montón",0,0,0.991,True
+Mujeres en el trabajo,40,VOY A IR A BUSCAR A EL JEFE Y LO VOY A DEJAR SIN DIENTES YA VERÁN,3,3,0.781,True
+Mujeres en el trabajo,41,"PURA MIERDA EL ESTUDIO, ORGANIZADO POR UNOS PAYASOS!",1,1,0.97,True
+Mujeres en el trabajo,42,"Qué asco las mujeres, son lo peor en la oficina",2,1,0.699,False
+Mujeres en el trabajo,43,"Qué puchica lo de el estudio, ni modo, a seguir adelante",0,0,0.922,True
+Mujeres en el trabajo,44,"Los las mujeres son una vergüenza, que se vayan de la oficina",2,1,0.73,False
+Mujeres en el trabajo,45,QUÉ PENDEJO TAN GRANDE TU OPINIÓN SOBRE EL ESTUDIO,1,1,0.966,True
+Mujeres en el trabajo,46,Te voy a mandar el link para que veás lo de el estudio mañana,0,0,0.952,True
+Mujeres en el trabajo,47,Voy a matar la curiosidad y buscar más datos sobre el estudio,0,0,0.835,True
+Mujeres en el trabajo,48,Ojalá se mueran todos los que organizaron el estudio!!!,3,3,0.978,True
+Mujeres en el trabajo,49,A el jefe hay que colgarlo en la oficina para que aprendan,3,0,0.406,False
+Mujeres en el trabajo,50,Voy a ir a buscar a el jefe y lo voy a dejar sin dientes!!!,3,3,0.976,True
+Bitcoin y economía,1,Hay que ver las dos caras de el bitcoin antes de opinar,0,1,0.764,False
+Bitcoin y economía,2,"Qué asco los extranjeros, son basura en el banco",2,2,0.911,True
+Bitcoin y economía,3,Qué patán tan grande tu opinión sobre el bitcoin,1,1,0.985,True
+Bitcoin y economía,4,"QUÉ MIERDA DE ORGANIZACIÓN CON EL BITCOIN, UNOS BABOSOS",1,1,0.97,True
+Bitcoin y economía,5,"Pura mierda el bitcoin, organizado por unos cerotes",1,1,0.982,True
+Bitcoin y economía,6,¿Alguien tiene fotos de el banco de hoy?,0,0,0.987,True
+Bitcoin y economía,7,Se me hace que el ministro está haciendo lo que puede con el bitcoin,0,0,0.82,True
+Bitcoin y economía,8,Vaya pendejo el que escribió eso sobre el bitcoin,1,1,0.982,True
+Bitcoin y economía,9,"Ojalá le caiga un rayo a el ministro, que se muera!!!",3,3,0.98,True
+Bitcoin y economía,10,Hoy en el banco no se hablaba de otra cosa que de el bitcoin,0,0,0.906,True
+Bitcoin y economía,11,"ESTOY DE ACUERDO, HAY QUE ORGANIZARSE MEJOR CON EL BITCOIN",0,0,0.814,True
+Bitcoin y economía,12,Hay que quemar el banco con todos adentro 🔪,3,3,0.986,True
+Bitcoin y economía,13,"Ya estamos hartos de los extranjeros, deberían estar fuera de el banco.",2,2,0.779,True
+Bitcoin y economía,14,"Gracias por compartir, no sabía lo de el bitcoin",0,0,0.98,True
+Bitcoin y economía,15,Mi mamá dice que el bitcoin nunca había estado así 🙂,0,0,0.877,True
+Bitcoin y economía,16,"Qué maje tan buena onda el ministro, la verdad nos ayudó con el bitcoin",0,0,0.989,True
+Bitcoin y economía,17,"Qué asco de el bitcoin, todo lo hacen mal esos payasos",1,1,0.975,True
+Bitcoin y economía,18,Opino distinto: el bitcoin fue más complicado de lo que dicen,0,0,0.949,True
+Bitcoin y economía,19,"Típico de los extranjeros, solo saben dar problemas con el bitcoin",2,2,0.719,True
+Bitcoin y economía,20,"Dejen entrar a los extranjeros y mire cómo queda el banco, puro desastre.",2,1,0.606,False
+Bitcoin y economía,21,"Pura mierda el bitcoin, organizado por unos babosos 💩",1,1,0.987,True
+Bitcoin y economía,22,Eres un imbécil si crees eso de el bitcoin,1,1,0.977,True
+Bitcoin y economía,23,"Si sigues hablando de el bitcoin te va a pasar algo, sé dónde vivís 💀",3,3,0.711,True
+Bitcoin y economía,24,"Están arruinando todo, esos los extranjeros no son de aquí ni valen nada",2,2,0.787,True
+Bitcoin y economía,25,"M@ldito, te voy a partir la cara afuera de el banco",3,3,0.965,True
+Bitcoin y economía,26,"Por culpa de los extranjeros pasa lo de el bitcoin, son una vergüenza",2,2,0.833,True
+Bitcoin y economía,27,"Qué asco los extranjeros, son un cáncer en el banco",2,2,0.94,True
+Bitcoin y economía,28,"Qué asco de el bitcoin, todo lo hacen mal esos imbéciles",1,1,0.971,True
+Bitcoin y economía,29,"Por culpa de los extranjeros pasa lo de el bitcoin, son lo peor",2,2,0.919,True
+Bitcoin y economía,30,Vamos a ir con machetes a el banco a arreglar esto de el bitcoin,3,3,0.635,True
+Bitcoin y economía,31,"Cállate cerote, nadie te preguntó",1,1,0.984,True
+Bitcoin y economía,32,A el ministro hay que colgarlo en el banco para que aprendan,3,3,0.62,True
+Bitcoin y economía,33,"Qué mierda de organización con el bitcoin, unos pendejos",1,1,0.977,True
+Bitcoin y economía,34,Te voy a mandar el link para que veás lo de el bitcoin mañana,0,0,0.943,True
+Bitcoin y economía,35,"Pronto le llega su hora a el ministro, lo vamos a buscar a la casa 💀",3,3,0.737,True
+Bitcoin y economía,36,Te voy a matar si te vuelvo a ver en el banco ya verán,3,3,0.984,True
+Bitcoin y economía,37,Te voy a descuartizar si no cierras esa boca sobre el bitcoin,3,3,0.847,True
+Bitcoin y economía,38,Qué baboso tan grande tu opinión sobre el bitcoin,1,1,0.983,True
+Bitcoin y economía,39,voy a ir a buscar a el ministro y lo voy a dejar sin dientes!!!,3,3,0.979,True
+Bitcoin y economía,40,Eres un inútil si crees eso de el bitcoin,1,1,0.975,True
+Bitcoin y economía,41,"El ministro es un estúpido, no sirve para nada",1,1,0.981,True
+Bitcoin y economía,42,VOY A IR A DARTE UNOS BALAZOS POR LO QUE DIJISTE DE EL BITCOIN,3,3,0.715,True
+Bitcoin y economía,43,"Pura mierda el bitcoin, organizado por unos estúpidos jaja",1,1,0.97,True
+Bitcoin y economía,44,"Ya van a ver, cuando los encuentre en el banco los mato a todos",3,3,0.985,True
+Bitcoin y economía,45,"Los extranjeros nunca van a ser iguales a nosotros, son inferiores",2,2,0.784,True
+Bitcoin y economía,46,"No me vengan con los extranjeros, esa gente es un cáncer",2,2,0.934,True
+Bitcoin y economía,47,"Qué puchica lo de el bitcoin, ni modo, a seguir adelante",0,0,0.807,True
+Bitcoin y economía,48,"Ya estamos hartos de los extranjeros, deberían estar fuera de el banco asco",2,2,0.785,True
+Bitcoin y economía,49,Hay que quemar el banco con todos adentro ya verán,3,3,0.978,True
+Bitcoin y economía,50,"Está difícil lo de el bitcoin, ojalá mejore pronto",0,0,0.984,True
+Concierto y fiestas,1,"Qué hijo de puta el organizador, nos arruinó el concierto!!!",1,1,0.973,True
+Concierto y fiestas,2,Vaya estúpido el que escribió eso sobre el concierto,1,1,0.982,True
+Concierto y fiestas,3,Ojalá se mueran todos los que organizaron el concierto ya verán,3,3,0.977,True
+Concierto y fiestas,4,les voy a meter un balazo a esos babosos!,3,3,0.973,True
+Concierto y fiestas,5,"Cállate imbécil, nadie te preguntó",1,1,0.986,True
+Concierto y fiestas,6,los gays no deberían tener derechos en este país,2,2,0.956,True
+Concierto y fiestas,7,Pregunta sincera: ¿cómo afecta el concierto a las familias?,0,0,0.968,True
+Concierto y fiestas,8,"Pura mierda el concierto, organizado por unos imbéciles!",1,1,0.982,True
+Concierto y fiestas,9,"Dejen entrar a los gays y mire cómo queda el parque, puro desastre",2,2,0.751,True
+Concierto y fiestas,10,"Compré boletos para ir a el parque, ¿alguien más va?",0,0,0.98,True
+Concierto y fiestas,11,Yo voy a matar el tiempo viendo cómo sigue el concierto.,0,0,0.878,True
+Concierto y fiestas,12,Voy a ir a darte unos balazos por lo que dijiste de el concierto,3,3,0.817,True
+Concierto y fiestas,13,"Por culpa de los gays pasa lo de el concierto, son basura",2,2,0.784,True
+Concierto y fiestas,14,Voy a comer algo y ahorita les cuento qué tal el concierto,0,0,0.988,True
+Concierto y fiestas,15,"Los gays son todos iguales, una plaga que hay que sacar de el parque",2,2,0.945,True
+Concierto y fiestas,16,Hay que quemar el parque con todos adentro!,3,3,0.859,True
+Concierto y fiestas,17,Voy a matar la curiosidad y buscar más datos sobre el concierto,0,0,0.897,True
+Concierto y fiestas,18,"Si sigues hablando de el concierto te va a pasar algo, sé dónde vivís ya verán",3,3,0.693,True
+Concierto y fiestas,19,Opino distinto: el concierto fue más complicado de lo que dicen,0,0,0.976,True
+Concierto y fiestas,20,"Todo el que defiende a el organizador es un estúpido, así de simple",1,1,0.963,True
+Concierto y fiestas,21,Me parece que el organizador podría explicar mejor lo de el concierto,0,0,0.966,True
+Concierto y fiestas,22,"Los los gays son una plaga, que se vayan de el parque",2,2,0.889,True
+Concierto y fiestas,23,"Estoy de acuerdo, hay que organizarse mejor con el concierto",0,0,0.983,True
+Concierto y fiestas,24,"Ya van a ver, cuando los encuentre en el parque los mato a todos!!!",3,3,0.982,True
+Concierto y fiestas,25,A el organizador hay que colgarlo en el parque para que aprendan,3,3,0.532,True
+Concierto y fiestas,26,"Qué maje tan buena onda el organizador, la verdad nos ayudó con el concierto",0,0,0.99,True
+Concierto y fiestas,27,"El organizador es un inútil corrupto, ya basta de tanta basura política",1,1,0.982,True
+Concierto y fiestas,28,"ESTÁS BIEN CEROTE, ANDÁ A HABLAR DE EL CONCIERTO A OTRO LADO",1,1,0.974,True
+Concierto y fiestas,29,"No me vengan con los gays, esa gente es una plaga",2,2,0.868,True
+Concierto y fiestas,30,"Por culpa de los gays pasa lo de el concierto, son una plaga",2,2,0.889,True
+Concierto y fiestas,31,¿Alguien tiene fotos de el parque de hoy?,0,0,0.99,True
+Concierto y fiestas,32,"Todo el que defiende a el organizador es un inútil, así de simple",1,1,0.944,True
+Concierto y fiestas,33,vamos a ir con machetes a el parque a arreglar esto de el concierto,3,0,0.685,False
+Concierto y fiestas,34,Vos sos un cerote y el organizador otro más,1,1,0.98,True
+Concierto y fiestas,35,"Ya estamos hartos de los gays, deberían estar fuera de el parque",2,2,0.716,True
+Concierto y fiestas,36,"No seas inútil, el concierto no es tan complicado",1,1,0.647,True
+Concierto y fiestas,37,"Si sigues hablando de el concierto te va a pasar algo, sé dónde vivís 🔪",3,3,0.94,True
+Concierto y fiestas,38,"Ya van a ver, cuando los encuentre en el parque los mato a todos ya verán",3,3,0.981,True
+Concierto y fiestas,39,"Está difícil lo de el concierto, ojalá mejore pronto",0,0,0.989,True
+Concierto y fiestas,40,"Los de ese partido son unos pendejos, no engañan a nadie!",1,1,0.954,True
+Concierto y fiestas,41,"El organizador es un inútil, no sirve para nada",1,1,0.955,True
+Concierto y fiestas,42,Ojalá se mueran todos los que organizaron el concierto!,3,3,0.971,True
+Concierto y fiestas,43,"Qué inútil el organizador, siempre arruina el concierto!",1,1,0.939,True
+Concierto y fiestas,44,Te voy a mandar el link para que veás lo de el concierto mañana,0,0,0.966,True
+Concierto y fiestas,45,"Los los gays son lo peor, que se vayan de el parque",2,2,0.829,True
+Concierto y fiestas,46,"Lo de el concierto es culpa de los gays, siempre lo mismo, gente de mierda",2,2,0.769,True
+Concierto y fiestas,47,"Qué asco los gays, son lo peor en el parque",2,2,0.816,True
+Concierto y fiestas,48,Te voy a descuartizar si no cierras esa boca sobre el concierto,3,3,0.805,True
+Concierto y fiestas,49,"Ojalá le caiga un rayo a el organizador, que se muera ya verán",3,3,0.984,True
+Concierto y fiestas,50,"todo el que defiende a el organizador es un payaso, así de simple",1,1,0.933,True

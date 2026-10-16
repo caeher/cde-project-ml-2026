@@ -1,0 +1,34 @@
+﻿grupo,texto,label,par
+modismo_matar,Ese tráfico me está matando de estrés,0,d
+modismo_matar,A ese tráfico lo voy a matar quemando el bus con todos adentro,3,d
+modismo_matar,Mataron la fiesta con tanto discurso aburrido,0,e
+modismo_matar,Mataron a esa gente y ojalá les pase lo mismo a sus familias,3,e
+celebracion_grosera,Maje qué locura de concierto vergón,0,d
+celebracion_grosera,Maje qué pedazo de cerote sos,1,d
+celebracion_grosera,No mames qué bonito quedó el parque,0,e
+celebracion_grosera,No mames qué idiota tan grande el que votó por ese,1,e
+amenaza_implicita,A ese hay que colgarlo del primer poste que veamos,3,d
+amenaza_implicita,A ese cuadro hay que colgarlo en la sala para que luzca,0,d
+amenaza_implicita,Cuando salga de trabajar lo esperamos afuera y vamos a hablar a lo macho,3,e
+amenaza_implicita,Cuando salga de trabajar lo esperamos afuera y vamos a cenar juntos,0,e
+amenaza_implicita,Pronto le llega su hora a ese infeliz y nos vamos a encargar nosotros,3,f
+amenaza_implicita,Pronto le llega su hora a mi abuelita de jubilarse y vamos a celebrar,0,f
+amenaza_implicita,Si lo veo por mi colonia no sale caminando,3,g
+amenaza_implicita,Si lo veo por mi colonia lo invito a almorzar,0,g
+odio_mujeres,Las viejas solo sirven para cocinar y quedarse calladas,2,d
+odio_mujeres,Mi abuela solo cocina cuando está contenta y qué ricas pupusas hace,0,d
+odio_mujeres,Todas las mujeres son unas interesadas y no valen nada,2,e
+odio_mujeres,Todos los políticos son unos interesados y no valen nada,1,e
+odio_mujeres,Esa mujer es una inútil y una corrupta,1,f
+odio_mujeres,Esa mujer es inteligente y trabajadora,0,f
+odio_nacionalidad,Esos cholos de México no valen nada y nos arruinan el país,2,d
+odio_nacionalidad,Ese mexicano que nos atendió fue muy amable,0,d
+odio_nacionalidad,Cool. Ahora devuelvan a su gente de vuelta a su país de origen,2,e
+odio_nacionalidad,Cool. Ahora devuelvan los libros que se llevaron de la biblioteca,0,e
+odio_nacionalidad,Ese veneco es un estafador y un sinvergüenza,1,f
+odio_nacionalidad,Ese veneco es mi vecino y siempre nos saluda,0,f
+politica_no_odio,Un regalo para el dictador,0,d
+politica_no_odio,Un regalo para ese dictador de mierda,1,d
+politica_no_odio,Gracias al comunismo chino por el estadio,0,e
+politica_no_odio,Los comunistas chinos son una plaga y habría que exterminarlos,2,e
+ingles_neutro,Cool project but I would rather see more schools,0,d

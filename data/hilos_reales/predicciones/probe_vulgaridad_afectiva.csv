@@ -1,0 +1,39 @@
+﻿ID,texto,label,tipo,final5,final_v5
+VA-001,"Qué onda maje, hace años que no te veía, qué alegre verte",0,afectiva,0,0
+VA-002,"Puta, qué chivo el concierto de ayer, quedó vergón",0,afectiva,0,0
+VA-003,"Cerote, no sabía que ibas a venir, qué bueno verte",0,afectiva,0,0
+VA-004,"Está a toda verga la pupusería nueva, vayan a probarla",0,afectiva,0,0
+VA-005,"Ala puta, me gané la lotería, no lo puedo creer",0,afectiva,1,0
+VA-006,"Vergón el gol que metió el cipote, qué manera de jugar",0,afectiva,0,0
+VA-007,"No mames maje, qué bonito quedó tu apartamento",0,afectiva,0,0
+VA-008,"Qué verga tan buena onda es tu hermano, siempre ayuda a todos",0,afectiva,0,0
+VA-009,"Puchica vos, se me hizo tarde, ahorita llego, no me esperés",0,afectiva,0,0
+VA-010,"Maje, gracias por el aventón, sos lo máximo",0,afectiva,0,0
+VA-011,"Esa película está de la gran puta, la tienen que ver",0,afectiva,0,0
+VA-012,"Hijo de puta, qué suerte la tuya, felicidades por el trabajo nuevo",0,afectiva,1,1
+VA-013,"Cerote, vos siempre llegando tarde jaja, pero te queremos",0,afectiva,0,0
+VA-014,"Mirá vos, a huevo que sí vamos, ya compré los boletos",0,afectiva,0,0
+VA-015,"Qué vergón el equipo, ganamos la final, maje",0,afectiva,0,0
+VA-016,"Puta madre, qué rico huele ese café, dame uno",0,afectiva,0,0
+VA-017,"Maje, qué chivo está tu carro nuevo",0,afectiva,0,0
+VA-018,"Ese cerote me hizo reír toda la tarde, qué buen amigo",0,afectiva,0,0
+VA-019,"Verga, qué susto, pero qué alegría que estés bien",0,afectiva,0,0
+VA-020,"Vos sos un maje, siempre sabés cómo animarnos",0,afectiva,0,0
+VA-021,"Qué onda maje, sos un pendejo, no volvás a llamarme",1,insulto,1,1
+VA-022,"Puta, qué asco de concierto, pura mierda",1,insulto,1,1
+VA-023,"Cerote, no servís para nada, andate de aquí",1,insulto,1,1
+VA-024,"Está de la verga la pupusería nueva, puro robo",1,insulto,1,1
+VA-025,"Hijo de puta, me robaste y encima te reís",1,insulto,1,1
+VA-026,"Vergón de mierda el árbitro, nos robó el partido",1,insulto,1,1
+VA-027,"No mames maje, qué estúpido sos",1,insulto,1,1
+VA-028,"Qué imbécil es tu hermano, siempre estorba, hijo de puta",1,insulto,1,1
+VA-029,"Puta vos, callate de una vez, nadie te preguntó",1,insulto,1,1
+VA-030,"Maje inútil, por tu culpa perdimos todo",1,insulto,1,1
+VA-031,"Esa película es una basura de mierda, no pierdan el tiempo",1,insulto,1,1
+VA-032,"Cerote ridículo, ni tu mamá te aguanta",1,insulto,1,1
+VA-033,"Ese cerote de gobierno nos tiene hundidos, puros ladrones",1,insulto,1,1
+VA-034,"Maje, sos un asco de persona, no te quiero ver",1,insulto,1,1
+VA-035,"Puta madre con vos, siempre arruinás todo, inútil",1,insulto,1,1
+VA-036,"Ese hijo de puta me estafó, no le compren nada",1,insulto,1,1
+VA-037,"Qué verga de equipo, unos inútiles, nos hicieron perder",1,insulto,1,1
+VA-038,"Cerote de mierda, vas a ver lo que te espera",1,insulto,3,3

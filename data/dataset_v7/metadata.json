@@ -1,0 +1,22 @@
+{
+  "train_total": 8551,
+  "filas_nuevas": 387,
+  "nuevas_por_clase": {
+    "No Tóxico": 303,
+    "Lenguaje Ofensivo": 17,
+    "Discurso de Odio": 1,
+    "Amenazas/Violencia": 66
+  },
+  "reservados": {
+    "militares_pandilleros": 203,
+    "migrantes": 307,
+    "externo2": 650
+  },
+  "militares_por_clase": {
+    "No Tóxico": 84,
+    "Lenguaje Ofensivo": 11,
+    "Discurso de Odio": 1,
+    "Amenazas/Violencia": 107
+  },
+  "verificacion": "0 textos de train en val, test, batería ni externos (crudo y normalizado)"
+}

@@ -1,0 +1,24 @@
+{
+  "nombre": "dataset_v5a",
+  "train_total": 6749,
+  "base_sin_octubre": 6395,
+  "hilos_train": [
+    "repatriados",
+    "invasion"
+  ],
+  "hilos_reservados": [
+    "canje",
+    "feminismo"
+  ],
+  "filas_hilos_train": 299,
+  "filas_casos_train": 55,
+  "filas_hilos_reservados": 417,
+  "filas_casos_probe": 33,
+  "distribucion": {
+    "No Tóxico": 2003,
+    "Lenguaje Ofensivo": 1860,
+    "Discurso de Odio": 1713,
+    "Amenazas/Violencia": 1173
+  },
+  "verificacion": "0 textos de train en val, test, batería, hilos reservados ni casos probe (crudo y normalizado)"
+}

@@ -1,0 +1,30 @@
+{
+  "train_total": 8164,
+  "base_sin_hilos": 6483,
+  "filas_hilos_consenso": 1681,
+  "hilos_en_train": [
+    "canje",
+    "cecot",
+    "feminismo",
+    "invasion",
+    "miss_el_salvador",
+    "racismo",
+    "repatriados",
+    "trans",
+    "venezolanos2"
+  ],
+  "externo_migrantes": 307,
+  "distribucion_hilos": {
+    "No Tóxico": 859,
+    "Lenguaje Ofensivo": 496,
+    "Discurso de Odio": 232,
+    "Amenazas/Violencia": 94
+  },
+  "distribucion_train": {
+    "No Tóxico": 2686,
+    "Lenguaje Ofensivo": 2292,
+    "Discurso de Odio": 1931,
+    "Amenazas/Violencia": 1255
+  },
+  "verificacion": "0 textos de train en val, test, batería ni test externo (crudo y normalizado)"
+}
