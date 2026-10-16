@@ -14,7 +14,7 @@ Val (459) y test (460) son **los mismos en todas las versiones** (mismos ID, tex
 | v1.0.0 | `v1.0.0/` (`data/processed`) | 2,144 | Corpus limpio de la Etapa I (privado) | notebooks 01–02 | baselines Etapa I |
 | v1.1.0 | `v1.1.0/` (`dataset_b2`) | 3,293 | Dataset de la Etapa II | `src/data/build_dataset_b2.py` | mBERT / XLM-R (auditoría 2v) |
 | v1.2.0 | `v1.2.0/` (`dataset_v3`) | 6,416 | + sintéticos | `src/v3/construir_dataset.py` | RoBERTuito Etapa II |
-| v1.3.0 | `v1.3.0/` (`archivo/…v4_normalizacion_v1.1`) | — | + 4,053 textos de X (oct.), normalización v1.1 | `archivo/…/build_dataset_v4_original.py` | — |
+| v1.3.0 | `v1.3.0/` (`archivo/…v4_normalizacion_v1.1`) | 7,344 | Base b2 + textos de X (oct.), normalización v1.1 (reemplazada por v1.3.1) | `archivo/…/build_dataset_v4_original.py` | — |
 | v1.3.1 | `v1.3.1/` (`dataset_v4`) | 10,469 | PATCH: normalización v1.2 y fugas | `src/data/build_dataset_v4.py` | v3.0.0 (textos de oct. con peso 0) |
 | v1.4.0-a | `v1.4.0-a/` (`dataset_v5a`) | 6,749 | Experimento con hilos reservados | `archivo/scripts_build/build_dataset_v5.py` | ninguno desplegado |
 | v1.4.0 | `v1.4.0/` (`dataset_v5f`) | 7,199 | + 4 hilos reales + casos difíciles; sin X oct. | `archivo/scripts_build/build_dataset_v5.py` | v3.1.0 |

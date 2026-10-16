@@ -5,7 +5,7 @@ Nada de esta carpeta se usa para entrenar; se guarda solo para comparar.
 
 | Archivo | Qué es |
 |---|---|
-| `dataset_v4/` | Dataset v4 original: base B2, 7,344 filas, `texto_modelo` con normalizador v1.1 |
+| `dataset_v4/` → movido a `data/history/v1.3.0/` (16-oct-2026) | Dataset v4 original: base B2, 7,344 filas, `texto_modelo` con normalizador v1.1 |
 | `src/normalization_v1.1.py` | Normalizador que estaba en la carpeta local (no es el de la Etapa II) |
 | `src/build_dataset_v4_original.py` | Script de construcción tal como estaba |
 | `src/entrenar_v4_original.py` | Entrenador original. **Defectuoso:** usaba `robertuito-base-uncased` en minúsculas (la Etapa II usó `-cased`) y dejaba con peso 1.0 los 3,132 sintéticos `v3_*` |
