@@ -144,3 +144,11 @@ Solo se reordenó: no cambió ningún dato ni ninguna cifra (mismos SHA-256 del 
 - **Versionado propio del dataset** (`dataset v1.x.x`, distinto del modelo v3.x.x): el vigente es **dataset v1.8.0**; las carpetas `dataset_b2 … dataset_v8` pasan a `data/history/v1.1.0 … v1.7.0` (`data/history/VERSIONS.md`). El modelo v3.4.0 registra `"dataset": "1.8.0"`.
 - `src/paths.py` concentra las rutas; `src/evaluation/metrics.py` y `src/models/inference.py` reúnen funciones que vivían dentro de scripts con versión (los módulos viejos las re-exportan).
 - `reports/` y `docs/` agrupados en `stage1`, `stage2`, `improvement`, `defense` y `prompts`; pruebas en `tests/` (`python -m unittest discover tests`).
+
+## Ronda 3: datos de Amenazas y jerga, anotación parcial (31 de octubre de 2026)
+Plan: `docs/improvement/Plan_ronda3_amenazas_jerga.md`. Diagnóstico de v3.4.0: 62 de 117 Amenazas del banco no se detectan (41 como No Tóxico con p(AM) media 0.08), casi todas celebración implícita de violencia; y solo 22 textos reales No Tóxico con jerga en el entrenamiento.
+- **Recolectado (BrowserOS, solo lectura, sin usuarios):** 25,541 textos en 109 hilos (A 9,405 · B 7,143 · C 8,993) y 470 de búsqueda de jerga; 0 duplicados contra todo el proyecto (`src/data/threads/verificar_duplicados.py`).
+- **Anotación a ciegas (Haiku 5.5, guía v2.0):** piloto de 1,000 textos con κ A–B = 0.82. Sobre los 22,092 textos con A y B: κ = 0.848, acuerdo 0.924. Quedó cortada por el límite de gasto: **20,506 textos con consenso** (No Tóxico 13,717 · Ofensivo 5,502 · Odio 263 · Amenazas 1,024), 1,582 desacuerdos pendientes de desempate, 9 lotes y todos los textos de jerga sin anotar. Anotadores LLM del mismo modelo: errores correlacionados.
+- **Metas del plan:** Amenazas ≥ 300 ✔ (1,024 con consenso). No Tóxico con jerga ≥ 300 ✘ (249 con léxico amplio, sin contar los 470 de jerga aún sin anotar).
+- **Sin efecto en el modelo:** el dataset v1.8.0, el banco congelado y v3.4.0 no cambian; el siguiente paso (dataset v1.9.0 y v3.5.0) queda pendiente de terminar la anotación.
+- Scripts nuevos: `verificar_duplicados.py`, `desacuerdos.py`, `consolidar_ronda3.py` en `src/data/threads/`.

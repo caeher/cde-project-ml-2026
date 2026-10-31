@@ -55,3 +55,8 @@ Claude outputs/
 Métricas de Evaluación/
 logs/
 *.docx~
+
+# Salidas de trabajo del verificador de duplicados (tablas con fragmentos de texto)
+reports/improvement/dup_*.csv
+reports/improvement/verificacion_duplicados.csv
+reports/improvement/_test_*.csv

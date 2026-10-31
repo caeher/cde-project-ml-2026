@@ -40,3 +40,10 @@ sources/x_oct2026 ────────────────────�
 sources/x_threads ─► annotation/threads (blind → labels) ──────────────────────────────────────────┴► v1.4.0 … v1.7.0 ─► dataset (v1.8.0)
                                                     └─► evaluation/frozen_bank (hilos reservados)
 ```
+
+## Ronda 3 (octubre de 2026): datos recolectados y anotación en curso
+- `sources/x_threads/phase3/`: 109 hilos, 25,541 textos (grupos A celebración de daño, B conversación casual, C crítica política).
+- `sources/x_threads/phase3_jerga/`: 470 textos de búsqueda por términos de jerga salvadoreña (8 términos; contenido de otros países incluido).
+- `annotation/threads/blind/ronda3/`: lotes a ciegas (`lote_R3*`), salidas de los anotadores A, B y C (`salida_*`) y desacuerdos.
+- `annotation/threads/labels/ronda3_consolidado.csv` (todos los textos con su estado) y `consenso_ronda3.csv` (solo con consenso). Resumen en `reports/improvement/consolidado_ronda3.md`.
+Estas etiquetas todavía no están en `dataset/` (v1.8.0).
