@@ -50,7 +50,8 @@ def main():
     a, b, c, lote_de = {}, {}, {}, {}
     for f in sorted(glob.glob(str(B / "lote_R3*.csv"))):
         lote = re.sub(r"^lote_", "", Path(f).stem); ids = set(leer(f).ID)
-        for i in ids: lote_de[i] = lote
+        if not re.match(r"R3[ABC]_", lote):  # los lotes de rescate (R3A/R3B: texto sin A o sin B; R3C: desempate) no cambian el lote de origen del texto
+            for i in ids: lote_de[i] = lote
         a.update(etiquetas(ids, B / f"salida_{lote}a.csv")); b.update(etiquetas(ids, B / f"salida_{lote}b.csv")); c.update(etiquetas(ids, B / f"salida_{lote}c.csv"))
     d = base.copy()
     d["lote"] = d.ID.map(lote_de)
@@ -92,13 +93,16 @@ def main():
     nt_j = ok[(ok.consenso == 0) & ok.texto.str.contains(JERGA)]; of_j = ok[(ok.consenso == 1) & ok.texto.str.contains(JERGA)]
     L += ["", f"Con jerga (léxico amplio, `JERGA` en el script): **{len(nt_j):,}** No Tóxico y **{len(of_j):,}** Ofensivo con consenso. "
               "El plan de la ronda 3 pedía ≥ 300 No Tóxico con jerga; el léxico amplio incluye términos que también se usan fuera de El Salvador.", "",
-          "## Lotes", "", f"- Anotados por A y B sin faltantes: {int((d.groupby('lote').apply(lambda g: g.a.notna().all() and g.b.notna().all(), include_groups=False)).sum())} de {d.lote.nunique()}.",
-          f"- Sin desempate C todavía: {int((d.estado == 'desacuerdo_pendiente').sum()):,} textos (la anotación se cortó por el límite de gasto; se reanuda con el mismo flujo, que reutiliza lo ya hecho).", "",
+          "## Lotes y desempate", "",
+          f"- Lotes de origen con A y B completos: {int((d.dropna(subset=['lote']).groupby('lote').apply(lambda g: g.a.notna().all() and g.b.notna().all(), include_groups=False)).sum())} de {d.lote.nunique()}; el resto se completó con lotes de rescate (`lote_R3A_*`, `lote_R3B_*`).",
+          f"- Desempatados por C: {int(d.d.notna().sum()):,} textos. Pendientes de desempate: {int((d.estado == 'desacuerdo_pendiente').sum()):,}. Sin consenso (A, B y C distintos): {int((d.estado == 'sin_consenso').sum()):,}, que no se usan.",
+          f"- C marcó seguro=0 en la mayoría de los desacuerdos (son los casos más difíciles): las etiquetas de `consenso_c` son más ruidosas; en el dataset llevan etiqueta blanda (2 de 3 votos).", "",
           "## Advertencias", "",
           "- **La jerga recolectada es poca y de calidad dudosa:** 470 textos en 8 términos, 57 % de un solo término («achis»), con contenido de México y España y nombres propios («jana», «chulón»). "
-          "No pasaron por anotación; no usar para entrenar sin revisarlos.",
-          "- Los desacuerdos pendientes son los casos más difíciles; excluirlos sesga la muestra hacia lo fácil.",
-          "- Las etiquetas aún no entran al dataset: `build_dataset_final.py` solo lee `consenso_fase1_r*.csv`, así que **el dataset v1.8.0 y el banco congelado no cambian** hasta construir v1.9.0.", ""]
+          "En el dataset v1.9.0 se excluyen los marcados `pais_dudoso=1` y los textos con marcas de México o España, y «achis» se limita a 80 textos (`RONDA3` en `src/data/build_dataset_final.py`).",
+          "- Los textos sin consenso quedan fuera; excluirlos sesga la muestra hacia lo fácil.",
+          "- Los anotadores son del mismo modelo (Haiku 5.5): errores correlacionados y sin validación humana.",
+          "- El dataset v1.9.0 incorpora estas etiquetas con la política de balance `RONDA3` (todas las Amenazas y el Odio; tope por hilo de No Tóxico y Ofensivo). El banco congelado y el conjunto de val y test no cambian.", ""]
     (P.REPORTS_IMPROVEMENT / "consolidado_ronda3.md").write_text("\n".join(L), encoding="utf-8")
     print("\n".join(L))
 

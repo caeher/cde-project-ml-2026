@@ -47,3 +47,5 @@ sources/x_threads ─► annotation/threads (blind → labels) ─────�
 - `annotation/threads/blind/ronda3/`: lotes a ciegas (`lote_R3*`), salidas de los anotadores A, B y C (`salida_*`) y desacuerdos.
 - `annotation/threads/labels/ronda3_consolidado.csv` (todos los textos con su estado) y `consenso_ronda3.csv` (solo con consenso). Resumen en `reports/improvement/consolidado_ronda3.md`.
 Estas etiquetas todavía no están en `dataset/` (v1.8.0).
+
+**Actualización (1-nov-2026):** la anotación de la ronda 3 está terminada y `dataset/` es la **v1.9.0** (21,585 filas); la v1.8.0 está en `history/v1.8.0/`. Ver `history/VERSIONS.md`.

@@ -198,3 +198,9 @@ Anotación: agentes **Haiku 5.5** a ciegas, A con la guía v2.0 completa y B con
 La anotación se cortó por el límite de gasto: 40 de 52 lotes con A y B completos, 83 textos desempatados por C (los del piloto), 1,582 desacuerdos sin desempatar, 9 lotes sin anotar, y los 470 textos de jerga **sin anotar**.
 Consolidado: `data/annotation/threads/labels/ronda3_consolidado.csv` (todos los textos y su estado) y `consenso_ronda3.csv` (solo los que ya tienen consenso: 20,506). Resumen: `reports/improvement/consolidado_ronda3.md`. Script: `src/data/threads/consolidar_ronda3.py`.
 Estas etiquetas **no** entran todavía al dataset: `build_dataset_final.py` no lee `consenso_ronda3.csv`, por lo que el dataset v1.8.0 y el banco congelado no cambian.
+
+## Ronda 3: anotación terminada y dataset v1.9.0 (1 de noviembre de 2026)
+Se completó la anotación con lotes de rescate (`lote_R3A_*`: textos sin etiqueta de A; `lote_R3B_*`: sin etiqueta de B; 14 lotes, esfuerzo bajo de los agentes) y el desempate de los 1,917 desacuerdos restantes (`lote_R3C_*`, 5 lotes). Todo con agentes Haiku 5.5 a ciegas (**anotadores del mismo modelo: errores correlacionados, sin validación humana**).
+Resultado (`reports/improvement/consolidado_ronda3.md`): 26,011 textos → 24,007 consenso A = B, 1,898 consenso con C, 106 sin consenso (se excluyen). κ A–B = 0.844. Los lotes de rescate de A tuvieron menos acuerdo con B (82–90 %) que los de B con A (92–95 %); C no favoreció a ningún anotador (979 con A, 919 con B).
+Jerga: 470 textos anotados; 41 se excluyen del entrenamiento (`pais_dudoso=1` o marcas de México/España) y «achis» se limita a 80. **Entran 271: 153 No Tóxico y 103 Ofensivo** (objetivo del plan: ≥ 300 y ≥ 100; No Tóxico no se alcanza).
+Dataset v1.9.0: `build_dataset_final.py` con la política `RONDA3`. El banco congelado y val/test/batería quedan idénticos.

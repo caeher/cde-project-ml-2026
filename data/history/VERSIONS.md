@@ -21,7 +21,8 @@ Val (459) y test (460) son **los mismos en todas las versiones** (mismos ID, tex
 | v1.5.0 | `v1.5.0/` (`dataset_v6`) | 8,164 | Consenso de 3 anotadores, 9 hilos | `archivo/scripts_build/build_dataset_v6.py` | v3.2.0-rc1 |
 | v1.6.0 | `v1.6.0/` (`dataset_v7`) | 8,551 | + hilos con Amenazas | `archivo/scripts_build/build_dataset_v7.py` | v3.3.0-rc1 |
 | v1.7.0 | `v1.7.0/` (`archivo/datasets/dataset_v8`) | 9,195 | + hilos de Odio (LGBT, racismo) | `archivo/scripts_build/build_dataset_v8.py` | v3.4.0-rc1 (descartado) |
-| **v1.8.0** | `data/dataset/` (`dataset_final`) | **12,641** | Pool completo de la fase 1; banco congelado excluido | `src/data/build_dataset_final.py` | **v3.4.0 (vigente)** |
+| v1.8.0 | `v1.8.0/` (`dataset_final` hasta la v1.9.0) | 12,641 | Pool completo de la fase 1; banco congelado excluido | `src/data/build_dataset_final.py` | v3.4.0 |
+| **v1.9.0** | `data/dataset/` | **21,585** | + ronda 3: 26 mil textos anotados a ciegas (Amenazas 1,352 y Odio 400 con consenso, todas incluidas; No Tóxico y Ofensivo con tope por hilo; jerga filtrada). Política `RONDA3` | `src/data/build_dataset_final.py` | por entrenar (v3.5.0) |
 
 Notas:
 - `archivo/datasets/dataset_v7_copia` es una copia idéntica de v1.6.0; se conserva donde estaba.

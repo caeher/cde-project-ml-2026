@@ -15,7 +15,7 @@ class Rutas(unittest.TestCase):
             self.assertTrue(getattr(P, nombre).exists(), nombre)
 
     def test_versiones_historicas(self):
-        for v in ["1.1.0", "1.2.0", "1.3.0", "1.3.1", "1.4.0-a", "1.4.0", "1.5.0", "1.6.0", "1.7.0"]:
+        for v in ["1.1.0", "1.2.0", "1.3.0", "1.3.1", "1.4.0-a", "1.4.0", "1.5.0", "1.6.0", "1.7.0", "1.8.0"]:
             self.assertTrue((P.history(v) / "train.csv").exists(), v)
 
     def test_sin_carpetas_viejas(self):
@@ -44,7 +44,7 @@ class Dataset(unittest.TestCase):
     def test_val_test_iguales_en_todas_las_versiones(self):
         import pandas as pd
         ref = {f: pd.read_csv(P.DATASET / f).set_index("ID")[["texto_original", "label"]] for f in ["val.csv", "test.csv"]}
-        for v in ["1.1.0", "1.2.0", "1.3.1", "1.4.0", "1.5.0", "1.6.0", "1.7.0"]:
+        for v in ["1.1.0", "1.2.0", "1.3.1", "1.4.0", "1.5.0", "1.6.0", "1.7.0", "1.8.0"]:
             for f, r in ref.items():
                 d = pd.read_csv(P.history(v) / f).set_index("ID")[["texto_original", "label"]]
                 self.assertTrue(d.reindex(r.index).equals(r), f"{v}/{f}")

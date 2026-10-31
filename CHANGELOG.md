@@ -152,3 +152,10 @@ Plan: `docs/improvement/Plan_ronda3_amenazas_jerga.md`. Diagnóstico de v3.4.0: 
 - **Metas del plan:** Amenazas ≥ 300 ✔ (1,024 con consenso). No Tóxico con jerga ≥ 300 ✘ (249 con léxico amplio, sin contar los 470 de jerga aún sin anotar).
 - **Sin efecto en el modelo:** el dataset v1.8.0, el banco congelado y v3.4.0 no cambian; el siguiente paso (dataset v1.9.0 y v3.5.0) queda pendiente de terminar la anotación.
 - Scripts nuevos: `verificar_duplicados.py`, `desacuerdos.py`, `consolidar_ronda3.py` en `src/data/threads/`.
+
+## Dataset v1.9.0: ronda 3 anotada y lista para entrenar (1 de noviembre de 2026)
+- **Anotación terminada** con agentes Haiku 5.5: 14 lotes de rescate de A y B y 5 de desempate C (≈ 2.6 millones de tokens frente a ≈ 14 millones de la primera pasada, que se cortó por el límite de gasto). Resultado: 24,007 textos con consenso A = B, 1,898 con consenso de C (etiquetas más ruidosas: C marcó duda en la mayoría), 106 sin consenso. κ A–B = 0.844. Anotadores LLM del mismo modelo, sin validación humana.
+- **Dataset v1.9.0 = 21,585 filas** (v1.8.0 tenía 12,641; archivada en `data/history/v1.8.0/`): No Tóxico 9,661 · Ofensivo 5,903 · Odio 2,949 · Amenazas 3,072 (antes 1,720). La ronda 3 aporta 8,944 filas con la política `RONDA3`: todas las Amenazas (1,352) y el Odio (400), y como máximo 40 No Tóxico y 25 Ofensivo por hilo; jerga: sin `pais_dudoso`, sin México/España y «achis» ≤ 80.
+- **Jerga:** entran 271 textos (153 No Tóxico, 103 Ofensivo); la meta de ≥ 300 No Tóxico con jerga **no se alcanza**. No se declara mejora del sesgo por jerga hasta medirla en el modelo entrenado.
+- **Intacto:** val, test, batería y banco congelado (mismos archivos; 9 pruebas en verde, incluida la de fugas). Sin entrenar todavía: el siguiente paso es el candidato v3.5.0 con los criterios de `docs/improvement/Plan_ronda3_amenazas_jerga.md`.
+- Scripts: `preparar_rescate.py`, `consolidar_ronda3.py` y la política `RONDA3` en `build_dataset_final.py`.

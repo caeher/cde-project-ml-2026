@@ -54,6 +54,39 @@ def tabla(archivo, col_texto, cols_voto, quitar_op=True):
     return d[d.label >= 0][["hilo", "texto", "label", "p0", "p1", "p2", "p3"]].reset_index(drop=True)
 
 
+# Política de la ronda 3 (dataset v1.9.0), fijada antes de entrenar: el volumen nuevo es sobre todo No Tóxico/Ofensivo, así que se
+# conservan TODAS las Amenazas y el Odio y se limita lo demás por hilo para no ahogar las clases raras. Reproducible (semilla fija).
+RONDA3 = {"max_nt_por_hilo": 40, "max_of_por_hilo": 25, "max_achis": 80, "semilla": 2027}
+MEXICO = re.compile(r"m[eé]xico|cdmx|cruz azul|mariachi|veracruz|tri mayor|guadalajara|monterrey|chivas|liga mx|nuevo le[oó]n|am[eé]rica femenil|pumas|andaluc[ií]a|espa[nñ]a", re.I)
+
+
+def ronda3(politica=RONDA3):
+    """Filas con consenso de la ronda 3 (consenso_ronda3.csv) bajo la política anterior. Jerga: se excluye pais_dudoso=1 y textos con marcas de México/España,
+    y «achis» (57 % de la jerga y no solo salvadoreño) se limita a max_achis. Devuelve (tabla como la de tabla(), resumen)."""
+    cols = ["hilo", "texto", "label", "p0", "p1", "p2", "p3"]
+    f = H / "labels" / "consenso_ronda3.csv"
+    if not f.exists(): return pd.DataFrame(columns=cols), {}
+    d = pd.read_csv(f, encoding="utf-8-sig", dtype={"ID": str}); d = d[d.consenso >= 0].copy()
+    p = votos(d, ["a", "b", "d"])
+    for k in range(4): d[f"p{k}"] = p[:, k]
+    d["label"] = d.consenso.astype(int)
+    jerga = pd.concat([pd.read_csv(x, encoding="utf-8-sig", dtype=str) for x in sorted((P.X_THREADS / "phase3_jerga").glob("*.csv"))], ignore_index=True)
+    es_j = d.hilo.str.startswith("busqueda_")
+    excl = es_j & (d.ID.isin(jerga[jerga.pais_dudoso == "1"].ID) | d.texto.str.contains(MEXICO))
+    s = politica["semilla"]; partes = []
+    for _, g in d[~es_j].groupby("hilo"):
+        partes.append(g[g.label >= 2])
+        for c, tope in ((0, politica["max_nt_por_hilo"]), (1, politica["max_of_por_hilo"])):
+            h = g[g.label == c]; partes.append(h.sample(min(len(h), tope), random_state=s))
+    j = d[es_j & ~excl]; ach = j[j.hilo == "busqueda_achis"]
+    partes.append(pd.concat([j[j.hilo != "busqueda_achis"], ach.sample(min(len(ach), politica["max_achis"]), random_state=s)]))
+    r = pd.concat(partes, ignore_index=True)
+    res = {"politica": politica, "con_consenso": len(d), "incluidas": len(r), "por_clase": {CLASES[c]: int((r.label == c).sum()) for c in range(4)},
+           "jerga_excluidas_pais_o_mexico": int(excl.sum()), "jerga_incluidas": int(r.hilo.str.startswith("busqueda_").sum()),
+           "jerga_NT_Ofensivo": [int(((r.label == c) & r.hilo.str.startswith("busqueda_")).sum()) for c in (0, 1)]}
+    return r[cols].reset_index(drop=True), res
+
+
 def verificar(train, val, test, adv, banco):
     """Comprobación dura: ningún texto de train (crudo o normalizado) puede estar en val, test, batería ni banco."""
     kt = claves(train.texto_original)
@@ -72,7 +105,10 @@ def construir(salida_train=True, pool_extra=None):
     todo = pd.concat([t1, t2, t3, t4] + extra, ignore_index=True)
     banco = {"militares": todo[todo.hilo == "militares_pandilleros"], "xenofobia": todo[todo.hilo == "xenofobia_federico"], "externo2": t5, "migrantes": t6}
     pool = todo[~todo.hilo.isin(BANCO_HILOS)].copy()
+    r3, res3 = ronda3()
+    pool = pd.concat([pool, r3], ignore_index=True)  # al final: los ID HF-xxxxx de las filas anteriores no cambian
     if pool_extra is not None: pool = pd.concat([pool, pool_extra], ignore_index=True)
+    construir.resumen_ronda3 = res3
     V4 = P.history("1.3.1"); V5 = P.history("1.4.0")
     base = pd.read_csv(V5 / "train.csv"); base = base[base.origen != "real_hilo"].copy()  # base sin octubre + casos difíciles
     val, test, adv = (pd.read_csv(V4 / f) for f in ["val.csv", "test.csv", "test_adversarial.csv"])
@@ -101,6 +137,9 @@ def main():
             print("SELFTEST 2 (la comprobación dura aborta ante una fuga en train): OK ->", e)
         return
     train, val, test, adv, banco, pool, retiradas = construir()
+    if "--dry" in sys.argv:  # no escribe nada: muestra la composición que tendría el dataset
+        print(json.dumps({"train_total": len(train), "train_por_clase": {CLASES[c]: int((train.label == c).sum()) for c in range(4)},
+                          "ronda3": construir.resumen_ronda3, "retiradas": retiradas}, ensure_ascii=False, indent=2)); return
     out = P.DATASET; out.mkdir(exist_ok=True); bd = P.FROZEN_BANK; bd.mkdir(exist_ok=True)
     train.to_csv(out / "train.csv", index=False, encoding="utf-8")
     for f, d in [("val.csv", val), ("test.csv", test), ("test_adversarial.csv", adv)]: d.to_csv(out / f, index=False, encoding="utf-8")
@@ -112,7 +151,7 @@ def main():
     hil = train[train.origen == "real_hilo"]
     meta = {"version": P.DATASET_VERSION, "train_total": len(train), "base_y_casos": int((train.origen != "real_hilo").sum()), "filas_hilos_pool": len(hil), "hilos_en_pool": sorted(hil.plantilla_id.unique().tolist()),
             "pool_por_clase": {CLASES[c]: int((hil.label == c).sum()) for c in range(4)}, "train_por_clase": {CLASES[c]: int((train.label == c).sum()) for c in range(4)},
-            "retiradas_por_coincidir_con_test_o_banco": retiradas, "banco_n": {k: len(v) for k, v in banco.items()},
+            "retiradas_por_coincidir_con_test_o_banco": retiradas, "banco_n": {k: len(v) for k, v in banco.items()}, "ronda3": construir.resumen_ronda3,
             "verificacion": "0 textos de train en val, test, batería ni banco congelado (crudo y normalizado)"}
     (out / "metadata.json").write_text(json.dumps(meta, ensure_ascii=False, indent=2), encoding="utf-8"); print(json.dumps(meta, ensure_ascii=False, indent=2))
 
