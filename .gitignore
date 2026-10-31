@@ -112,3 +112,4 @@ wandb/
 .pytest_cache/
 .coverage
 htmlcov/
+prototype/xlm_roberta_hate_speech_sv/model.safetensors
