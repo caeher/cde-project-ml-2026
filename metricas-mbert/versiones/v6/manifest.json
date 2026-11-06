@@ -1,0 +1,13 @@
+{
+  "version_id": "v6",
+  "release_id": "v6-gold-20261103",
+  "parent_baseline": "training-v3-20261101",
+  "description": "CDE v1.9.0 + adjudicación legacy train (same row counts as v4 baseline)",
+  "dataset_version": "1.9.0",
+  "train_rows": 21585,
+  "val_rows": 459,
+  "test_rows": 460,
+  "metrics": {
+    "training_report": "metrics/mbert_training_v6_full_report.json"
+  }
+}
