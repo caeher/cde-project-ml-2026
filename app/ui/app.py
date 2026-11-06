@@ -26,9 +26,22 @@ st.caption("Clasificador de 4 clases para texto de redes sociales de El Salvador
 
 try:
     salud = requests.get(f"{API}/salud", timeout=5).json()
-    st.sidebar.success(f"API activa · {salud['modelos_cargados']} modelo(s) cargado(s) · {salud['dispositivo']}")
+    modelo = salud.get("modelo") or {}
+    st.sidebar.success(
+        f"API activa · {modelo.get('nombre') or modelo.get('id') or 'modelo'} · {modelo.get('dispositivo', 'cpu')}"
+    )
+    cat = requests.get(f"{API}/modelos", timeout=5).json()
+    opciones = {m["nombre"]: m["key"] for m in cat.get("modelos", [])}
+    activo = cat.get("activo") or modelo.get("id")
+    nombres = list(opciones)
+    idx = nombres.index(next(n for n, k in opciones.items() if k == activo)) if activo in opciones.values() else 0
+    modelo_sel = st.sidebar.selectbox("Modelo Hugging Face", nombres, index=idx)
+    if opciones.get(modelo_sel) != activo:
+        requests.post(f"{API}/modelo", json={"modelo": opciones[modelo_sel]}, timeout=600)
 except Exception:
     st.sidebar.error("La API no responde en http://127.0.0.1:8000")
+    opciones = {}
+    modelo_sel = None
 st.sidebar.markdown("### Clases\n- 🟢 **No Tóxico**: sin agresión; incluye groserías afectivas y crítica dura.\n- 🟠 **Lenguaje Ofensivo**: insulto a una persona.\n"
                     "- 🔴 **Discurso de Odio**: ataque a un grupo por su identidad.\n- ⛔ **Amenazas/Violencia**: intención de causar daño.\n\n"
                     "Precedencia si hay varias: Amenazas > Odio > Ofensivo > No Tóxico (guía de anotación v2.0).")
@@ -42,7 +55,10 @@ with col_in:
 with col_out:
     if ir:
         try:
-            r = requests.post(f"{API}/predecir", json={"texto": texto}, timeout=60); r.raise_for_status(); d = r.json()
+            body = {"texto": texto}
+            if opciones and modelo_sel:
+                body["modelo"] = opciones[modelo_sel]
+            r = requests.post(f"{API}/clasificar", json=body, timeout=120); r.raise_for_status(); d = r.json()
             st.subheader(f"{COLORES[d['clase']]} {d['clase']}")
             st.metric("Confianza", f"{d['confianza']:.0%}")
             if d["confianza"] < UMBRAL_BAJA_CONFIANZA:
@@ -50,7 +66,7 @@ with col_out:
             if d["label"] > 0 and d["confianza"] >= UMBRAL_BAJA_CONFIANZA:
                 st.info("Texto marcado como tóxico: confirmar con una persona antes de cualquier acción.")
             pr = pd.Series(d["probabilidades"]).reindex(list(COLORES)); st.bar_chart(pr)
-            st.caption(f"Modelos en el ensamble: {d['n_modelos']}. Las probabilidades están calibradas (temperature scaling).")
+            st.caption(f"Modelo: {d.get('modelo', 'activo')} · riesgo {d.get('nivel_de_riesgo', '—')}")
         except Exception as e:
             st.error(f"No se pudo consultar la API ({e})")
     else:

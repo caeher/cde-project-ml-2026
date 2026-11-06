@@ -188,9 +188,10 @@ RoBERTuito (`pysentimiento/robertuito-base-cased`), ensemble de 5 semillas, sin 
 
 La comparación contra v4 (con datos de octubre) y contra la línea base de 3 semillas está en `reports/improvement/Resultado_reentrenamiento_v4.md`. Limitaciones: Facebook (F1 0.7686 frente a 0.9041 en X) y los cortes con sarcasmo/ironía.
 
-```bash
-uvicorn app.api.main:app --port 8000      # API: POST /predecir {"texto": "..."}
-streamlit run app/ui/app.py               # dashboard
+```powershell
+.\scripts\arrancar_demo.ps1    # API :8000 + Streamlit :8501 (pesos desde Hugging Face)
+.\scripts\arrancar_api.ps1     # solo API; interfaz HTML en http://127.0.0.1:8000/
+# POST /clasificar  {"texto":"..."}  — modelos: mbert-sv (caeher/mbert-sv), xlmr-hate-speech-sv (TheArbite/xlmr-hate-speech-sv)
 ```
 
 ### Actualización (14 de octubre de 2026): modelo v5 en la API
