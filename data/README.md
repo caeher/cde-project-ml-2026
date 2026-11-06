@@ -19,9 +19,9 @@ data/
 │       ├── review/           revisión de 125 casos (HTML)
 │       ├── REGISTRO.md       qué hilo va al pool de entrenamiento y cuál al banco congelado
 │       └── LEEME.md
-├── dataset/                  ★ EL dataset vigente: dataset v1.8.0 (train/val/test/test_adversarial + metadata.json)
+├── dataset/                  ★ EL dataset vigente: dataset v2.0.0 (train/val/test/val_hilos/test_hilos/test_adversarial; ver dataset/LEEME.md)
 ├── history/                  versiones anteriores, solo para reproducir cifras ya reportadas (ver history/VERSIONS.md)
-│   └── v1.0.0/ … v1.7.0/
+│   └── v1.0.0/ … v1.9.0/
 └── evaluation/               conjuntos que NUNCA entrenan ni deciden
     ├── frozen_bank/          banco congelado: 4 hilos con consenso + MANIFEST.json (SHA-256)
     └── hard_cases/           casos difíciles y sonda de vulgaridad afectiva (solo evaluar)
@@ -37,7 +37,7 @@ data/
 ```
 sources/stage1_corpus ─► annotation/stage1 ─► history/v1.0.0 ─► v1.1.0 ─► v1.2.0 ─┐
 sources/x_oct2026 ─────────────────────────────────────────────────────────────► v1.3.0 ─► v1.3.1 ─┐
-sources/x_threads ─► annotation/threads (blind → labels) ──────────────────────────────────────────┴► v1.4.0 … v1.7.0 ─► dataset (v1.8.0)
+sources/x_threads ─► annotation/threads (blind → labels) ──────────────────────────────────────────┴► v1.4.0 … v1.9.0 ─► dataset (v2.0.0)
                                                     └─► evaluation/frozen_bank (hilos reservados)
 ```
 

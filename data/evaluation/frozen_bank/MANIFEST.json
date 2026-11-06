@@ -47,5 +47,61 @@
       "Discurso de Odio": 33,
       "Amenazas/Violencia": 3
     }
+  },
+  "val_hilos": {
+    "archivo": "data/dataset/val_hilos.csv",
+    "sha256": "d2309e183be12f8368dd79c8a7dd2c388999ca10ba7fe5ce175b6b5b86ab9150",
+    "n": 2314,
+    "hilos": [
+      "aniversario_presidencial",
+      "apoyar_bukele",
+      "busqueda_achis",
+      "busqueda_cachimbon",
+      "busqueda_cerote",
+      "busqueda_chulon",
+      "busqueda_jana",
+      "busqueda_que_onda_vos",
+      "capturas_4_dias",
+      "cena_navidad_cecot",
+      "diputadas_oposicion",
+      "mensaje_criminales",
+      "mexicano_dictadura",
+      "partido_puerto_rico",
+      "zavaleta_roldan"
+    ],
+    "clases": {
+      "No Tóxico": 1559,
+      "Lenguaje Ofensivo": 594,
+      "Discurso de Odio": 29,
+      "Amenazas/Violencia": 132
+    }
+  },
+  "test_hilos": {
+    "archivo": "data/dataset/test_hilos.csv",
+    "sha256": "14eefebc1a70c0ba8e91c32d2c09b0fbb7a025dcbc560fa9eab29785763e846d",
+    "n": 1975,
+    "hilos": [
+      "aficionados_fito",
+      "analista_oposicion",
+      "busqueda_achis",
+      "busqueda_cachimbon",
+      "busqueda_cerote",
+      "busqueda_chulon",
+      "busqueda_jana",
+      "busqueda_que_onda_vos",
+      "chivo_wallet",
+      "duro_golpe_pandilleros",
+      "emma_dejar_morir_hambre",
+      "intolerancia_calle",
+      "mensaje_prensa",
+      "pena_muerte_gallegos",
+      "propuesta_retornados"
+    ],
+    "clases": {
+      "No Tóxico": 1307,
+      "Lenguaje Ofensivo": 514,
+      "Discurso de Odio": 28,
+      "Amenazas/Violencia": 126
+    }
   }
 }

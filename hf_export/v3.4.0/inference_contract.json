@@ -1,0 +1,10 @@
+{
+  "version": "3.4.0",
+  "base_model": "pysentimiento/robertuito-base-cased",
+  "max_length": 128,
+  "normalizer": "normalization.normalizar",
+  "normalizer_version": "1.2",
+  "temperature": 1.582,
+  "labels": ["No Tóxico", "Lenguaje Ofensivo", "Discurso de Odio", "Amenazas/Violencia"],
+  "dataset": "1.8.0"
+}

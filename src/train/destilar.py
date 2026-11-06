@@ -82,9 +82,11 @@ def main():
     ap.add_argument("--lr", type=float, default=5.73e-05); ap.add_argument("--epocas", type=int, default=6); ap.add_argument("--wd", type=float, default=0.0176)
     ap.add_argument("--warmup", type=float, default=0.093); ap.add_argument("--batch", type=int, default=32); ap.add_argument("--peso_hilos", type=float, default=1.0)
     ap.add_argument("--peso_clase_extra", type=float, default=1.0); ap.add_argument("--sin_etiquetar", default=None, help="ruta.csv:columna (pseudo-etiquetas del profesor)")
-    ap.add_argument("--peso_sin_etiquetar", type=float, default=0.5); a = ap.parse_args()
+    ap.add_argument("--peso_sin_etiquetar", type=float, default=0.5)
+    ap.add_argument("--val", default=None, help="CSV de validación (texto_modelo, label); por defecto data/dataset/val.csv"); a = ap.parse_args()
     out = RAIZ / a.out; out.mkdir(parents=True, exist_ok=True)
     tr, va, te = (pd.read_csv(D / f) for f in ["train.csv", "val.csv", "test.csv"])
+    if a.val: va = pd.read_csv(RAIZ / a.val)
     tok = AutoTokenizer.from_pretrained(BASE); enc = lambda s: tok([str(t) for t in s], truncation=True, max_length=128)
     # --- soft labels del profesor sobre train (texto_original -> normalizar dentro de probs_propio)
     cache = out / "profesor_probs_train.npy"

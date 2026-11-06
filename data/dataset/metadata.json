@@ -1,18 +1,14 @@
 {
-  "version": "1.9.0",
-  "train_total": 21585,
+  "version": "2.0.0",
+  "train_total": 20028,
   "base_y_casos": 6483,
-  "filas_hilos_pool": 15102,
+  "filas_hilos_pool": 13545,
   "hilos_en_pool": [
     "aficion_alianza_fas",
     "aficionado_lagrimas",
-    "aficionados_fito",
     "agente_asesinado",
     "albos_emplumados",
     "alcalde_pupuseria",
-    "analista_oposicion",
-    "aniversario_presidencial",
-    "apoyar_bukele",
     "bienvenido_bolillo",
     "bitcoin_perdidas",
     "brutal_venganza",
@@ -30,16 +26,13 @@
     "candidato_arena_carcel",
     "canje",
     "captura_ruth_lopez",
-    "capturas_4_dias",
     "capturas_8000",
     "casi_600_capturas",
     "cecot",
     "cecot_familia",
     "cecot_inauguracion",
     "cecot_pandilleros_esto_es",
-    "cena_navidad_cecot",
     "censo_hinchas",
-    "chivo_wallet",
     "cola_bukele",
     "concierto_cuscatlan",
     "conductor_25_ninos",
@@ -53,15 +46,12 @@
     "deportacion_senora",
     "derrota_guatemala",
     "dictador_amparo",
-    "diputadas_oposicion",
     "diputado_adame",
     "director_arriaza",
     "dt_no_es_fracaso",
     "duro_golpe_criminales",
-    "duro_golpe_pandilleros",
     "elecciones_encuestas",
     "elfaro_peores_tradiciones",
-    "emma_dejar_morir_hambre",
     "encuesta_selecta_vergonzoso",
     "enfrentamiento_guatajiagua",
     "espana_regulariza",
@@ -73,7 +63,6 @@
     "guerra_corruptos",
     "indefinida_zavala",
     "infierno_tierra",
-    "intolerancia_calle",
     "invasion",
     "jaime_bayly",
     "jairo_empate",
@@ -90,10 +79,7 @@
     "mega_carcel_40000",
     "mega_carcel_mensaje",
     "megacarcel_12000",
-    "mensaje_criminales",
-    "mensaje_prensa",
     "mesas_suspendidas",
-    "mexicano_dictadura",
     "migrantes_inmigracion",
     "miss_el_salvador",
     "movilizacion_70",
@@ -114,12 +100,9 @@
     "pandilleros_cecot_piensan",
     "pandilleros_traslado",
     "paraguayos_terreno",
-    "partido_puerto_rico",
     "pasaje_un_dolar",
-    "pena_muerte_gallegos",
     "presos_90mil",
     "proponen_fito",
-    "propuesta_retornados",
     "pupusas_mesoamericanas",
     "pupusas_precio",
     "pupuseria_tragantes",
@@ -151,20 +134,19 @@
     "venezolanos2",
     "violadores_pena_muerte",
     "wokismo_occidente",
-    "yeik_creador",
-    "zavaleta_roldan"
+    "yeik_creador"
   ],
   "pool_por_clase": {
-    "No Tóxico": 7834,
-    "Lenguaje Ofensivo": 4107,
-    "Discurso de Odio": 1250,
-    "Amenazas/Violencia": 1911
+    "No Tóxico": 7087,
+    "Lenguaje Ofensivo": 3657,
+    "Discurso de Odio": 1177,
+    "Amenazas/Violencia": 1624
   },
   "train_por_clase": {
-    "No Tóxico": 9661,
-    "Lenguaje Ofensivo": 5903,
-    "Discurso de Odio": 2949,
-    "Amenazas/Violencia": 3072
+    "No Tóxico": 8914,
+    "Lenguaje Ofensivo": 5453,
+    "Discurso de Odio": 2876,
+    "Amenazas/Violencia": 2785
   },
   "retiradas_por_coincidir_con_test_o_banco": 1,
   "banco_n": {
@@ -180,20 +162,78 @@
       "max_achis": 80,
       "semilla": 2027
     },
-    "con_consenso": 25905,
-    "incluidas": 8944,
+    "con_consenso": 21284,
+    "incluidas": 7387,
     "por_clase": {
-      "No Tóxico": 4513,
-      "Lenguaje Ofensivo": 2679,
-      "Discurso de Odio": 400,
-      "Amenazas/Violencia": 1352
+      "No Tóxico": 3766,
+      "Lenguaje Ofensivo": 2229,
+      "Discurso de Odio": 327,
+      "Amenazas/Violencia": 1065
     },
-    "jerga_excluidas_pais_o_mexico": 41,
-    "jerga_incluidas": 271,
+    "jerga_excluidas_pais_o_mexico": 27,
+    "jerga_incluidas": 214,
     "jerga_NT_Ofensivo": [
-      153,
-      103
+      126,
+      76
     ]
   },
-  "verificacion": "0 textos de train en val, test, batería ni banco congelado (crudo y normalizado)"
+  "verificacion": "0 textos de train en val, test, val_hilos, test_hilos, batería ni banco congelado (crudo y normalizado)",
+  "evaluacion_v2": {
+    "val_hilos": {
+      "archivo": "data/dataset/val_hilos.csv",
+      "sha256": "d2309e183be12f8368dd79c8a7dd2c388999ca10ba7fe5ce175b6b5b86ab9150",
+      "n": 2314,
+      "hilos": [
+        "aniversario_presidencial",
+        "apoyar_bukele",
+        "busqueda_achis",
+        "busqueda_cachimbon",
+        "busqueda_cerote",
+        "busqueda_chulon",
+        "busqueda_jana",
+        "busqueda_que_onda_vos",
+        "capturas_4_dias",
+        "cena_navidad_cecot",
+        "diputadas_oposicion",
+        "mensaje_criminales",
+        "mexicano_dictadura",
+        "partido_puerto_rico",
+        "zavaleta_roldan"
+      ],
+      "clases": {
+        "No Tóxico": 1559,
+        "Lenguaje Ofensivo": 594,
+        "Discurso de Odio": 29,
+        "Amenazas/Violencia": 132
+      }
+    },
+    "test_hilos": {
+      "archivo": "data/dataset/test_hilos.csv",
+      "sha256": "14eefebc1a70c0ba8e91c32d2c09b0fbb7a025dcbc560fa9eab29785763e846d",
+      "n": 1975,
+      "hilos": [
+        "aficionados_fito",
+        "analista_oposicion",
+        "busqueda_achis",
+        "busqueda_cachimbon",
+        "busqueda_cerote",
+        "busqueda_chulon",
+        "busqueda_jana",
+        "busqueda_que_onda_vos",
+        "chivo_wallet",
+        "duro_golpe_pandilleros",
+        "emma_dejar_morir_hambre",
+        "intolerancia_calle",
+        "mensaje_prensa",
+        "pena_muerte_gallegos",
+        "propuesta_retornados"
+      ],
+      "clases": {
+        "No Tóxico": 1307,
+        "Lenguaje Ofensivo": 514,
+        "Discurso de Odio": 28,
+        "Amenazas/Violencia": 126
+      }
+    }
+  }
 }

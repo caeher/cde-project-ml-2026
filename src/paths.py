@@ -14,7 +14,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 DATA = ROOT / "data"
 DATASET = DATA / "dataset"
-DATASET_VERSION = "1.9.0"
+DATASET_VERSION = "2.0.0"
 HISTORY = DATA / "history"
 SOURCES = DATA / "sources"
 X_THREADS = SOURCES / "x_threads"

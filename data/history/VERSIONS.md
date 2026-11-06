@@ -7,7 +7,7 @@ Numeración `dataset vMAJOR.MINOR.PATCH` (distinta de la del modelo, `v3.x.x`):
 - **MINOR:** se agregan (o quitan) datos de entrenamiento.
 - **PATCH:** correcciones sin datos nuevos (normalización, fugas, duplicados).
 
-Val (459) y test (460) son **los mismos en todas las versiones** (mismos ID, texto, `texto_modelo` y etiqueta): todo es MAJOR 1.
+Val (459) y test (460) son **los mismos en todas las versiones** (mismos ID, texto, `texto_modelo` y etiqueta). La v2.0.0 es MAJOR porque agrega conjuntos de evaluación (`val_hilos`, `test_hilos`) y saca sus hilos del entrenamiento.
 
 | Versión | Carpeta (antes) | Train | Cambio | Script | Modelo que entrenó |
 |---|---|---|---|---|---|
@@ -22,7 +22,8 @@ Val (459) y test (460) son **los mismos en todas las versiones** (mismos ID, tex
 | v1.6.0 | `v1.6.0/` (`dataset_v7`) | 8,551 | + hilos con Amenazas | `archivo/scripts_build/build_dataset_v7.py` | v3.3.0-rc1 |
 | v1.7.0 | `v1.7.0/` (`archivo/datasets/dataset_v8`) | 9,195 | + hilos de Odio (LGBT, racismo) | `archivo/scripts_build/build_dataset_v8.py` | v3.4.0-rc1 (descartado) |
 | v1.8.0 | `v1.8.0/` (`dataset_final` hasta la v1.9.0) | 12,641 | Pool completo de la fase 1; banco congelado excluido | `src/data/build_dataset_final.py` | v3.4.0 |
-| **v1.9.0** | `data/dataset/` | **21,585** | + ronda 3: 26 mil textos anotados a ciegas (Amenazas 1,352 y Odio 400 con consenso, todas incluidas; No Tóxico y Ofensivo con tope por hilo; jerga filtrada). Política `RONDA3` | `src/data/build_dataset_final.py` | por entrenar (v3.5.0) |
+| v1.9.0 | `v1.9.0/` | 21,585 | + ronda 3: 26 mil textos anotados a ciegas (Amenazas 1,352 y Odio 400 con consenso, todas incluidas; No Tóxico y Ofensivo con tope por hilo; jerga filtrada). Política `RONDA3` | `src/data/build_dataset_final.py` | Profesor R3, v3.5.0-rc1, mBERT-SV (Cristian) |
+| **v2.0.0** | `data/dataset/` | **20,028** | MAJOR: nuevos conjuntos de evaluación por hilos. Se apartan 18 hilos de la ronda 3 (3 por grupo A/B/C para cada mitad) y el 30 % de las búsquedas de jerga: `val_hilos.csv` (2,314) y `test_hilos.csv` (1,975), solo con consenso A = B. Regla fijada antes de entrenar en `src/data/particion_v2.py` → `particion_hilos.json`. val, test, batería y banco congelado sin cambios (mismos SHA-256) | `src/data/build_dataset_final.py` | por entrenar (v3.6.0) |
 
 Notas:
 - `archivo/datasets/dataset_v7_copia` es una copia idéntica de v1.6.0; se conserva donde estaba.
