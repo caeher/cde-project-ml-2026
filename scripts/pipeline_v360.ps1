@@ -5,6 +5,9 @@
 #  3) destilación T 1, alfa 0.5, receta B, 3 semillas                  -> models/v3.6.0-rc1
 #  4) semilla del estudiante por F1 en val_v2                          -> models/v3.6.0-rc1-sel
 #  5) comparación con los criterios del plan                           -> reports/improvement/v360_candidatos.md
+#  6) mBERT (docs/improvement/PLAN_mBERT.md): M1 y M2 con semilla 42, receta por f1_val en val_v2,
+#     3 semillas con la ganadora                                        -> models/mbert_v2 (+ eleccion_receta.json)
+#  7) comparación mBERT vs v3.4.0 vs candB_v2 (+ --humano si existe)   -> reports/improvement/mbert_v2_vs_v340.md
 Set-Location (Split-Path $PSScriptRoot -Parent)
 $env:PYTHONUTF8 = "1"; $env:PYTHONIOENCODING = "utf-8"
 $PY = ".venv\Scripts\python.exe"; $D = "data/dataset"; $LOG = "runs/log_pipeline_v360.txt"
@@ -68,4 +71,28 @@ json.dump({'semilla': s, 'regla': 'max F1 en val_v2', 'semillas': m}, open('mode
 
 # 5) comparación final (una sola medición)
 Run "comparación final" "runs/log_comparacion_v360.txt" @("src/evaluation/comparar_v2.py", "v3.4.0", "profV2", "v3.6.0-rc1-sel", "--solo-banco", "profR3", "v3.5.0-rc1-sel", "mbert-sv", "--salida", "v360_candidatos")
+
+# 6) mBERT: recetas fijadas antes de entrenar; la elección usa SOLO val_v2 (f1_val de semilla_42/resumen.json)
+$MB = @("src/train/entrenar_v5.py", "--modelo_base", "bert-base-multilingual-cased", "--train", "$D/train.csv", "--val", "runs/val_v2.csv",
+        "--test", "$D/test.csv", "--adv", "$D/test_adversarial.csv", "--peso_nuevos", "0", "--guardar_modelos")
+$REC = @{ "M1" = @("--lr", "2e-5", "--batch", "16", "--epocas", "4", "--wd", "0.01", "--warmup", "0.1"); "M2" = $B }
+if (-not (Test-Path "models/mbert_v2/metricas.json")) {
+  foreach ($r in "M1", "M2") {
+    if (-not (Test-Path "models/mbert_v2_$r/semilla_42/resumen.json")) {
+      Run "mBERT $r semilla 42" "runs/log_mbert_v2_$r.txt" ($MB + @("--seeds", "42", "--out", "models/mbert_v2_$r") + $REC[$r])
+    }
+  }
+  $f1 = @{}; foreach ($r in "M1", "M2") { $f1[$r] = [double](Get-Content "models/mbert_v2_$r/semilla_42/resumen.json" -Raw | ConvertFrom-Json).f1_val }
+  $G = if ($f1["M1"] -ge $f1["M2"]) { "M1" } else { "M2" }; Log "receta mBERT (f1_val semilla 42): M1 $($f1['M1']) · M2 $($f1['M2']) -> $G"
+  Run "mBERT $G (3 semillas)" "runs/log_mbert_v2_$G.txt" ($MB + @("--seeds", "42", "1337", "2026", "--out", "models/mbert_v2_$G") + $REC[$G])
+  @{ ganadora = $G; regla = "max f1_val semilla 42 en val_v2 (empate: M1)"; f1_val_semilla_42 = $f1; recetas = @{ M1 = ($REC["M1"] -join " "); M2 = ($B -join " ") } } |
+    ConvertTo-Json -Depth 3 | Set-Content "models/mbert_v2_$G/eleccion_receta.json" -Encoding utf8
+  Rename-Item "models/mbert_v2_$G" "mbert_v2"   # la perdedora se conserva: su semilla_42/resumen.json es parte del informe
+}
+
+# 7) comparación mBERT (una sola medición)
+if (-not (Test-Path "reports/improvement/mbert_v2_vs_v340.md")) {
+  $H = if (Test-Path "data/annotation/threads/labels/validacion_humana.csv") { @("--humano") } else { @() }
+  Run "comparación mBERT" "runs/log_comparacion_mbert_v2.txt" (@("src/evaluation/comparar_v2.py", "v3.4.0", "mbert_v2", "candB_v2", "--salida", "mbert_v2_vs_v340") + $H)
+}
 Log "=== FIN pipeline v3.6.0 ==="
