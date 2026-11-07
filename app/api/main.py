@@ -21,12 +21,12 @@ sys.path.insert(0, str(RAIZ))
 from src.features.normalization import normalizar  # noqa: E402
 
 CLASES = ["No Tóxico", "Lenguaje Ofensivo", "Discurso de Odio", "Amenazas/Violencia"]
-MODELOS = RAIZ / "models" / "v3.4.0"   # carpeta con manifest.json (ensamble de varias carpetas de modelos) o carpeta con semilla_*/modelo
+MODELOS = RAIZ / "models" / "v3.6.0"   # rollback: "v3.4.0" · carpeta con manifest.json (ensamble de varias carpetas de modelos) o carpeta con semilla_*/modelo
 _man = MODELOS / "manifest.json"
 TEMPERATURA = json.loads(_man.read_text(encoding="utf-8"))["temperatura"] if _man.exists() else 1.619  # ajustada solo en val
 MAX_LEN = 128
 
-app = FastAPI(title="Toxicidad y discurso de odio — El Salvador", version="3.4.0")
+app = FastAPI(title="Toxicidad y discurso de odio — El Salvador", version="3.6.0")
 _dev = "cuda" if torch.cuda.is_available() else "cpu"
 _tok, _modelos = None, []
 

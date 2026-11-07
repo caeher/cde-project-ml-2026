@@ -208,3 +208,6 @@ La API usa el ensamble **v3.3.0** (10 modelos; T = 1.314): test oficial 0.8386, 
 
 ### Actualización: v3.4.0 (15 de octubre de 2026)
 La API usa **un solo modelo** (v3.4.0, 418 MB, destilado de un ensamble de 6 modelos con hiperparámetros de Optuna). Banco congelado (n = 1,391): F1-macro 0.720 [0.687, 0.754] (v3.3.0: 0.693), recall Odio 0.669 (media entre semillas 0.626), Amenazas 0.470, falsos positivos 0.112; test oficial 0.832. Arranque: `.\scripts\arrancar_demo.ps1`. Informe de sesgos: `reports/improvement/fairness.md`. Detalle y límites en `CHANGELOG.md`.
+
+### Actualización: dataset v2.0.0 y v3.6.0 (7 de noviembre de 2026)
+El dataset pasa a una distribución 75 / 10 / 15 con hilos apartados (`data/dataset/LEEME.md`). La API usa **v3.6.0**: un solo RoBERTuito destilado de 3 modelos entrenados con el dataset v2.0.0 (T = 1.415). En el test principal (test_hilos + banco congelado, n = 3,366): F1-macro **0.752** [0.728, 0.774] (v3.4.0: 0.708), falsos positivos 0.089 (0.097), recall de Amenazas 0.679 (0.539), falsos positivos con jerga 0.043 (0.128); test oficial 0.827. Cumple 7/7 criterios fijados antes de entrenar (`docs/improvement/Plan_v2_particion_hilos.md`). Pesos: huggingface.co/cs21004/robertuito-toxicidad-sv. Ficha técnica: `reports/final/Ficha_Tecnica_RoBERTuito_v3.6.0.docx`. Detalle: `CHANGELOG.md`.
