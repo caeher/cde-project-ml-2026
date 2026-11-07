@@ -178,3 +178,21 @@ Plan y criterios fijados antes de entrenar: `docs/improvement/Plan_v2_particion_
 - **v3.6.0 cumple 7/7 criterios** (ΔF1 +0.044, IC [+0.025, +0.064], McNemar p < 0.0001) y **pasa a la API** (`models/v3.6.0/manifest.json` → `models/v3.6.0-rc1-sel`, T = 1.415). profV2 cumple 6/7 (test oficial 0.819 < 0.82). Rollback: `MODELOS` en `app/api/main.py` → `models/v3.4.0`.
 - **Límites:** recall de Odio baja 0.614 → 0.595 (dentro del margen de 0.03; Odio sigue siendo la clase más débil, n = 158); en el test oficial el FPR con jerga no cambia (0.379, n = 29); el ECE baja de 0.043 a 0.024. Las etiquetas de test_hilos son consenso de anotadores LLM (A = B), sin validación humana. Profesor R3, v3.5.0-rc1 y mBERT-SV (entrenados con v1.9.0) vieron los hilos de test_hilos: solo se comparan en el banco.
 - `models/v3.6.0/_copia_parcial_BORRAR/`: copia interrumpida, se puede borrar.
+
+## Modelos del equipo con el dataset v2.0.0: comparación pareada oficial (7 de noviembre de 2026)
+`scripts/evaluar_equipo_v2.ps1` → `reports/improvement/equipo_v2_comparacion.md` (mismo evaluador y criterios que v3.6.0; referencia v3.4.0).
+
+| Test principal (n = 3,366) | v3.4.0 | mBERT v2 (Cristian, ensamble de 3) | XLM-R large (Julio, 1 modelo) | **v3.6.0** |
+|---|---|---|---|---|
+| F1-macro [IC 95 %] | 0.708 [0.683, 0.731] | 0.642 [0.619, 0.664] | 0.712 [0.690, 0.734] | **0.752 [0.728, 0.774]** |
+| ΔF1 vs. v3.4.0 [IC] | — | −0.066 [−0.091, −0.040] | +0.004 [−0.020, +0.030] | **+0.044 [+0.025, +0.064]** |
+| Recall NT / OF / OD / AM | 0.90 / 0.79 / 0.61 / 0.54 | 0.84 / 0.70 / 0.52 / 0.63 | 0.82 / 0.85 / 0.69 / 0.65 | 0.91 / 0.83 / 0.59 / 0.68 |
+| FPR | 0.097 | 0.157 | 0.185 | **0.089** |
+| FPR jerga (n = 47) | 0.128 | 0.149 | 0.362 | **0.043** |
+| Test oficial | 0.832 | 0.808 | 0.804 | 0.827 |
+| Sonda afectiva | 18/20 · 17/18 | 12/20 · 18/18 | 8/20 · 18/18 | 17/20 · 18/18 |
+| Criterios | — | 1/7 | 2/7 | **7/7** |
+
+- Con los mismos datos (y, en mBERT, la misma receta que el profesor de v3.6.0), RoBERTuito (109 M, preentrenado con tuits en español) supera a XLM-R large (560 M) y a mBERT (178 M): confirma el hallazgo de la Etapa II de que el dominio del preentrenamiento pesa más que el tamaño.
+- XLM-R large tiene el mejor recall de Odio (0.69) pero el doble de falsos positivos y marca como tóxicas 12 de 20 groserías afectivas. Su F1 en test_hilos (0.682) coincide con el que reportó Julio.
+- v3.6.0 sigue en la API.
