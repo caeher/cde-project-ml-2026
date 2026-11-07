@@ -68,7 +68,7 @@ def args_():
                     help="peso de las filas origen=real_x_oct2026; 0 = línea base sin ellas")
     ap.add_argument("--excluir_fuera_sv", action="store_true")
     ap.add_argument("--guardar_modelos", action="store_true")
-    ap.add_argument("--modelo_base", default=MODELO_BASE, help="solo para pruebas; no cambiar")
+    ap.add_argument("--modelo_base", default=MODELO_BASE, help="backbone HF (por defecto RoBERTuito; mBERT: bert-base-multilingual-cased)")
     return ap.parse_args()
 
 

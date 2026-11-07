@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 """Dataset v2.0.0: compara candidatos contra v3.4.0 con los criterios de docs/improvement/Plan_v2_particion_hilos.md (fijados antes de entrenar).
 Test principal = test_hilos (1,975) + banco congelado (1,391). Temperatura ajustada en val_v2 = val oficial + val_hilos.
-Uso: python src/evaluation/comparar_v2.py v3.4.0 candB_v2 v3.6.0-rc1-sel [--solo-banco profR3 v3.5.0-rc1-sel mbert-sv] [--salida nombre]
+Uso: python src/evaluation/comparar_v2.py v3.4.0 candB_v2 v3.6.0-rc1-sel [--solo-banco profR3 v3.5.0-rc1-sel mbert-sv] [--salida nombre] [--humano]
+--humano: añade κ humano-humano, κ humano-LLM y F1 sobre etiquetas humanas (data/annotation/threads/labels/validacion_humana.csv, de argilla_io.py)
 Salida: reports/improvement/<salida>.md y .json (por defecto v360_candidatos)"""
 import json, sys
 from pathlib import Path
 import numpy as np, pandas as pd
-from sklearn.metrics import f1_score
+from sklearn.metrics import cohen_kappa_score, f1_score
 RAIZ = Path(__file__).resolve().parents[2]; sys.path.insert(0, str(RAIZ))
 from src import paths as P  # noqa: E402
 from src.evaluation.comparar_fase3 import probs, temperatura  # noqa: E402
@@ -14,7 +15,9 @@ from src.evaluation.metrics import f1m, ic_f1, ic_delta, mcnemar  # noqa: E402
 
 
 def main():
-    a = sys.argv[1:]; salida = "v360_candidatos"; solo = []
+    a = sys.argv[1:]; salida = "v360_candidatos"; solo = []; hum = None
+    if "--humano" in a:
+        a.remove("--humano"); hum = pd.read_csv(P.THREAD_LABELS / "validacion_humana.csv", encoding="utf-8-sig", dtype={"ID": str})
     if "--salida" in a: k = a.index("--salida"); salida = a[k + 1]; a = a[:k] + a[k + 2:]
     if "--solo-banco" in a: k = a.index("--solo-banco"); solo = a[k + 1:]; a = a[:k]
     ref, cands = a[0], a[1:]
@@ -24,15 +27,15 @@ def main():
     te, va, pr = pd.read_csv(D / "test.csv"), pd.read_csv(D / "val.csv"), pd.read_csv(P.AFFECTIVE_PROBE); af = (pr.tipo == "afectiva").values
     yb, yh, yt = bk.label.values, th.label.values, te.label.values; yv2 = np.concatenate([va.label.values, vh.label.values])
     jerga = th.hilo.astype(str).str.startswith("busqueda_").values
-    R, PP = {}, {}
+    R, PP, PH = {}, {}, {}; ids_h = np.concatenate([th.ID.astype(str), vh.ID.astype(str)])
     for n in [ref] + cands + solo:
         pb = probs(n, "bancoF", bk.texto_original.tolist()); pt = probs(n, "testF", te.texto_original.tolist()); pp = probs(n, "probeF", pr.texto.tolist())
-        pv = np.vstack([probs(n, "valF", va.texto_original.tolist()), probs(n, "valHF", vh.texto_original.tolist())])
+        pvh = probs(n, "valHF", vh.texto_original.tolist()); pv = np.vstack([probs(n, "valF", va.texto_original.tolist()), pvh])
         r = dict(T=temperatura(pv, yv2), f1_banco=f1m(yb, pb.argmax(1)), f1_test_oficial=f1m(yt, pt.argmax(1)),
                  afectivas=int((pp.argmax(1)[af] == 0).sum()), insultos=int((pp.argmax(1)[~af] != 0).sum()), solo_banco=n in solo)
         if n not in solo:
             ph = probs(n, "testHF", th.texto_original.tolist()); y = np.concatenate([yh, yb]); p = np.vstack([ph, pb]).argmax(1); PP[n] = (y, p)
-            lo, hi = ic_f1(y, p); q = ph.argmax(1)
+            lo, hi = ic_f1(y, p); q = ph.argmax(1); PH[n] = dict(zip(ids_h, np.concatenate([q, pvh.argmax(1)])))
             r.update(f1_principal=f1m(y, p), ic=[float(lo), float(hi)], recall=[float((p[y == c] == c).mean()) for c in range(4)],
                      fpr=float((p[y == 0] != 0).mean()), f1_test_hilos=f1m(yh, q),
                      fpr_jerga=float((q[(yh == 0) & jerga] != 0).mean()), n_jerga_nt=int(((yh == 0) & jerga).sum()))
@@ -55,6 +58,18 @@ def main():
         r.update(criterios=ok, ic_delta=[lo, hi], mcnemar=m)
         L += [f"### {n}", f"ΔF1 principal {r['f1_principal'] - r0['f1_principal']:+.4f} IC [{lo:+.3f}, {hi:+.3f}] · McNemar b/c {m['b']}/{m['c']} p = {m['p_exacta']:.4f}", ""]
         L += [f"- {'✔' if v else '✘'} {k}" for k, v in ok.items()] + ["", f"**{'SE ADOPTA' if all(ok.values()) else 'NO se adopta'}** ({sum(ok.values())}/7)", ""]
+    if hum is not None:  # validación humana (docs/improvement/PLAN_mBERT.md, 3.5): fila de robustez, no cambia los criterios
+        v = hum[hum.label_humano >= 0]; dos = hum[hum.h1.notna() & hum.h2.notna()]; vt = v[v.conjunto == "test_hilos"]
+        L += ["## Validación humana (robustez; no cambia los criterios)", "",
+              f"`validacion_humana.csv`: {len(hum)} textos (muestra con todo Odio y Amenazas: no es representativa de la distribución). "
+              f"κ humano-humano = **{cohen_kappa_score(dos.h1.astype(int), dos.h2.astype(int)):.3f}** (n = {len(dos)}); "
+              f"κ humano-LLM = **{cohen_kappa_score(v.label_humano, v.label_llm):.3f}** (n = {len(v)} con acuerdo humano).", "",
+              "| Modelo | F1 etiquetas humanas | F1 etiquetas LLM (mismos textos) | F1 humano solo test_hilos |", "|---|---|---|---|"]
+        for n, d in PH.items():
+            p, pt_ = v.ID.map(d).values.astype(int), vt.ID.map(d).values.astype(int)
+            R[n]["humano"] = dict(f1_humano=f1m(v.label_humano.values, p), f1_llm_mismos=f1m(v.label_llm.values, p), f1_humano_test_hilos=f1m(vt.label_humano.values, pt_), n=len(v))
+            L.append(f"| {n} | {R[n]['humano']['f1_humano']:.3f} | {R[n]['humano']['f1_llm_mismos']:.3f} | {R[n]['humano']['f1_humano_test_hilos']:.3f} (n={len(vt)}) |")
+        L.append("")
     (P.REPORTS_IMPROVEMENT / f"{salida}.md").write_text("\n".join(L), encoding="utf-8")
     (P.REPORTS_IMPROVEMENT / f"{salida}.json").write_text(json.dumps(R, indent=2, ensure_ascii=False, default=float), encoding="utf-8"); print("\n".join(L))
 
