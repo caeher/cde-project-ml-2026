@@ -12,7 +12,8 @@ Numeración semántica sobre la rama v3 (Etapa II). Pesos en `models/<versión>/
 | v3.2.0-rc1 | `final_v6` | v3.1.0 pero con etiquetas de **consenso de 3 anotadores** y 9 hilos (1,681 filas; 232 de Odio) | 0.8388 | componente de v3.2.0 (solo no se adopta) |
 | v3.2.0 | — | Ensamble de 10 modelos: promedio de probabilidades de v3.1.0 + v3.2.0-rc1. T = 1.619 | 0.8429 | anterior |
 | v3.3.0 | — | Ensamble de 10 modelos: v3.2.0-rc1 + v3.3.0-rc1 (este con hilos ricos en Amenazas). T = 1.314 (ajustada en val) | 0.8386 | anterior (rollback: `MODELOS` en `app/api/main.py`) |
-| **v3.4.0** | — | **UN solo RoBERTuito** destilado del ensamble `candC` (A+B, 6 modelos) con la receta de Optuna; datos: `dataset_final` (12,641 filas). T = 1.582 (val) | **0.8317** | **en la API** |
+| **v3.4.0** | — | **UN solo RoBERTuito** destilado del ensamble `candC` (A+B, 6 modelos) con la receta de Optuna; datos: `dataset_final` (12,641 filas). T = 1.582 (val) | **0.8317** | en la API (selector) |
+| **v3.6.0** | — | Destilado sobre **dataset v2.0.0** (`candB_v2` → `v3.6.0-rc1-sel`, T = 1.415 en val_v2). 7/7 criterios en el test principal (n = 3,366) | **0.752** [0.728, 0.774] | **predeterminado en la API** (multi-modelo) |
 
 ## Por qué v3.2.0-rc1 no se adoptó
 Criterios fijados antes de ver resultados (`src/evaluation/comparar_candidato.py`), referencia v3.1.0:
@@ -162,3 +163,39 @@ Plan: `docs/improvement/Plan_ronda3_amenazas_jerga.md`. Diagnóstico de v3.4.0: 
 - **Jerga:** entran 271 textos (153 No Tóxico, 103 Ofensivo); la meta de ≥ 300 No Tóxico con jerga **no se alcanza**. No se declara mejora del sesgo por jerga hasta medirla en el modelo entrenado.
 - **Intacto:** val, test, batería y banco congelado (mismos archivos; 9 pruebas en verde, incluida la de fugas). Sin entrenar todavía: el siguiente paso es el candidato v3.5.0 con los criterios de `docs/improvement/Plan_ronda3_amenazas_jerga.md`.
 - Scripts: `preparar_rescate.py`, `consolidar_ronda3.py` y la política `RONDA3` en `build_dataset_final.py`.
+
+## Dataset v2.0.0 y modelo v3.6.0 en la API (6–7 de noviembre de 2026)
+Plan y criterios fijados antes de entrenar: `docs/improvement/Plan_v2_particion_hilos.md`.
+- **Dataset v2.0.0** (≈ 75 / 10 / 15): train 20,028; selección `val_v2` = val oficial (459) + `val_hilos` (2,314); **test principal** = `test_hilos` (1,975) + banco congelado (1,391) = 3,366; test oficial (460) aparte. 18 hilos completos de la ronda 3 y el 30 % de las búsquedas de jerga quedan fuera del entrenamiento (`src/data/particion_v2.py`, semilla 2026, solo etiquetas). val, test, batería y banco sin cambios (mismos SHA-256). Publicado en la rama `v3` con `data/dataset/LEEME.md` para el equipo.
+- **Entrenamiento:** receta B (Optuna) × 3 semillas como profesor (`candB_v2`, T = 1.768) → destilación T 1, α 0.5, 3 semillas → semilla 42 por F1 en val_v2 (0.802; 1337: 0.800; 2026: 0.795).
+
+| Test principal (n = 3,366) | v3.4.0 | profV2 (3 modelos) | **v3.6.0** |
+|---|---|---|---|
+| F1-macro [IC 95 %] | 0.708 [0.683, 0.731] | 0.745 [0.721, 0.767] | **0.752 [0.728, 0.774]** |
+| Recall NT / OF / OD / AM | 0.90 / 0.79 / 0.61 / 0.54 | 0.90 / 0.84 / 0.61 / 0.67 | 0.91 / 0.83 / 0.59 / 0.68 |
+| FPR sobre No Tóxico | 0.097 | 0.103 | **0.089** |
+| FPR jerga (test_hilos, n = 47) | 0.128 | 0.085 | **0.043** |
+| F1 banco congelado | 0.720 | 0.732 | 0.740 |
+| Test oficial | 0.832 | 0.819 | 0.827 |
+| Sonda afectiva | 18/20 · 17/18 | 17/20 · 18/18 | 17/20 · 18/18 |
+
+- **v3.6.0 cumple 7/7 criterios** (ΔF1 +0.044, IC [+0.025, +0.064], McNemar p < 0.0001) y **es el modelo predeterminado** en la API multi-backend (`GET /modelos`, `modelo_id` en `/predecir`; pesos en `models/v3.6.0/`). profV2 cumple 6/7 (test oficial 0.819 < 0.82). Rollback: `API_MODELO_DEFAULT=xlmr_hf` o elegir `v3.4.0` en el panel Streamlit.
+- **Límites:** recall de Odio baja 0.614 → 0.595 (dentro del margen de 0.03; Odio sigue siendo la clase más débil, n = 158); en el test oficial el FPR con jerga no cambia (0.379, n = 29); el ECE baja de 0.043 a 0.024. Las etiquetas de test_hilos son consenso entre Cristian, Willian y Julio (A = B). Profesor R3, v3.5.0-rc1 y mBERT-SV (entrenados con v1.9.0) vieron los hilos de test_hilos: solo se comparan en el banco.
+
+## Modelos del equipo con el dataset v2.0.0: comparación pareada oficial (7 de noviembre de 2026)
+`scripts/evaluar_equipo_v2.ps1` → `reports/improvement/equipo_v2_comparacion.md` (mismo evaluador y criterios que v3.6.0; referencia v3.4.0).
+
+| Test principal (n = 3,366) | v3.4.0 | mBERT v2 (Cristian, ensamble de 3) | XLM-R large (Julio, 1 modelo) | **v3.6.0** |
+|---|---|---|---|---|
+| F1-macro [IC 95 %] | 0.708 [0.683, 0.731] | 0.642 [0.619, 0.664] | 0.712 [0.690, 0.734] | **0.752 [0.728, 0.774]** |
+| ΔF1 vs. v3.4.0 [IC] | — | −0.066 [−0.091, −0.040] | +0.004 [−0.020, +0.030] | **+0.044 [+0.025, +0.064]** |
+| Recall NT / OF / OD / AM | 0.90 / 0.79 / 0.61 / 0.54 | 0.84 / 0.70 / 0.52 / 0.63 | 0.82 / 0.85 / 0.69 / 0.65 | 0.91 / 0.83 / 0.59 / 0.68 |
+| FPR | 0.097 | 0.157 | 0.185 | **0.089** |
+| FPR jerga (n = 47) | 0.128 | 0.149 | 0.362 | **0.043** |
+| Test oficial | 0.832 | 0.808 | 0.804 | 0.827 |
+| Sonda afectiva | 18/20 · 17/18 | 12/20 · 18/18 | 8/20 · 18/18 | 17/20 · 18/18 |
+| Criterios | — | 1/7 | 2/7 | **7/7** |
+
+- Con los mismos datos (y, en mBERT, la misma receta que el profesor de v3.6.0), RoBERTuito (109 M, preentrenado con tuits en español) supera a XLM-R large (560 M) y a mBERT (178 M): confirma el hallazgo de la Etapa II de que el dominio del preentrenamiento pesa más que el tamaño.
+- XLM-R large tiene el mejor recall de Odio (0.69) pero el doble de falsos positivos y marca como tóxicas 12 de 20 groserías afectivas. Su F1 en test_hilos (0.682) coincide con el que reportó Julio.
+- Entrenamiento XLM-R reproducible: `notebooks/train/xlmr_hateval/ModeloFinal.ipynb` y `data/external/hateval/train_merged_hateval.csv` (importados desde `newprotypeV3`, sin fichas Word/PDF).

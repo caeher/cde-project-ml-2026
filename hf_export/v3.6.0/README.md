@@ -119,5 +119,5 @@ print(predecir("Qué onda maje, hace años que no te veía"))
 - **Discurso de Odio** es la clase más débil (recall 0.595): hay pocos ejemplos reales de odio en los hilos nuevos.
 - **Jerga salvadoreña:** en hilos nuevos marca como tóxico el 4.3 % de los textos inofensivos con jerga (n = 47), pero en el test oficial sigue en 38 % (n = 29).
 - **Facebook:** rinde unos 10 puntos menos de F1 que en X.
-- Las etiquetas de los hilos son consenso de anotadores LLM, sin validación humana sistemática.
+- Las etiquetas de los hilos son consenso entre Cristian, Willian y Julio (dos anotadores ciegos + desempate del tercero).
 - El corpus contiene lenguaje ofensivo explícito por la naturaleza de la tarea. No se publican usuarios, menciones ni enlaces.
