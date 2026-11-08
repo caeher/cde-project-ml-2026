@@ -23,9 +23,53 @@ st.title("Detección de toxicidad y discurso de odio")
 st.caption("Clasificador de 4 clases para texto de redes sociales de El Salvador. **Apoyo a la moderación: no es un veredicto.** "
            "Toda decisión que afecte a una persona requiere revisión humana.")
 
+def _cargar_catalogo():
+    try:
+        r = requests.get(f"{API}/modelos", timeout=5)
+        r.raise_for_status()
+        return r.json()
+    except Exception:
+        return None
+
+
+catalogo = _cargar_catalogo()
+opciones_modelo: list[tuple[str, str]] = []
+modelo_default = "xlmr_hf"
+if catalogo and catalogo.get("modelos"):
+    modelo_default = catalogo.get("default") or modelo_default
+    for m in catalogo["modelos"]:
+        etiqueta = m.get("etiqueta") or m.get("id")
+        if not m.get("disponible_local", True) and m.get("id", "").startswith("v3."):
+            etiqueta = f"{etiqueta} (sin pesos locales)"
+        opciones_modelo.append((m["id"], etiqueta))
+if not opciones_modelo:
+    opciones_modelo = [
+        ("v3.6.0", "RoBERTuito v3.6.0"),
+        ("v3.4.0", "RoBERTuito v3.4.0"),
+        ("xlmr_hf", "XLM-R Large (Hugging Face)"),
+        ("xlmr_local", "XLM-R Large (local)"),
+    ]
+
+if "modelo_id" not in st.session_state:
+    ids = [o[0] for o in opciones_modelo]
+    st.session_state.modelo_id = modelo_default if modelo_default in ids else ids[0]
+
+idx_def = next((i for i, o in enumerate(opciones_modelo) if o[0] == st.session_state.modelo_id), 0)
+st.session_state.modelo_id = st.sidebar.selectbox(
+    "Modelo",
+    options=[o[0] for o in opciones_modelo],
+    format_func=lambda k: next(l for i, l in opciones_modelo if i == k),
+    index=idx_def,
+    key="modelo_select",
+)
+modelo_id = st.session_state.modelo_id
+
 try:
-    salud = requests.get(f"{API}/salud", timeout=5).json()
-    st.sidebar.success(f"API activa · {salud['modelo']} · {salud['dispositivo']}")
+    salud = requests.get(f"{API}/salud", params={"modelo_id": modelo_id}, timeout=5).json()
+    if salud.get("ok"):
+        st.sidebar.success(f"API activa · {salud.get('modelo', modelo_id)} · {salud.get('dispositivo', '?')}")
+    else:
+        st.sidebar.warning(f"Modelo «{modelo_id}»: {salud.get('error', 'no disponible')}")
 except Exception:
     st.sidebar.error("La API no responde en http://127.0.0.1:8000")
 st.sidebar.markdown("### Clases\n- 🟢 **No Tóxico**: sin agresión; incluye groserías afectivas y crítica dura.\n- 🟠 **Lenguaje Ofensivo**: insulto a una persona.\n"
@@ -41,7 +85,13 @@ with col_in:
 with col_out:
     if ir:
         try:
-            r = requests.post(f"{API}/predecir", json={"texto": texto}, timeout=60); r.raise_for_status(); d = r.json()
+            r = requests.post(
+                f"{API}/predecir",
+                json={"texto": texto, "modelo_id": modelo_id},
+                timeout=120,
+            )
+            r.raise_for_status()
+            d = r.json()
             st.subheader(f"{COLORES[d['clase']]} {d['clase']}")
             st.metric("Confianza", f"{d['confianza']:.0%}")
             if d["confianza"] < UMBRAL_BAJA_CONFIANZA:

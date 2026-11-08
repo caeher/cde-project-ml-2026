@@ -11,7 +11,10 @@ try {
         try { $s = Invoke-RestMethod "http://127.0.0.1:8000/salud" -TimeoutSec 2; break } catch { Start-Sleep -Seconds 2 }
     }
     # primera consulta: carga los modelos y calienta
-    Invoke-RestMethod -Method Post -Uri "http://127.0.0.1:8000/predecir" -ContentType "application/json" -Body '{"texto":"hola"}' | Out-Null
+    $def = (Invoke-RestMethod "http://127.0.0.1:8000/modelos" -TimeoutSec 5).default
+    if (-not $def) { $def = "xlmr_hf" }
+    $body = @{ texto = "hola"; modelo_id = $def } | ConvertTo-Json -Compress
+    Invoke-RestMethod -Method Post -Uri "http://127.0.0.1:8000/predecir" -ContentType "application/json" -Body $body | Out-Null
     Write-Host "API lista. Abriendo panel en http://localhost:8501 (Ctrl+C para cerrar todo)"
     & $py -m streamlit run app/ui/app.py --server.port 8501
 } finally {
