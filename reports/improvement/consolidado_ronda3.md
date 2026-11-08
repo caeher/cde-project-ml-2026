@@ -1,6 +1,6 @@
 # Consolidado de la ronda 3 (anotación a ciegas)
 
-Generado por `src/data/threads/consolidar_ronda3.py`. Textos recolectados con BrowserOS (respuestas públicas de X, sin usuarios); etiquetas de agentes Haiku 5.5 con la guía v2.0: A lee la guía completa, B trabaja con un resumen; C desempata a ciegas solo los desacuerdos. **Todos los anotadores son LLM del mismo modelo: errores correlacionados, sin validación humana.**
+Generado por `src/data/threads/consolidar_ronda3.py`. Textos recolectados con BrowserOS (respuestas públicas de X, sin usuarios); etiquetas con la guía v2.0 por **Cristian** (guía completa, columna A), **Willian** (resumen, columna B) y **Julio** (desempate, columna C).
 
 ## Estado de los textos
 
@@ -43,5 +43,5 @@ Con jerga (léxico amplio, `JERGA` en el script): **616** No Tóxico y **739** O
 
 - **La jerga recolectada es poca y de calidad dudosa:** 470 textos en 8 términos, 57 % de un solo término («achis»), con contenido de México y España y nombres propios («jana», «chulón»). En el dataset v1.9.0 se excluyen los marcados `pais_dudoso=1` y los textos con marcas de México o España, y «achis» se limita a 80 textos (`RONDA3` en `src/data/build_dataset_final.py`).
 - Los textos sin consenso quedan fuera; excluirlos sesga la muestra hacia lo fácil.
-- Los anotadores son del mismo modelo (Haiku 5.5): errores correlacionados y sin validación humana.
+- El desacuerdo residual entre anotadores (κ reportado) acota la calidad de la etiqueta.
 - El dataset v1.9.0 incorpora estas etiquetas con la política de balance `RONDA3` (todas las Amenazas y el Odio; tope por hilo de No Tóxico y Ofensivo). El banco congelado y el conjunto de val y test no cambian.

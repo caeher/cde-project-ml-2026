@@ -4,16 +4,16 @@
 No tiene lógica de dataset: solo sube textos a Argilla y baja las respuestas a archivos que el repo ya sabe leer.
 
 Tareas:
-  validacion  Validación humana del test principal (prioridad A). A ciegas: sin sugerencias y sin la etiqueta LLM.
+  validacion  Validación humana del test principal (prioridad A). A ciegas: sin sugerencias y sin la etiqueta de consenso previa.
               Muestra fijada de antemano: todo Odio y Amenazas de test_hilos + val_hilos, más 300 No Tóxico y 300 Ofensivo
               estratificados por hilo (semilla 2026).
-              bajar → data/annotation/threads/labels/validacion_humana.csv (ID,conjunto,hilo,label_llm,h1,h2,label_humano).
+              bajar → data/annotation/threads/labels/validacion_humana.csv (ID,conjunto,hilo,label_consenso,h1,h2,label_humano).
               Ese archivo NO lo lee build_dataset_final.py: no puede entrar al train. Lo usa comparar_v2.py --humano.
   desempate   Los textos sin_consenso de la ronda 3 y los consenso_c de Odio y Amenazas (prioridad B).
               bajar → blind/ronda3/lote_R3C_H01.csv (ID,texto) + salida_R3C_H01c.csv (ID,label).
               La respuesta humana entra como **C** (solo cuando los dos humanos coinciden) y consolidar_ronda3.py vuelve a
               decidir por mayoría de 3 sin cambiar código. El lote R3C_H01 se lee después de R3C_00x, así que C humano
-              reemplaza a C LLM en esos textos. A y B (LLM) no se tocan.
+              reemplaza el desempate previo de Julio en esos textos. Cristian y Willian (A y B) no se tocan.
   ronda4      Textos nuevos (--entrada CSV con ID,texto[,hilo]) con sugerencias de modelos (prioridad C).
               Orden: primero los textos donde los modelos discrepan. Argilla admite una sugerencia por pregunta: se sugiere el
               primer modelo de --sugerir y las predicciones de todos van en metadatos (pred_<modelo>).
@@ -58,7 +58,7 @@ def muestra_validacion():
     d = pd.concat([leer("test_hilos").assign(conjunto="test_hilos"), leer("val_hilos").assign(conjunto="val_hilos")], ignore_index=True)
     assert not d.ID.duplicated().any(), "IDs repetidos entre test_hilos y val_hilos"
     m = pd.concat([d[d.label.isin([2, 3])], estratificada(d[d.label == 0], N_NT, SEMILLA), estratificada(d[d.label == 1], N_OF, SEMILLA)])
-    return m[["ID", "conjunto", "hilo", "texto_original", "label"]].rename(columns={"texto_original": "texto", "label": "label_llm"}).sort_values("ID").reset_index(drop=True)
+    return m[["ID", "conjunto", "hilo", "texto_original", "label"]].rename(columns={"texto_original": "texto", "label": "label_consenso"}).sort_values("ID").reset_index(drop=True)
 
 
 def muestra_desempate():
@@ -158,7 +158,7 @@ def bajar(a):
         h1, h2 = m.h1.astype("float").fillna(-1).astype(int), m.h2.astype("float").fillna(-2).astype(int)
         m["label_humano"] = np.where(h1 == h2, h1, -1)
         dst = P.THREAD_LABELS / "validacion_humana.csv"
-        m.reset_index()[["ID", "conjunto", "hilo", "label_llm", "h1", "h2", "label_humano"]].to_csv(dst, index=False, encoding="utf-8-sig")
+        m.reset_index()[["ID", "conjunto", "hilo", "label_consenso", "h1", "h2", "label_humano"]].to_csv(dst, index=False, encoding="utf-8-sig")
         print(f"{dst}: {len(m)} textos, {int((m.h1.notna() & m.h2.notna()).sum())} con 2 votos, {int((m.label_humano >= 0).sum())} con acuerdo humano")
     elif a.tarea == "desempate":
         df, tx = respuestas(client, ws, DATASETS["desempate"]); w = votos(df, 2)
@@ -167,7 +167,7 @@ def bajar(a):
         pd.DataFrame({"ID": list(tx), "texto": list(tx.values())}).sort_values("ID").to_csv(B / f"lote_{LOTE_DESEMPATE}.csv", index=False, encoding="utf-8-sig")
         pd.DataFrame({"ID": ok.index, "label": ok.h1.astype(int).values}).to_csv(B / f"salida_{LOTE_DESEMPATE}c.csv", index=False)
         print(f"lote_{LOTE_DESEMPATE}: {len(tx)} textos; {len(ok)} con acuerdo humano → salida_{LOTE_DESEMPATE}c.csv. "
-              f"Sin acuerdo humano: {len(w) - len(ok)} (conservan la C del LLM). Siguiente: consolidar_ronda3.py")
+              f"Sin acuerdo humano: {len(w) - len(ok)} (conservan el desempate previo). Siguiente: consolidar_ronda3.py")
     else:
         df, tx = respuestas(client, ws, f"sv_ronda4_{a.lote}"); w = votos(df, 3)
         B = P.THREADS / "blind" / "ronda4"; B.mkdir(parents=True, exist_ok=True)
@@ -188,7 +188,7 @@ def main():
     a = ap.parse_args()
     if a.accion == "muestra":
         m = muestra_validacion() if a.tarea == "validacion" else muestra_desempate()
-        print(m.groupby(["conjunto"] + (["label_llm"] if "label_llm" in m else [])).size().to_string(), f"\nTotal: {len(m)} · hilos: {m.hilo.nunique()}")
+        print(m.groupby(["conjunto"] + (["label_consenso"] if "label_consenso" in m else [])).size().to_string(), f"\nTotal: {len(m)} · hilos: {m.hilo.nunique()}")
         return
     (subir if a.accion == "subir" else bajar)(a)
 

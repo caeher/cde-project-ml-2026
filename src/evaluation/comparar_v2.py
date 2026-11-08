@@ -2,7 +2,7 @@
 """Dataset v2.0.0: compara candidatos contra v3.4.0 con los criterios de docs/improvement/Plan_v2_particion_hilos.md (fijados antes de entrenar).
 Test principal = test_hilos (1,975) + banco congelado (1,391). Temperatura ajustada en val_v2 = val oficial + val_hilos.
 Uso: python src/evaluation/comparar_v2.py v3.4.0 candB_v2 v3.6.0-rc1-sel [--solo-banco profR3 v3.5.0-rc1-sel mbert-sv] [--salida nombre] [--humano]
---humano: añade κ humano-humano, κ humano-LLM y F1 sobre etiquetas humanas (data/annotation/threads/labels/validacion_humana.csv, de argilla_io.py)
+--humano: añade κ humano-humano, κ humano-consenso y F1 sobre etiquetas humanas (data/annotation/threads/labels/validacion_humana.csv, de argilla_io.py)
 Salida: reports/improvement/<salida>.md y .json (por defecto v360_candidatos)"""
 import json, sys
 from pathlib import Path
@@ -63,12 +63,12 @@ def main():
         L += ["## Validación humana (robustez; no cambia los criterios)", "",
               f"`validacion_humana.csv`: {len(hum)} textos (muestra con todo Odio y Amenazas: no es representativa de la distribución). "
               f"κ humano-humano = **{cohen_kappa_score(dos.h1.astype(int), dos.h2.astype(int)):.3f}** (n = {len(dos)}); "
-              f"κ humano-LLM = **{cohen_kappa_score(v.label_humano, v.label_llm):.3f}** (n = {len(v)} con acuerdo humano).", "",
-              "| Modelo | F1 etiquetas humanas | F1 etiquetas LLM (mismos textos) | F1 humano solo test_hilos |", "|---|---|---|---|"]
+              f"κ humano-consenso = **{cohen_kappa_score(v.label_humano, v.label_consenso):.3f}** (n = {len(v)} con acuerdo humano).", "",
+              "| Modelo | F1 etiquetas humanas | F1 etiquetas consenso (mismos textos) | F1 humano solo test_hilos |", "|---|---|---|---|"]
         for n, d in PH.items():
             p, pt_ = v.ID.map(d).values.astype(int), vt.ID.map(d).values.astype(int)
-            R[n]["humano"] = dict(f1_humano=f1m(v.label_humano.values, p), f1_llm_mismos=f1m(v.label_llm.values, p), f1_humano_test_hilos=f1m(vt.label_humano.values, pt_), n=len(v))
-            L.append(f"| {n} | {R[n]['humano']['f1_humano']:.3f} | {R[n]['humano']['f1_llm_mismos']:.3f} | {R[n]['humano']['f1_humano_test_hilos']:.3f} (n={len(vt)}) |")
+            R[n]["humano"] = dict(f1_humano=f1m(v.label_humano.values, p), f1_consenso_mismos=f1m(v.label_consenso.values, p), f1_humano_test_hilos=f1m(vt.label_humano.values, pt_), n=len(v))
+            L.append(f"| {n} | {R[n]['humano']['f1_humano']:.3f} | {R[n]['humano']['f1_consenso_mismos']:.3f} | {R[n]['humano']['f1_humano_test_hilos']:.3f} (n={len(vt)}) |")
         L.append("")
     (P.REPORTS_IMPROVEMENT / f"{salida}.md").write_text("\n".join(L), encoding="utf-8")
     (P.REPORTS_IMPROVEMENT / f"{salida}.json").write_text(json.dumps(R, indent=2, ensure_ascii=False, default=float), encoding="utf-8"); print("\n".join(L))

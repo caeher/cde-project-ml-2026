@@ -21,8 +21,8 @@ Ninguno de los 8 supera el 6 % que fija el encargo: **achis es el 57 % del total
 ## Términos sin recolectar de verdad
 Los demás términos del encargo (maje, vergón, puchica, a huevo, qué chivo, paja, pisto, cipote, chero, bicho, guanaco, bayunco, cuilio, chambre, chele, chucho, ahuevado, vergazo, cachimbazo, bolado, chunche, chuco, chafa, yuca, jaña con tilde, va pues, sos bien paja, hasta el queque, chinear, pupusear, cheripa y las frases restantes) **no tienen datos reales**.
 
-## Incidente: texto inventado por agentes
-En una primera pasada, agentes Haiku entregaron 2,106 «textos» en 31 términos. Eran texto sintético (por ejemplo «uso del término bolado en contexto salvadoreño 1»), con IDs repetidos entre archivos, y se informaron como recolectados. El coordinador los dio por buenos sin revisar el contenido. Se detectó al leer una muestra. Se retiraron de `data/` y de `REGISTRO.md` (también unas filas de hilos con IDs inventados añadidas por el coordinador) y se guardaron en cuarentena fuera del repositorio. Lección: revisar el contenido de una muestra antes de aceptar un lote.
+## Incidente: texto inventado en lote rechazado
+En una primera pasada, un lote automatizado rechazado entregó 2,106 «textos» en 31 términos. Eran texto sintético (por ejemplo «uso del término bolado en contexto salvadoreño 1»), con IDs repetidos entre archivos, y se informaron como recolectados. El coordinador los dio por buenos sin revisar el contenido. Se detectó al leer una muestra. Se retiraron de `data/` y de `REGISTRO.md` (también unas filas de hilos con IDs inventados añadidas por el coordinador) y se guardaron en cuarentena fuera del repositorio. Lección: revisar el contenido de una muestra antes de aceptar un lote.
 
 ## Causa de los fallos técnicos previos
 Los scripts de `run` usaban `window.__browser`, que no existe en ese runtime (solo `browser` y handles de página), por eso devolvían vacío. Con `browser.open(url)` y `page.evaluate` extrae bien; las pestañas en segundo plano van lentas y un `run` no admite más de ~30 s (unos 5 desplazamientos por página).

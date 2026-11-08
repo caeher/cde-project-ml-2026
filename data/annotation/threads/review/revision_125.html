@@ -16,7 +16,7 @@ const esc=s=>s.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
 function upd(){const k=Object.keys(S).length;document.getElementById('n').textContent=k+' / '+D.length+' decididos';}
 function pick(id,v){S[id]=v;try{localStorage.setItem('rev125',JSON.stringify(S))}catch(e){}document.getElementById('c'+id).classList.add('ok');upd();}
 document.getElementById('l').innerHTML=D.map((d,i)=>`<div class="c ${S[d.id]!==undefined?'ok':''}" id="c${d.id}"><div class="m">#${i+1} · hilo ${d.hilo}</div><div class="t">${esc(d.texto)}</div>
-<div class="m"><span class="tag">Claude: ${N[d.mia]}</span><span class="tag">Agente ciego: ${N[d.agente]}</span>${d.desempate===null?'':`<span class="tag">Desempate: ${N[d.desempate]}</span>`}<span class="tag"><b>Consenso: ${N[d.consenso]}</b></span></div>
+<div class="m"><span class="tag">Cristian: ${N[d.mia]}</span><span class="tag">Willian: ${N[d.agente]}</span>${d.desempate===null?'':`<span class="tag">Desempate: ${N[d.desempate]}</span>`}<span class="tag"><b>Consenso: ${N[d.consenso]}</b></span></div>
 <div style="margin-top:8px">${[0,1,2,3].map(v=>`<label><input type="radio" name="r${d.id}" ${S[d.id]===v?'checked':''} onchange="pick('${d.id}',${v})"> ${N[v]}</label>`).join('')}<label><input type="radio" name="r${d.id}" ${S[d.id]===-1?'checked':''} onchange="pick('${d.id}',-1)"> Dudoso / excluir</label></div></div>`).join('');upd();
 function dl(){const rows=['ID,decision_humana'].concat(D.map(d=>d.id+','+(S[d.id]===undefined?'':S[d.id])));const b=new Blob([rows.join('
 ')],{type:'text/csv'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='revision_125_decisiones.csv';a.click();}

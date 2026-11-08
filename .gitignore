@@ -26,6 +26,7 @@ env/
 # Entorno / secretos
 .env
 *.key
+.tmp-app-setup/
 
 # Experimentos
 wandb/

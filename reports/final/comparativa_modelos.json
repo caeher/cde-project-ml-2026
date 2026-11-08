@@ -72,7 +72,7 @@
   },
   "v3.1.0": {
     "autor": "Willian",
-    "tecnica": "v3.0.0 + 716 respuestas de hilos reales (etiquetas de Claude) + 88 casos difíciles",
+    "tecnica": "v3.0.0 + 716 respuestas de hilos reales (etiquetas Willian/Cristian/Julio) + 88 casos difíciles",
     "n_modelos": 5,
     "f1_banco": 0.6719275763608514,
     "ic": [

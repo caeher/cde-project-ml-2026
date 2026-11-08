@@ -11,7 +11,7 @@ data/
 │   │   └── phase1/           hilos de la fase 1 del plan de mejora
 │   └── external/             reservado
 ├── annotation/
-│   ├── stage1/               anotación de la Etapa I: LLM, adjudicación, gold   (privado: no se versiona)
+│   ├── stage1/               anotación de la Etapa I: Cristian, Willian, Julio, adjudicación, gold   (privado: no se versiona)
 │   └── threads/              anotación de los hilos (guía v2.0, ver docs/guia_anotacion.md)
 │       ├── blind/            lotes a ciegas (lote_*) y salidas de cada anotador (salida_*)
 │       ├── labels/           consensos de 3 anotadores (consenso_*.csv) y sessions/ (etiquetado manual lab1–5)

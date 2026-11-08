@@ -3,12 +3,12 @@
 ## Context
 Proyecto de especialización (UES): clasificador de 4 clases (No Tóxico, Ofensivo, Odio, Amenazas) para X/Facebook de El Salvador. Se evalúa con la rúbrica de la **Etapa II** (100 pts: hiperparámetros 20, modelos avanzados + ensemble 20, evaluación rigurosa 15, **fairness 15**, **prototipo desplegado 15**, **impacto social 15**; documento ≤ 40 págs.) y luego la **defensa** (tesina 50–70 págs., video ≤ 3 min, presentación 15 min, GitHub público).
 
-Estado medido sobre el **banco congelado** (n = 1,391, consenso de 3 anotadores): v3.3.0 → F1-macro 0.693, recall Odio 0.577, Amenazas 0.487, falsos positivos 0.129 (v3.2.0: 0.699 / 0.631 / 0.444 / 0.142). La persona responsable considera el modelo «verde e impreciso» y quiere mejorarlo **rápido con IA**, sin personas validando (validan agentes), prototipo **local**, y pregunta por qué hay 10 modelos.
+Estado medido sobre el **banco congelado** (n = 1,391, consenso de 3 anotadores): v3.3.0 → F1-macro 0.693, recall Odio 0.577, Amenazas 0.487, falsos positivos 0.129 (v3.2.0: 0.699 / 0.631 / 0.444 / 0.142). La persona responsable considera el modelo «verde e impreciso» y quiere mejorarlo con más datos etiquetados por el equipo, prototipo **local**, y pregunta por qué hay 10 modelos.
 
 El problema de estrategia: hasta ahora se iteró ad hoc (recolectar 3 hilos → entrenar → evaluar → repetir), con test móvil, >10 comparaciones sobre los mismos datos y sin meta ni parada. Este plan fija presupuesto, banco congelado y criterio de parada.
 
 ## Decisiones ya tomadas por la persona responsable
-- Validadores = **agentes** (3 independientes a ciegas + desempate). Sin humanos.
+- Validadores = **tres anotadores del equipo** (Cristian, Willian, Julio: dos a ciegas + desempate).
 - Despliegue = **local** + video demo.
 - Prioridad = **mejorar el modelo**; los 10 modelos deben reducirse a **uno solo** (destilación).
 
@@ -28,7 +28,7 @@ El problema de estrategia: hasta ahora se iteró ad hoc (recolectar 3 hilos → 
 - **Selección por validación cruzada por hilo** sobre el pool de entrenamiento, no mirando el banco.
 - **Candidatos fijados ahora** (fase 3); nada de variantes nuevas a mitad de camino.
 - Batería de 144 = solo diagnóstico.
-- **Limitación declarada** en la tesina: validadores y anotadores son LLM → errores correlacionados. Mitigación: etiquetado a ciegas, guía fija, modelos distintos entre anotadores (p. ej. Sonnet / Opus / Haiku), reporte de κ, banco por consenso.
+- **Limitación declarada** en la tesina: desacuerdo residual entre anotadores (κ reportado). Mitigación: etiquetado a ciegas, guía fija, roles distintos (guía completa vs resumen), reporte de κ, banco por consenso de tres.
 
 ## Fases
 
@@ -40,7 +40,7 @@ El problema de estrategia: hasta ahora se iteró ad hoc (recolectar 3 hilos → 
 ### Fase 1 — Datos a escala con IA (2 rondas máx.)
 Cuello de botella actual: Odio ≈ 330 y Amenazas ≈ 200 en entrenamiento. **Cuota**: ≥ 700 Odio y ≥ 450 Amenazas con consenso.
 - Recolección con BrowserOS (patrón ya probado en `run`: 4 hilos en paralelo, ≈ 1 min por hilo, ≈ 250 textos): 16–24 hilos dirigidos a Odio (nacionalidad/migración, LGBT, misoginia, racismo, con casos salvadoreños) y Amenazas (pandillas/CECOT, ataques políticos).
-- Etiquetado: 2 agentes ciegos + desempate (patrón de `lote_*.csv` → `salida_*.csv` → consenso). **Etiquetas blandas**: guardar la fracción de anotadores que votó cada clase para usar en destilación.
+- Etiquetado: Cristian y Willian a ciegas + desempate de Julio (patrón de `lote_*.csv` → `salida_*.csv` → consenso). **Etiquetas blandas**: guardar la fracción de anotadores que votó cada clase para usar en destilación.
 - Se **detiene** al alcanzar la cuota o tras 2 rondas.
 
 ### Fase 2 — Optimización de hiperparámetros (rúbrica 20 pts)
@@ -63,7 +63,7 @@ Script nuevo `src/evaluation/fairness.py` sobre el banco + test oficial:
 - por plataforma (X vs Facebook), por grupo objetivo (mujeres, LGBT, nacionalidades, etnia), por jerga salvadoreña vs no jerga;
 - recall/FPR por grupo con IC bootstrap y disparidad máxima;
 - intercambio contrafactual de grupo (`prueba_atajos_reales.py` ya existe) y groserías afectivas;
-- mitigaciones aplicadas y límites (anotadores LLM, datos de X, sin Facebook).
+- mitigaciones aplicadas y límites (calidad de etiqueta, datos de X, sin Facebook).
 
 ### Fase 6 — Prototipo local + video (rúbrica 15 pts)
 - Streamlit (`app/ui/app.py`) + API local con el estudiante: añadir panel de probabilidades, advertencia de baja confianza y ejemplos precargados.
@@ -90,7 +90,7 @@ Se detiene cuando ocurra lo primero: (1) metas alcanzadas; (2) se completa la fa
 - Fase 7: documento y diapositivas con todas las cifras recalculadas desde predicciones, no copiadas.
 
 ## Riesgos honestos
-- Las etiquetas del pool y del banco las generan agentes; las mejoras pueden reflejar el sesgo del anotador LLM, no la realidad. Se declara como limitación.
+- Las etiquetas del pool y del banco las generan los anotadores del equipo; las mejoras pueden reflejar el sesgo del protocolo, no la realidad. Se declara como limitación.
 - Si BrowserOS se desconecta, la fase 1 se retrasa (ya pasó varias veces; hay que re-listar pestañas tras reconectar).
 - El banco tiene pocos casos de Odio por hilo; las metas de Odio tendrán IC amplios.
 

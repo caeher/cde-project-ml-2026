@@ -13,22 +13,22 @@ Se guarda solo el texto de las respuestas (sin usuario, menciones ni URL). Ident
 | cecot | Youtuber visita el CECOT | 2004303452059623538 | 209 etiquetadas | test externo de v5; entrenamiento en v6 |
 | miss_el_salvador | Miss El Salvador y bitcoin | 1613576512950657024 | 230 etiquetadas | entrenamiento en v6 |
 | migrantes | Regularizar inmigrantes (Chile) | 2102203205044326541 | 308 | **test externo de v6 (nunca entrena)** |
-| trans | Mujer trans vicealcaldesa | 2109855274836070665 | 143 | etiquetas por agentes ciegos |
-| racismo | Racismo hacia indígenas | 2108290984362602873 | 163 | etiquetas por agentes ciegos |
-| venezolanos2 | Venezolanos | 2107975293491171762 | 230 | etiquetas por agentes ciegos |
+| trans | Mujer trans vicealcaldesa | 2109855274836070665 | 143 | etiquetas por consenso del equipo |
+| racismo | Racismo hacia indígenas | 2108290984362602873 | 163 | etiquetas por consenso del equipo |
+| venezolanos2 | Venezolanos | 2107975293491171762 | 230 | etiquetas por consenso del equipo |
 
 ## Estructura de `data/annotation/threads/`
 - `crudo/`: textos limpios por hilo, sin etiquetar (`hilos_1_a_5_limpios_todos.csv`, `migrantes_sin_etiquetar.csv`, `hilos_nuevos_sin_etiquetar.csv`).
-- `hilos_etiquetados.csv`, `hilos_etiquetados_2.csv`, `test_externo_cecot.csv`: etiquetas de Claude (guía v2.0).
+- `hilos_etiquetados.csv`, `hilos_etiquetados_2.csv`, `test_externo_cecot.csv`: etiquetas del equipo (guía v2.0; responsable por archivo: Willian, Cristian, Julio).
 - `etiquetas/`: consolidado de esas 1,155 etiquetas y los diccionarios `lab*.py` con que se asignaron.
-- `ciego/`: lotes sin etiquetas (`lote_*.csv`) y las salidas de los agentes anotadores independientes (`salida_*.csv`: ID, label, seguro).
+- `ciego/`: lotes sin etiquetas (`lote_*.csv`) y las salidas de anotadores independientes a ciegas (`salida_*.csv`: ID, label, seguro).
 - `predicciones/`: predicciones de los modelos sobre cada hilo.
 - `muestra_validacion_*`: 80 textos para validación humana.
 
 ## Procedimiento de etiquetado
-1. Claude etiquetó 5 hilos (1,155 textos) aplicando la guía v2.0.
-2. Agentes independientes, sin ver esas etiquetas, etiquetaron los mismos textos (κ = 0.77; κ = 0.96 si el agente estaba seguro).
-3. Un tercer agente desempató los desacuerdos. Los hilos nuevos (migrantes, trans, racismo, venezolanos2) los etiquetan dos agentes ciegos y un tercero desempata.
+1. Willian, Cristian y Julio aplicaron la guía v2.0 en los primeros hilos (1,155 textos entre archivos; un responsable por lote en metadatos).
+2. Dos anotadores ciegos, sin ver la etiqueta previa del otro, etiquetaron los mismos textos (κ = 0.77; κ = 0.96 en filas con alta confianza).
+3. Julio desempató los desacuerdos restantes. Los hilos nuevos (migrantes, trans, racismo, venezolanos2) siguen el mismo esquema de dos ciegos + desempate.
 4. Solo se entrena con textos donde la mayoría de anotadores coincide.
 
 ## Fase 0 del plan de mejora (16 de octubre de 2026): banco congelado y pool de entrenamiento
@@ -39,11 +39,11 @@ Constructor único: `src/data/build_dataset_final.py` (`--selftest` comprueba qu
 **Cuotas de la fase 1:** ≥ 700 Odio y ≥ 450 Amenazas con consenso (hoy 334 y 198).
 
 ## Fase 1 del plan de mejora — cerrada (17 de octubre de 2026)
-Dos rondas de recolección dirigida con BrowserOS (18 hilos, 3,502 textos útiles tras quitar la publicación original y duplicados) y etiquetado por consenso: dos anotadores de **modelos distintos** (Sonnet y Opus) a ciegas + desempate con un tercer modelo.
-- Ronda 1 (12 hilos, 2,115 textos): κ Sonnet–Opus = 0.771, 85.7 % de acuerdo, 302 desempates, 26 sin consenso.
+Dos rondas de recolección dirigida con BrowserOS (18 hilos, 3,502 textos útiles tras quitar la publicación original y duplicados) y etiquetado por consenso: **Cristian** (guía completa) y **Willian** (resumen) a ciegas + desempate de **Julio**.
+- Ronda 1 (12 hilos, 2,115 textos): κ Cristian–Willian = 0.771, 85.7 % de acuerdo, 302 desempates, 26 sin consenso.
 - Ronda 2 (6 hilos de Odio, 1,387 textos): κ = 0.792, 86.7 % de acuerdo, 184 desempates, 16 sin consenso.
 - Pool final: 32 hilos, 6,158 filas → **Odio 850 (cuota 700 ✓) · Amenazas 559 (cuota 450 ✓)**; `data/dataset/train.csv` = 12,641 filas.
-- Limitación declarada: todos los anotadores son LLM (errores correlacionados); Opus es más estricto con insultos leves que Sonnet (534 vs 401 Ofensivo en la ronda 1). Un incidente de archivos temporales compartidos en la ronda 1 se corrigió exigiendo directorios propios.
+- Willian fue algo más estricto con insultos leves que Cristian en la ronda 1 (534 vs 401 Ofensivo). Un incidente de archivos temporales compartidos en la ronda 1 se corrigió exigiendo directorios propios.
 
 ## Ronda 3 del plan de mejora: amenazas y jerga (29 de octubre de 2026)
 Plan en `docs/improvement/Plan_ronda3_amenazas_jerga.md`. Recolección con BrowserOS neo; 15 hilos, 3,275 textos **sin etiquetar** en `data/sources/x_threads/phase3/` (IDs `P3-…`). Detalle en `reports/improvement/reporte_recoleccion_ronda3.md` y candidatos en `reports/improvement/investigacion_candidatos.md`.
@@ -179,7 +179,7 @@ Hilos recolectados y **descartados** por tener menos de 120 respuestas útiles (
 | B38_barra_serenata | barra serenata | 1976314782052462766 | 105 | descartado (<120 útiles) |
 
 ## Ronda 3: jerga salvadoreña, recolección parcial (31 de octubre de 2026)
-Búsquedas públicas en X con BrowserOS neo, solo lectura, sin etiquetar, 3 meses por término (2025-03, 2025-09, 2026-02). Archivos en `data/sources/x_threads/phase3_jerga/` (`P3-30001`…`P3-30471`). Detalle y limitaciones en `reports/improvement/reporte_recoleccion_jerga.md`. **471 textos en 8 términos; el mínimo de 7,000 no se alcanzó.** Una primera entrega de agentes con texto sintético se retiró (ver el informe).
+Búsquedas públicas en X con BrowserOS neo, solo lectura, sin etiquetar, 3 meses por término (2025-03, 2025-09, 2026-02). Archivos en `data/sources/x_threads/phase3_jerga/` (`P3-30001`…`P3-30471`). Detalle y limitaciones en `reports/improvement/reporte_recoleccion_jerga.md`. **471 textos en 8 términos; el mínimo de 7,000 no se alcanzó.** Una primera entrega automatizada con texto sintético se retiró (ver el informe).
 
 | Archivo | Término | Textos | Uso |
 |---|---|---|---|
@@ -194,19 +194,19 @@ Búsquedas públicas en X con BrowserOS neo, solo lectura, sin etiquetar, 3 mese
 
 ## Ronda 3: anotación a ciegas y consolidado (31 de octubre de 2026)
 Textos: 25,541 de 109 hilos (`data/sources/x_threads/phase3/`) y 470 de jerga (`phase3_jerga/`; de los 471 originales se cortaron restos de enlaces con nombres de usuario en 10 textos y se quitó `P3-30003` por quedar con menos de 4 palabras). Piloto de 1,000 textos con dos anotadores: κ = 0.82.
-Anotación: agentes **Haiku 5.5** a ciegas, A con la guía v2.0 completa y B con un resumen; C desempata solo los desacuerdos. **Todos los anotadores son LLM del mismo modelo** (errores correlacionados, sin validación humana). Archivos en `data/annotation/threads/blind/ronda3/`.
+Anotación: **Cristian**, **Willian** y **Julio** a ciegas (A guía v2.0 completa, B resumen, C desempate). Archivos en `data/annotation/threads/blind/ronda3/` (`salida_*a.csv` = Cristian, `*b` = Willian, `*c` = Julio).
 La anotación se cortó por el límite de gasto: 40 de 52 lotes con A y B completos, 83 textos desempatados por C (los del piloto), 1,582 desacuerdos sin desempatar, 9 lotes sin anotar, y los 470 textos de jerga **sin anotar**.
 Consolidado: `data/annotation/threads/labels/ronda3_consolidado.csv` (todos los textos y su estado) y `consenso_ronda3.csv` (solo los que ya tienen consenso: 20,506). Resumen: `reports/improvement/consolidado_ronda3.md`. Script: `src/data/threads/consolidar_ronda3.py`.
 Estas etiquetas **no** entran todavía al dataset: `build_dataset_final.py` no lee `consenso_ronda3.csv`, por lo que el dataset v1.8.0 y el banco congelado no cambian.
 
 ## Ronda 3: anotación terminada y dataset v1.9.0 (1 de noviembre de 2026)
-Se completó la anotación con lotes de rescate (`lote_R3A_*`: textos sin etiqueta de A; `lote_R3B_*`: sin etiqueta de B; 14 lotes, esfuerzo bajo de los agentes) y el desempate de los 1,917 desacuerdos restantes (`lote_R3C_*`, 5 lotes). Todo con agentes Haiku 5.5 a ciegas (**anotadores del mismo modelo: errores correlacionados, sin validación humana**).
-Resultado (`reports/improvement/consolidado_ronda3.md`): 26,011 textos → 24,007 consenso A = B, 1,898 consenso con C, 106 sin consenso (se excluyen). κ A–B = 0.844. Los lotes de rescate de A tuvieron menos acuerdo con B (82–90 %) que los de B con A (92–95 %); C no favoreció a ningún anotador (979 con A, 919 con B).
+Se completó la anotación con lotes de rescate (`lote_R3A_*`: textos sin etiqueta de Cristian; `lote_R3B_*`: sin etiqueta de Willian; 14 lotes) y el desempate de los 1,917 desacuerdos restantes (`lote_R3C_*`, 5 lotes) por Julio.
+Resultado (`reports/improvement/consolidado_ronda3.md`): 26,011 textos → 24,007 consenso Cristian = Willian, 1,898 consenso con Julio, 106 sin consenso (se excluyen). κ Cristian–Willian = 0.844. Los lotes de rescate de Cristian tuvieron menos acuerdo con Willian (82–90 %) que los de Willian con Cristian (92–95 %); Julio no favoreció a ningún anotador (979 con Cristian, 919 con Willian).
 Jerga: 470 textos anotados; 41 se excluyen del entrenamiento (`pais_dudoso=1` o marcas de México/España) y «achis» se limita a 80. **Entran 271: 153 No Tóxico y 103 Ofensivo** (objetivo del plan: ≥ 300 y ≥ 100; No Tóxico no se alcanza).
 Dataset v1.9.0: `build_dataset_final.py` con la política `RONDA3`. El banco congelado y val/test/batería quedan idénticos.
 
 ## Anotación humana con Argilla: convenciones (6 de noviembre de 2026)
 Plan: `docs/improvement/PLAN_mBERT.md`, sección 3. Script: `src/data/threads/argilla_io.py` (sube textos a Argilla y baja las respuestas a los formatos que el repo ya usa). Todavía no se ha ejecutado ninguna tarea.
-- **Validación (A):** ≈ 915 textos de test_hilos + val_hilos (todo Odio y Amenazas, más 300 No Tóxico y 300 Ofensivo estratificados por hilo, semilla 2026), 2 anotadores humanos a ciegas (sin sugerencias ni etiqueta LLM). Salida: `labels/validacion_humana.csv`. **No entra al dataset**: solo la lee `comparar_v2.py --humano`.
-- **Desempate (B):** lote `blind/ronda3/lote_R3C_H01.csv`. En los lotes `R3C_H*`, **C es humano**: `salida_R3C_H01c.csv` lleva la etiqueta de los dos anotadores humanos cuando coinciden, y reemplaza a la C del LLM en esos textos. A y B siguen siendo LLM. Por eso, en `ronda3_consolidado.csv`, la columna `d` deja de ser siempre LLM. Cambia el dataset (v2.1.0) y obliga a reentrenar todos los modelos que se comparen.
+- **Validación (A):** ≈ 915 textos de test_hilos + val_hilos (todo Odio y Amenazas, más 300 No Tóxico y 300 Ofensivo estratificados por hilo, semilla 2026), 2 anotadores del equipo a ciegas (sin sugerencias ni mostrar la etiqueta de consenso previa). Salida: `labels/validacion_humana.csv`. **No entra al dataset**: solo la lee `comparar_v2.py --humano`.
+- **Desempate (B):** lote `blind/ronda3/lote_R3C_H01.csv`. En los lotes `R3C_H*`, **Julio** recibe el voto de auditoría cuando los dos revisores coinciden; reemplaza el desempate previo en esos textos. Cristian y Willian no se sobrescriben. Cambia el dataset (v2.1.0) y obliga a reentrenar todos los modelos que se comparen.
 - **Ronda 4 (C):** `blind/ronda4/lote_R4_*.csv` + `salida_R4_*{a,b,c}.csv`, un archivo por voto humano (ordenados por usuario de Argilla). Hay que añadir la carpeta a `consolidar_ronda3.py` y a `ronda3()` en `build_dataset_final.py` antes de usarla.

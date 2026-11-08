@@ -91,7 +91,7 @@ Preparado para la defensa: `docs/Guion_Presentacion_EtapaII.md` (30 min, palabra
 - Proxy lineal (TF-IDF + LinearSVC):
   - Sin la corrección de etiquetas, los datos nuevos empeoraban el modelo de forma significativa (p = 0.024). Con ella, quedan neutrales.
   - Por plataforma: **X +2.2 puntos, Facebook −4.8**. Bajarles el peso no resuelve el intercambio.
-- `src/train/entrenar_v4.py`: reentrenamiento de RoBERTuito con la configuración de la Etapa II. **No se pudo ejecutar** porque el entorno de Claude no tiene GPU ni torch.
+- `src/train/entrenar_v4.py`: reentrenamiento de RoBERTuito con la configuración de la Etapa II. **No se pudo ejecutar** porque el entorno de ejecución remoto no tenía GPU ni torch.
 
 ---
 
@@ -142,7 +142,7 @@ Preparado para la defensa: `docs/Guion_Presentacion_EtapaII.md` (30 min, palabra
 
 ---
 
-## 7. Restricciones del entorno de Claude
+## 7. Restricciones del entorno de ejecución
 
 - La terminal corre en un Linux aislado (2 CPU, 3 GB de RAM, sin GPU). No ve el Python de Windows.
 - `download.pytorch.org` está bloqueado. torch de PyPI pesa 555 MB más unos 2 GB de dependencias CUDA y no cabe con holgura.

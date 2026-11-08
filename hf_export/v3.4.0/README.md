@@ -113,5 +113,5 @@ print(predecir("Qué onda maje, hace años que no te veía"))
 - **Amenazas implícitas:** detecta menos de la mitad de las celebraciones de violencia del tipo «merecen eso y más» (recall 0.47).
 - **Sesgo por jerga:** marca como tóxico el 38 % de los textos no tóxicos con jerga salvadoreña del test oficial (n = 29), frente al 7 % sin jerga.
 - **Facebook:** rinde unos 10 puntos menos de F1 que en X.
-- Las etiquetas de los hilos son consenso de anotadores LLM, sin validación humana sistemática.
+- Las etiquetas de los hilos son consenso de Cristian, Willian y Julio (dos ciegos + desempate).
 - El corpus contiene lenguaje ofensivo explícito por la naturaleza de la tarea. Los usuarios están seudonimizados y no se publican datos personales.

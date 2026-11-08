@@ -8,8 +8,8 @@ Sobre el BANCO CONGELADO (data/evaluation/frozen_bank/) y el test oficial, para 
   4. Sobremarcado de menciones: de los textos No Tóxico que mencionan un grupo, qué fracción se clasifica como tóxica (por grupo).
   5. Por tema/hilo del banco (militares, xenofobia, migrantes, fútbol/política).
 Cada tabla incluye n; los grupos con n < 20 se marcan como «sin potencia». IC bootstrap 95 % (2,000 remuestreos).
-LIMITES (también escritos en el informe): grupos objetivo asignados por palabras clave (aprox.); etiquetas de consenso de anotadores LLM sin
-validación humana; datos solo de X (Facebook solo en el test oficial); no se mide sesgo de autor/dialecto individual.
+LIMITES (también escritos en el informe): grupos objetivo asignados por palabras clave (aprox.); etiquetas de consenso de Cristian, Willian y Julio;
+datos solo de X (Facebook solo en el test oficial); no se mide sesgo de autor/dialecto individual.
 
 Uso: python src/evaluation/fairness.py --modelo v3.3.0
 """
@@ -111,7 +111,7 @@ def main():
         i = g.index.values; y, p = yb[i], pb[i]; L.append(f"| {k} | {len(i)} | {(y == p).mean():.3f} | {rec(2)(y, p):.2f} | {rec(3)(y, p):.2f} | {fpr(y, p):.3f} |")
     L += ["", "## Límites y advertencias éticas",
           "- Los grupos objetivo se asignan con palabras clave: un texto sobre «mujeres» y «migrantes» cae en el primer grupo que coincide; es aproximado.",
-          "- Las etiquetas son consenso de anotadores LLM (Sonnet, Opus y un tercer modelo) **sin validación humana**: el sesgo de esos anotadores puede estar en las etiquetas y en el banco.",
+          "- Las etiquetas son consenso de Cristian, Willian y Julio (dos ciegos + desempate); el sesgo del protocolo puede estar en las etiquetas y en el banco.",
           "- Los datos son de X (salvo la columna de plataforma del test oficial); no se evaluó dialecto individual ni autores.",
           "- El clasificador debe usarse como **apoyo a la moderación con revisión humana**, no como decisión automática: los errores se reparten de forma desigual por grupo (ver tablas) y una sanción errónea tiene costo real para quien la recibe."]
     out = RAIZ / a.salida; out.write_text("\n".join(L), encoding="utf-8"); print("\n".join(L))

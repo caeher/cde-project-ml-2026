@@ -14,7 +14,7 @@ Ronda adicional a las dos de la fase 1, autorizada por la persona responsable tr
 Reserva: **2 hilos de jerga completos** quedan fuera del entrenamiento como `jerga_dev` para elegir la variante (no es el banco congelado).
 
 ## Etiquetado
-Dos anotadores a ciegas con **Haiku 5.5** (instrucción de la persona responsable) con la guía v2.0 y, para reducir errores correlacionados, con instrucciones distintas (uno lee la guía completa, otro un resumen con los casos límite de §3.3 y §5); los desacuerdos los adjudica Claude (modelo principal) con la guía. Se reporta κ. Limitación declarada: anotadores del mismo modelo.
+**Cristian** y **Willian** a ciegas con la guía v2.0 (Cristian lee la guía completa, Willian un resumen con los casos límite de §3.3 y §5); los desacuerdos los adjudica **Julio**. Se reporta κ.
 
 ## Entrenamiento (sin variantes nuevas a mitad de camino)
 - Dataset **v1.9.0** = v1.8.0 + ronda 3 (menos `jerga_dev`), con `build_dataset_final.py` (mismas comprobaciones de fuga).

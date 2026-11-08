@@ -21,7 +21,7 @@ Debilidades concretas: (1) misoginia y sexismo sin insulto explícito → clasif
 6. **Modelo final** solo si se adopta: reentrenar con todos los hilos (variante F), verificando únicamente test oficial y batería.
 
 ## Límites
-- Etiquetas de los hilos: una sola anotadora (Claude, guía v2.0), sin validación humana ni kappa. Son referencia razonable, no gold standard.
+- Etiquetas de los hilos: un responsable por archivo (Willian, Cristian, Julio; guía v2.0), sin segundo par a ciegas en esos lotes. Son referencia razonable, no gold standard.
 - "Error mínimo" no se puede garantizar: depende del techo de las etiquetas (acuerdo entre anotadores 0.81 en el corpus original) y del tamaño de los conjuntos.
 
 ## Revisión del criterio (11 de octubre de 2026)

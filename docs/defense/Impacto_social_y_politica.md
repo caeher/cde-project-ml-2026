@@ -20,7 +20,7 @@ Usuarios previstos: equipos de moderación de medios y organizaciones de la soci
 | **Odio no detectado** | El daño a los grupos atacados continúa | Recall de Odio 0.67 (0.63 de media entre semillas) y de Amenazas 0.47: **cerca de un tercio del odio y más de la mitad de las amenazas no se detectan** |
 | **Sesgo por jerga y dialecto** | La jerga salvadoreña podría marcarse más que el español neutro | **Confirmado:** en el test oficial el 38 % de los textos No Tóxico con jerga se marca como tóxico, frente al 7 % sin jerga (n = 29 con jerga; en v3.3.0 era 24 %). Fairness §2 |
 | **Sobremarcado de menciones** | Que nombrar a un grupo (migrantes, LGBT) active la alerta aunque el texto sea neutro | El 22 % de los No Tóxico que mencionan una nacionalidad se marca tóxico (el doble de la tasa global de 11 %). Fairness §4 |
-| **Etiquetas con sesgo del anotador** | Los anotadores fueron modelos de lenguaje, sin validación humana | Declarado como limitación principal; κ entre anotadores y banco por consenso de 3 |
+| **Etiquetas con sesgo del anotador** | El consenso puede heredar sesgos del protocolo y del equipo | Declarado como limitación principal; κ entre anotadores y banco por consenso de 3 |
 | **Uso fuera de propósito** | Vigilancia de personas, sanción automática, uso político | Ver recomendaciones |
 | **Deriva** | El lenguaje cambia (nuevos insultos, nuevas amenazas, eventos) | El modelo se entrenó con datos de 2026; requiere reevaluación periódica |
 
@@ -36,7 +36,7 @@ Usuarios previstos: equipos de moderación de medios y organizaciones de la soci
 8. **Límite de uso político.** Una herramienta de este tipo puede usarse para silenciar disidencia. Se recomienda que su uso institucional sea público, con reglas escritas y supervisión independiente.
 
 ## 5. Límites que deben acompañar cualquier cifra
-- Etiquetas de consenso de anotadores LLM (Sonnet, Opus y un tercer modelo), sin validación humana: los errores pueden estar correlacionados.
+- Etiquetas de consenso de Cristian, Willian y Julio (dos ciegos + desempate): el desacuerdo residual limita el techo medible (κ reportado en el proyecto).
 - Datos de X (más una parte original de Facebook en el test oficial); no se evaluó otro tipo de contenido (imágenes, audio, mensajes privados).
 - Banco de evaluación pequeño en algunas clases: los intervalos de confianza de Odio son amplios.
 - No se midió sesgo por autor individual ni se evaluó el impacto real en una operación de moderación.

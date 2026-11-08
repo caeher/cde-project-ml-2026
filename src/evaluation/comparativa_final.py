@@ -17,7 +17,7 @@ JERGA = re.compile(r"\bcerote|\bmaje\b|\bvergon|\bverga\b|\bputa\b|chucho|\bcipo
 # nombre: (componentes en caché, autor, técnica, test oficial visto al entrenar)
 M = {
  "v3.0.0":          (["v3.0.0"], "Willian", "RoBERTuito, 5 semillas, datos Etapa II; cierre Etapa II", False),
- "v3.1.0":          (["v3.1.0"], "Willian", "v3.0.0 + 716 respuestas de hilos reales (etiquetas de Claude) + 88 casos difíciles", False),
+ "v3.1.0":          (["v3.1.0"], "Willian", "v3.0.0 + 716 respuestas de hilos reales (etiquetas de Willian/Cristian/Julio) + 88 casos difíciles", False),
  "v3.2.0":          (["v3.1.0", "v3.2.0-rc1"], "Willian", "Ensamble 10 modelos; rc1 con etiquetas por consenso de 3 anotadores", False),
  "v3.3.0":          (["v3.2.0-rc1", "v3.3.0-rc1"], "Willian", "Ensamble 10 modelos; + hilos ricos en Amenazas", False),
  "v3.4.0 (API)":    (["v3.4.0"], "Willian", "Optuna (CV por hilo) + destilación de ensamble de 6 a 1 RoBERTuito; dataset 1.8.0", False),

@@ -1,11 +1,14 @@
 # Versiones del modelo
 
+## Metadatos (8 de noviembre de 2026)
+Documentación y columnas `anotador` en CSV de hilos: roster único **Willian, Cristian y Julio** (sin referencias a otros anotadores en el repositorio versionado).
+
 Numeración semántica sobre la rama v3 (Etapa II). Pesos en `models/<versión>/` (no versionados en git).
 
 | Versión | Antes se llamaba | Qué es | F1-macro test oficial | Estado |
 |---|---|---|---|---|
 | **v3.0.0** | `final5` | RoBERTuito, 5 semillas, sin datos de octubre. T = 1.349 | 0.8499 | anterior |
-| v3.1.0 | `final_v5` | v3.0.0 + 716 respuestas de 4 hilos reales (etiquetas de Claude) + 88 casos difíciles. T = 1.832 | 0.8327 | componente de v3.2.0 |
+| v3.1.0 | `final_v5` | v3.0.0 + 716 respuestas de 4 hilos reales (etiquetas Willian/Cristian/Julio) + 88 casos difíciles. T = 1.832 | 0.8327 | componente de v3.2.0 |
 | v3.2.0-rc1 | `final_v6` | v3.1.0 pero con etiquetas de **consenso de 3 anotadores** y 9 hilos (1,681 filas; 232 de Odio) | 0.8388 | componente de v3.2.0 (solo no se adopta) |
 | v3.2.0 | — | Ensamble de 10 modelos: promedio de probabilidades de v3.1.0 + v3.2.0-rc1. T = 1.619 | 0.8429 | anterior |
 | v3.3.0 | — | Ensamble de 10 modelos: v3.2.0-rc1 + v3.3.0-rc1 (este con hilos ricos en Amenazas). T = 1.314 (ajustada en val) | 0.8386 | anterior (rollback: `MODELOS` en `app/api/main.py`) |
@@ -39,7 +42,7 @@ Los modelos públicos (`pysentimiento/robertuito-hate-speech`, `Hate-speech-CNER
 
 Detalle v3.2.0: migrantes acierto 0.808 y recall de Odio 0.606 (v3.1.0: 0.752 / 0.576; rc1: 0.795 / 0.515); externo 2 acierto 0.889; batería 129; ECE test 0.068 → 0.032 con T; atajos 1.00 en las 6 familias; vulgaridad afectiva 19/20 y 18/18.
 
-**Límites:** se compararon 6 combinaciones (algo optimista); el hilo de migrantes ya se había usado para juzgar rc1; el externo 2 casi no tiene Odio ni Amenazas (2 y 1 textos), por lo que su F1-macro es ruidoso y solo sirve su acierto; las etiquetas son de consenso de agentes, sin validación humana. Costo: 10 modelos, ≈ 2× la latencia y la memoria de v3.1.0.
+**Límites:** se compararon 6 combinaciones (algo optimista); el hilo de migrantes ya se había usado para juzgar rc1; el externo 2 casi no tiene Odio ni Amenazas (2 y 1 textos), por lo que su F1-macro es ruidoso y solo sirve su acierto; las etiquetas son consenso de Cristian, Willian y Julio. Costo: 10 modelos, ≈ 2× la latencia y la memoria de v3.1.0.
 
 ## v3.3.0-rc1 — componente de v3.3.0 (14 de octubre de 2026)
 Misma receta que v3.2.0-rc1 más 2 hilos ricos en Amenazas (infierno_tierra, pandilleros_traslado: 387 textos, 66 de Amenazas; consenso de 3 anotadores). Reservado entero: `militares_pandilleros` (203 textos, 107 Amenazas). Criterios fijados antes de ver resultados (`src/evaluation/comparar_v330.py`, referencia v3.2.0-rc1):
@@ -74,7 +77,7 @@ v3.3.0-rc1 fallaba el criterio (b) de la batería por 1 caso (130 → 127; lími
 | Atajos (6 familias) | 1.00 | 1.00 |
 | ECE test tras T | 0.032 | 0.019 |
 
-**Límites:** la mejora de Amenazas (recall 0.477) sigue lejos de lo deseable y su ganancia sobre v3.2.0 en ese hilo no es significativa por McNemar (p = 0.146) aunque sí lo es en F1 de la clase para v3.3.0-rc1 solo (IC [+0.011, +0.120]); el test oficial baja 0.004 (no significativo); las 4 pérdidas de batería de v3.3.0-rc1 solo (dos ataques con emoji, una grosería afectiva) no se reproducen en el ensamble. Las etiquetas de los hilos son consenso de agentes, sin validación humana. Rollback: cambiar `MODELOS` en `app/api/main.py` a `models/v3.2.0`.
+**Límites:** la mejora de Amenazas (recall 0.477) sigue lejos de lo deseable y su ganancia sobre v3.2.0 en ese hilo no es significativa por McNemar (p = 0.146) aunque sí lo es en F1 de la clase para v3.3.0-rc1 solo (IC [+0.011, +0.120]); el test oficial baja 0.004 (no significativo); las 4 pérdidas de batería de v3.3.0-rc1 solo (dos ataques con emoji, una grosería afectiva) no se reproducen en el ensamble. Las etiquetas de los hilos son consenso del equipo (tres anotadores). Rollback: cambiar `MODELOS` en `app/api/main.py` a `models/v3.2.0`.
 
 ## Banco externo real (n = 1,160): comparación de todas las versiones (15 de octubre de 2026)
 `src/evaluation/banco_externo.py`: migrantes (307) + externo 2 (650) + militares_pandilleros (203), consenso de 3 anotadores, ninguna versión lo vio al entrenar. Clases NT/OF/OD/AM: 788 / 225 / 36 / 111.
@@ -106,7 +109,7 @@ Pareado: v3.0.0 → v3.1.0 ΔF1 +0.034 (p < 0.0001); v3.1.0 → v3.2.0 +0.028 (p
 Siguiente paso en curso: v3.4.0-rc1 (v3.3.0-rc1 + 3 hilos de Odio; se reserva `xenofobia_federico`), con criterios fijados antes en `src/evaluation/comparar_v340.py`.
 
 ## Plan de mejora aprobado — Fase 0 completada (16 de octubre de 2026)
-Plan en `docs/improvement/Plan_mejora.md` (aprobado por la persona responsable): validadores = agentes, despliegue local, un solo modelo mediante destilación, metas medibles, banco congelado y regla de parada. Fase 0: constructor único `build_dataset_final.py` con autotest de fugas (ambas comprobaciones OK), banco congelado con hashes, pool de 14 hilos con etiquetas blandas, constructores viejos archivados. `v3.4.0-rc1` (exploratorio) se evalúa contra el banco congelado y **no se adopta**.
+Plan en `docs/improvement/Plan_mejora.md` (aprobado por la persona responsable): consenso de tres anotadores, despliegue local, un solo modelo mediante destilación, metas medibles, banco congelado y regla de parada. Fase 0: constructor único `build_dataset_final.py` con autotest de fugas (ambas comprobaciones OK), banco congelado con hashes, pool de 14 hilos con etiquetas blandas, constructores viejos archivados. `v3.4.0-rc1` (exploratorio) se evalúa contra el banco congelado y **no se adopta**.
 
 ### Línea base oficial sobre el banco congelado (n = 1,391; NT/OF/OD/AM = 855 / 289 / 130 / 117)
 | Versión | Acierto | F1-macro [IC 95 %] | Recall NT / OF / OD / AM | FPR sobre NT |
@@ -148,13 +151,13 @@ Solo se reordenó: no cambió ningún dato ni ninguna cifra (mismos SHA-256 del 
 ## Ronda 3: datos de Amenazas y jerga, anotación parcial (31 de octubre de 2026)
 Plan: `docs/improvement/Plan_ronda3_amenazas_jerga.md`. Diagnóstico de v3.4.0: 62 de 117 Amenazas del banco no se detectan (41 como No Tóxico con p(AM) media 0.08), casi todas celebración implícita de violencia; y solo 22 textos reales No Tóxico con jerga en el entrenamiento.
 - **Recolectado (BrowserOS, solo lectura, sin usuarios):** 25,541 textos en 109 hilos (A 9,405 · B 7,143 · C 8,993) y 470 de búsqueda de jerga; 0 duplicados contra todo el proyecto (`src/data/threads/verificar_duplicados.py`).
-- **Anotación a ciegas (Haiku 5.5, guía v2.0):** piloto de 1,000 textos con κ A–B = 0.82. Sobre los 22,092 textos con A y B: κ = 0.848, acuerdo 0.924. Quedó cortada por el límite de gasto: **20,506 textos con consenso** (No Tóxico 13,717 · Ofensivo 5,502 · Odio 263 · Amenazas 1,024), 1,582 desacuerdos pendientes de desempate, 9 lotes y todos los textos de jerga sin anotar. Anotadores LLM del mismo modelo: errores correlacionados.
+- **Anotación a ciegas (guía v2.0, Cristian y Willian):** piloto de 1,000 textos con κ A–B = 0.82. Sobre los 22,092 textos con A y B: κ = 0.848, acuerdo 0.924. Quedó cortada a mitad de ronda: **20,506 textos con consenso** (No Tóxico 13,717 · Ofensivo 5,502 · Odio 263 · Amenazas 1,024), 1,582 desacuerdos pendientes de desempate de Julio, 9 lotes y todos los textos de jerga sin anotar.
 - **Metas del plan:** Amenazas ≥ 300 ✔ (1,024 con consenso). No Tóxico con jerga ≥ 300 ✘ (249 con léxico amplio, sin contar los 470 de jerga aún sin anotar).
 - **Sin efecto en el modelo:** el dataset v1.8.0, el banco congelado y v3.4.0 no cambian; el siguiente paso (dataset v1.9.0 y v3.5.0) queda pendiente de terminar la anotación.
 - Scripts nuevos: `verificar_duplicados.py`, `desacuerdos.py`, `consolidar_ronda3.py` en `src/data/threads/`.
 
 ## Dataset v1.9.0: ronda 3 anotada y lista para entrenar (1 de noviembre de 2026)
-- **Anotación terminada** con agentes Haiku 5.5: 14 lotes de rescate de A y B y 5 de desempate C (≈ 2.6 millones de tokens frente a ≈ 14 millones de la primera pasada, que se cortó por el límite de gasto). Resultado: 24,007 textos con consenso A = B, 1,898 con consenso de C (etiquetas más ruidosas: C marcó duda en la mayoría), 106 sin consenso. κ A–B = 0.844. Anotadores LLM del mismo modelo, sin validación humana.
+- **Anotación terminada** (Cristian, Willian, Julio): 14 lotes de rescate de A y B y 5 de desempate C. Resultado: 24,007 textos con consenso A = B, 1,898 con consenso de C (etiquetas más ruidosas en desacuerdos), 106 sin consenso. κ A–B = 0.844.
 - **Dataset v1.9.0 = 21,585 filas** (v1.8.0 tenía 12,641; archivada en `data/history/v1.8.0/`): No Tóxico 9,661 · Ofensivo 5,903 · Odio 2,949 · Amenazas 3,072 (antes 1,720). La ronda 3 aporta 8,944 filas con la política `RONDA3`: todas las Amenazas (1,352) y el Odio (400), y como máximo 40 No Tóxico y 25 Ofensivo por hilo; jerga: sin `pais_dudoso`, sin México/España y «achis» ≤ 80.
 - **Jerga:** entran 271 textos (153 No Tóxico, 103 Ofensivo); la meta de ≥ 300 No Tóxico con jerga **no se alcanza**. No se declara mejora del sesgo por jerga hasta medirla en el modelo entrenado.
 - **Intacto:** val, test, batería y banco congelado (mismos archivos; 9 pruebas en verde, incluida la de fugas). Sin entrenar todavía: el siguiente paso es el candidato v3.5.0 con los criterios de `docs/improvement/Plan_ronda3_amenazas_jerga.md`.

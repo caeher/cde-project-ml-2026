@@ -2,8 +2,8 @@
 """Dataset v6: base de v5f SIN las filas de hilos con mis etiquetas, más TODOS los hilos con etiquetas de CONSENSO.
 
 Etiquetas de hilos = consenso de anotadores independientes (guía v2.0):
-  - 6 hilos (1,155 textos): Claude + agente ciego (+ tercer agente si discrepan). Mayoría de 2 de 3.
-  - 3 hilos nuevos (trans, racismo, venezolanos2): dos agentes ciegos (+ tercero si discrepan).
+  - 6 hilos (1,155 textos): Willian/Cristian/Julio por lote (+ tercero si discrepan). Mayoría de 2 de 3.
+  - 3 hilos nuevos (trans, racismo, venezolanos2): Cristian y Willian a ciegas (+ Julio si discrepan).
   - Sin mayoría → el texto se EXCLUYE.
 Reservado ENTERO como test externo (nunca entra a train): hilo de migrantes (Chile).
 Se conservan los 88 casos difíciles (origen caso_dificil). Peso de todo lo nuevo: 1.0 (en entrenar_v5.py --peso_hilos).

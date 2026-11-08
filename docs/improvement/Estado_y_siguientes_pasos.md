@@ -1,7 +1,7 @@
 # Estado del proyecto y cómo retomarlo (15 de octubre de 2026, actualizado)
 
 Documento para continuar en una **sesión nueva** (la anterior llegó al 89 % de contexto). Plan completo: `docs/improvement/Plan_mejora.md`. Historial y cifras: `CHANGELOG.md`.
-**Restricción de la persona responsable: no usar «uso extra» de la cuenta.** Evitar lanzar agentes (Opus es lo más caro) mientras la ventana de 5 horas esté alta.
+**Restricción de la persona responsable: no usar «uso extra» de la cuenta.** Evitar sesiones de anotación masiva concurrentes mientras la ventana de 5 horas esté alta.
 
 ## Dónde estamos en el plan
 | Fase | Estado |
@@ -32,6 +32,6 @@ Rollback: `MODELOS` en `app/api/main.py` → `models/v3.3.0`.
 
 ## Trampas conocidas
 - Ejecutar siempre con `.venv\Scripts\python.exe` (el Python del sistema no tiene `emoji`).
-- No leer archivos de salida de agentes a medio escribir: esperar la notificación de fin de cada agente.
-- Los agentes necesitan directorios temporales propios (`salida_*.csv` en `data/annotation/threads/blind/`).
+- No leer archivos de salida de anotadores a medio escribir: esperar a que termine cada lote.
+- Cada anotador escribe en su propio `salida_*.csv` en `data/annotation/threads/blind/`.
 - El equipo se suspende y mata procesos largos: usar estudios reanudables y comprobar `tasklist | grep python`.

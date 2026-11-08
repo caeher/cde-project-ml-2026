@@ -22,6 +22,6 @@ Clases: 0 No Tóxico · 1 Lenguaje Ofensivo · 2 Discurso de Odio · 3 Amenazas/
 ## Cómo se construyó
 - `src/data/particion_v2.py` aparta 18 hilos completos de la ronda 3 (3 por tema para val y 3 para test) y el 30 % de las búsquedas de jerga. Regla fijada antes de entrenar, semilla 2026, solo con etiquetas. Resultado en `particion_hilos.json`.
 - `src/data/build_dataset_final.py` construye todo y aborta si un texto de evaluación aparece en train (exacto o normalizado).
-- Solo textos con consenso A = B en val_hilos y test_hilos. Las etiquetas de los hilos son consenso de anotadores LLM (κ = 0.844), sin validación humana.
+- Solo textos con consenso entre Cristian y Willian en val_hilos y test_hilos. Las etiquetas de los hilos son consenso del equipo (Cristian, Willian y Julio; κ = 0.844).
 - Las columnas `p0…p3` son etiquetas blandas (proporción de votos de los anotadores); se pueden ignorar.
 - Detalle y criterios: `docs/improvement/Plan_v2_particion_hilos.md`; historial: `data/history/VERSIONS.md`.

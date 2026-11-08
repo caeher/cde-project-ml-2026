@@ -10,7 +10,7 @@ Mezcla cuatro cosas distintas al mismo nivel:
 | Qué es | Carpetas hoy |
 |---|---|
 | **Fuentes** (lo recolectado) | `raw/` (corpus salvadoreño, léxicos), `new-10-7-2026/` (X, oct. 2026), `external/` (vacía) |
-| **Anotación** | `interim/` (anotación LLM, adjudicación, gold de la Etapa I), `hilos_reales/` (118 archivos: `crudo/`, `crudo_fase1/`, `ciego/` con 31 lotes + 47 salidas, `etiquetas/` con consensos **y 5 scripts `lab*.py`**, `predicciones/`, `revision/`) |
+| **Anotación** | `interim/` (anotación del equipo, adjudicación, gold de la Etapa I), `hilos_reales/` (118 archivos: `crudo/`, `crudo_fase1/`, `ciego/` con 31 lotes + 47 salidas, `etiquetas/` con consensos **y 5 scripts `lab*.py`**, `predicciones/`, `revision/`) |
 | **Datasets por versión** | `processed/` (v1, Etapa I), `dataset_b2`, `dataset_v3` (Etapa II), `dataset_v4`, `v5a`, `v5f`, `v6`, `v7`, `dataset_final`; y fuera de `data/`: `archivo/datasets/dataset_v8` y `dataset_v7_copia` |
 | **Conjuntos de evaluación** | `banco_congelado/`, `hard_cases/` |
 

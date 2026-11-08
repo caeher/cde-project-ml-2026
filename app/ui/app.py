@@ -3,7 +3,6 @@
     uvicorn app.api.main:app --port 8000
     streamlit run app/ui/app.py
 """
-import pandas as pd
 import requests
 import streamlit as st
 
@@ -26,7 +25,7 @@ st.caption("Clasificador de 4 clases para texto de redes sociales de El Salvador
 
 try:
     salud = requests.get(f"{API}/salud", timeout=5).json()
-    st.sidebar.success(f"API activa · {salud['modelos_cargados']} modelo(s) cargado(s) · {salud['dispositivo']}")
+    st.sidebar.success(f"API activa · {salud['modelo']} · {salud['dispositivo']}")
 except Exception:
     st.sidebar.error("La API no responde en http://127.0.0.1:8000")
 st.sidebar.markdown("### Clases\n- 🟢 **No Tóxico**: sin agresión; incluye groserías afectivas y crítica dura.\n- 🟠 **Lenguaje Ofensivo**: insulto a una persona.\n"
@@ -49,14 +48,16 @@ with col_out:
                 st.warning("Confianza baja: el modelo duda entre clases. Este caso debería ir a revisión humana.")
             if d["label"] > 0 and d["confianza"] >= UMBRAL_BAJA_CONFIANZA:
                 st.info("Texto marcado como tóxico: confirmar con una persona antes de cualquier acción.")
-            pr = pd.Series(d["probabilidades"]).reindex(list(COLORES)); st.bar_chart(pr)
-            st.caption(f"Modelos en el ensamble: {d['n_modelos']}. Las probabilidades están calibradas (temperature scaling).")
+            for clase in COLORES:
+                st.caption(f"{clase}: {d['probabilidades'].get(clase, 0.0):.1%}")
+                st.progress(float(d["probabilidades"].get(clase, 0.0)))
+            st.caption(f"Modelo: {d['modelo']}.")
         except Exception as e:
             st.error(f"No se pudo consultar la API ({e})")
     else:
         st.info("Elegí un ejemplo o escribí un texto y presioná **Clasificar**.")
 
 with st.expander("Límites del modelo (leer antes de usarlo)"):
-    st.markdown("- Entrenado con texto de X (y Facebook en la parte original); etiquetas de consenso de anotadores LLM sin validación humana.\n"
+    st.markdown("- Entrenado con texto de X (y Facebook en la parte original); etiquetas de consenso del equipo (Cristian, Willian y Julio).\n"
                 "- Las groserías afectivas salvadoreñas son difíciles: el contexto importa y el modelo puede fallar.\n"
                 "- No evalúa imágenes, sarcasmo complejo ni contexto del hilo.\n- Informe de sesgos: `reports/improvement/fairness.md`.")

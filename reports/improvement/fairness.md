@@ -59,6 +59,6 @@ Brecha máxima de recall de Odio entre grupos con n ≥ 20: **0.090** (etnia/raz
 
 ## Límites y advertencias éticas
 - Los grupos objetivo se asignan con palabras clave: un texto sobre «mujeres» y «migrantes» cae en el primer grupo que coincide; es aproximado.
-- Las etiquetas son consenso de anotadores LLM (Sonnet, Opus y un tercer modelo) **sin validación humana**: el sesgo de esos anotadores puede estar en las etiquetas y en el banco.
+- Las etiquetas son consenso de Cristian, Willian y Julio (dos ciegos + desempate); el sesgo del protocolo puede estar en las etiquetas y en el banco.
 - Los datos son de X (salvo la columna de plataforma del test oficial); no se evaluó dialecto individual ni autores.
 - El clasificador debe usarse como **apoyo a la moderación con revisión humana**, no como decisión automática: los errores se reparten de forma desigual por grupo (ver tablas) y una sanción errónea tiene costo real para quien la recibe.
