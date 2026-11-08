@@ -15,7 +15,7 @@ Restricción: crear lo mínimo. **Un solo script nuevo** (`src/data/threads/argi
 
 | Propuesta anterior | Problema | Corrección |
 |---|---|---|
-| Argilla como "capa opcional aguas arriba" para etiquetar más datos | Al repo ya tiene 26,011 textos de la ronda 3 con κ = 0.844 entre Cristian y Willian. Lo que Argilla aporta es **auditoría cruzada** de val_hilos y test_hilos sin mostrar la etiqueta de consenso | El uso principal de Argilla pasa a ser la **revisión independiente del test principal**. Anotar datos nuevos queda como uso secundario |
+| Argilla como "capa opcional aguas arriba" para etiquetar más datos | Al repo no le faltan etiquetas: tiene 26,011 textos de la ronda 3 con κ = 0.844. Lo que le falta es **validación humana**. `data/dataset/LEEME.md` lo dice: las etiquetas de val_hilos y test_hilos son "consenso de anotadores LLM, sin validación humana", y `consolidado_ronda3.md` advierte que A, B y C son el mismo modelo (errores correlacionados) | El uso principal de Argilla pasa a ser la **validación humana del test principal**. Anotar datos nuevos queda como uso secundario |
 | Modo B: "registrar el checkpoint de mBERT en Argilla" | Argilla no aloja ni ejecuta modelos. Solo recibe *suggestions* ya calculadas | Las sugerencias se calculan con `src/models/inference.py → probs_propio()` (el mismo cargador que usa `comparar_v2.py`) y se suben como `rg.Suggestion` |
 | Modo C: Argilla como "segundo producto" | No es un producto. Ese modo mezcla despliegue con anotación | Se elimina |
 | Volcar el export de Argilla en un `consenso_*.csv` nuevo | Obliga a tocar `build_dataset_final.py` y añade otro formato | El export escribe archivos `salida_<lote><anotador>.csv` (`ID,label`), que es el formato que **ya** lee `src/data/threads/consolidar_ronda3.py`. Para validar la evaluación se escribe un solo CSV nuevo que no entra en ningún entrenamiento |
@@ -114,7 +114,7 @@ Implementado como **pasos 6 y 7** de `scripts/pipeline_v360.ps1`: M1 y M2 con se
 
 | Prioridad | Uso | Qué resuelve | ¿Cambia el dataset? |
 |---|---|---|---|
-| **A (principal)** | **Validación humana del test principal**: muestra de test_hilos + val_hilos anotada a ciegas por 2 personas | Auditoría del consenso previo: da κ humano-humano y κ humano-consenso, y permite reportar el F1 sobre etiquetas humanas | **No.** Archivo aparte, solo para informar |
+| **A (principal)** | **Validación humana del test principal**: muestra de test_hilos + val_hilos anotada a ciegas por 2 personas | La debilidad declarada del v2.0.0: el test principal depende de etiquetas LLM correlacionadas. Da κ humano-humano y κ humano-LLM, y permite reportar el F1 sobre etiquetas humanas | **No.** Archivo aparte, solo para informar |
 | B | Desempate humano de los 106 textos `sin_consenso` y revisión de los `consenso_c` de Odio y Amenazas (las clases con menor κ: 0.713 y 0.797) | Ruido en las clases raras del train | Sí, genera un dataset nuevo (v2.1.0) que obliga a reentrenar a todos. Se hace una sola vez y con fecha acordada |
 | C | Ronda 4 con *model-in-the-loop*: priorizar textos nuevos donde mBERT y v3.4.0 discrepan, con sugerencias visibles | Recolectar mejor los casos difíciles | Sí (v2.x). Solo después de A |
 
@@ -125,7 +125,7 @@ Implementado como **pasos 6 y 7** de `scripts/pipeline_v360.ps1`: M1 y M2 con se
 - **Todos** los textos de Odio y Amenazas de test_hilos y val_hilos: 28 + 126 + 29 + 132 = **315**.
 - Más 300 No Tóxico y 300 Ofensivo estratificados por hilo, con semilla 2026.
 - Total **≈ 915 textos**, con 2 anotadores humanos por texto (`TaskDistribution(min_submitted=2)`). Se reparten entre Cristian, Julio y Willian.
-- **A ciegas:** sin sugerencias y sin mostrar la etiqueta de consenso previa, para no anclar a los anotadores.
+- **A ciegas:** sin sugerencias y sin mostrar la etiqueta LLM, para no anclar a los anotadores.
 - Metadatos visibles solo para filtrar (`hilo`, `conjunto`), nunca la etiqueta.
 
 ### 3.3 Despliegue
@@ -164,15 +164,15 @@ settings = rg.Settings(
 
 **Formatos de salida (ninguno es nuevo para el pipeline de entrenamiento):**
 
-- `validacion`: `data/annotation/threads/labels/validacion_humana.csv`, con columnas `ID,conjunto,hilo,label_consenso,h1,h2,label_humano`. `label_humano` = h1 si h1 = h2; si no, -1. **No lo lee `build_dataset_final.py`**, así que no puede entrar al train.
+- `validacion`: `data/annotation/threads/labels/validacion_humana.csv`, con columnas `ID,conjunto,hilo,label_llm,h1,h2,label_humano`. `label_humano` = h1 si h1 = h2; si no, -1. **No lo lee `build_dataset_final.py`**, así que no puede entrar al train.
 - `ronda4`: `lote_<L>.csv` (`ID,texto`) más `salida_<L>a.csv` y `salida_<L>b.csv` (`ID,label`, un archivo por voto humano), y `salida_<L>c.csv` si hay un tercero. Es exactamente lo que `consolidar_ronda3.py` ya valida y consolida.
-- `desempate`: el lote se nombra `R3C_H01`, que sigue la convención existente de lotes de desempate (`R3C_`). Solo se escribe `salida_R3C_H01c.csv`: la respuesta humana entra como **C** cuando los dos revisores coinciden (si no coinciden, el texto conserva el desempate previo de Julio). No se escriben `a` ni `b`, porque sobrescribirían Cristian y Willian. El lote se lee después de `R3C_00x` y el consolidado vuelve a decidir por mayoría de 3 sin cambiar código.
+- `desempate`: el lote se nombra `R3C_H01`, que sigue la convención existente de lotes de desempate (`R3C_`). Solo se escribe `salida_R3C_H01c.csv`: la respuesta humana entra como **C** cuando los dos humanos coinciden (si no coinciden, el texto conserva la C del LLM). No se escriben `a` ni `b`, porque sobrescribirían las etiquetas A y B del LLM. El lote se lee después de `R3C_00x`, así que C humano reemplaza a C LLM y el consolidado vuelve a decidir por mayoría de 3 sin cambiar código.
   - Antes de ejecutarlo, hay que anotar en `REGISTRO.md` que C pasa a ser humano en esos lotes, porque cambia la interpretación de `d`.
 
 ### 3.5 Cómo vuelve el resultado al proyecto
 
 **Validación (A).** Se añade un flag opcional `--humano` a `comparar_v2.py`, unas 6 líneas. Si existe `validacion_humana.csv`, el flag agrega a la tabla:
-- κ humano-humano y κ humano-consenso (`sklearn.metrics.cohen_kappa_score`, que ya se usa en `consolidar_ronda3.py`);
+- κ humano-humano y κ humano-LLM (`sklearn.metrics.cohen_kappa_score`, que ya se usa en `consolidar_ronda3.py`);
 - F1-macro de cada modelo sobre el subconjunto con `label_humano ≥ 0`.
 
 Esto no cambia el test principal ni los 7 criterios. Es una fila de robustez.
@@ -207,7 +207,7 @@ Después  ─── C (ronda 4 con sugerencias de mbert_v2 y v3.4.0), solo si ha
 |---|---|
 | Tabla mBERT vs v3.4.0 vs candB_v2: F1 principal con IC, recall por clase, FPR, FPR por jerga, test oficial, McNemar | `reports/improvement/mbert_v2_vs_v340.md` |
 | Elección de receta (M1 vs M2) solo con val_v2 | `models/mbert_v2_M*/semilla_42/resumen.json` |
-| Fiabilidad de las etiquetas: κ humano-humano, κ humano-consenso y F1 sobre etiquetas humanas | `validacion_humana.csv` + `comparar_v2 --humano` |
+| Fiabilidad de las etiquetas: κ humano-humano, κ humano-LLM y F1 sobre etiquetas humanas | `validacion_humana.csv` + `comparar_v2 --humano` |
 | Robustez: batería de 144 | `models/mbert_v2/metricas.json → bateria_144` |
 | Pesos | `models/mbert_v2/semilla_*/modelo` (opcional: `scripts/subir_hf.ps1` a un repo HF privado) |
 
@@ -223,7 +223,7 @@ Después  ─── C (ronda 4 con sugerencias de mbert_v2 y v3.4.0), solo si ha
 
 ## 7. Riesgos
 
-1. **Anclaje:** si en la validación (A) se muestran sugerencias o la etiqueta de consenso previa, el κ humano-consenso sale inflado. Por eso A va a ciegas.
+1. **Anclaje:** si en la validación (A) se muestran sugerencias o la etiqueta LLM, el κ humano-LLM sale inflado. Por eso A va a ciegas.
 2. **Elegir con el test:** usar test_hilos para elegir entre M1 y M2 invalida la comparación. La regla de la sección 2.2 lo impide.
 3. **Dataset que se mueve:** hacer B a mitad de la comparación deja a mBERT y a candB_v2 con datasets distintos. B se hace después y obliga a reentrenar todo.
 4. **Privacidad:** son textos públicos de X sin usuarios, pero un HF Space público los expone. El Space tiene que ser privado.
