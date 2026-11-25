@@ -1,44 +1,19 @@
 from pathlib import Path
+import sys
 import torch
-from transformers import AutoModelForSequenceClassification, AutoTokenizer
 
 BASE_DIR = Path(__file__).resolve().parent
-
-# Configuración de rutas (Prioriza el nuevo modelo unificado)
-NUEVO_MODELO_PATH = BASE_DIR / "xlm_roberta_hate_speech_sv"
-LEGACY_MODEL_PATH = BASE_DIR / "mi_modelo_xlmr"
+sys.path.insert(0, str(BASE_DIR.parent))
+from src.features.normalization import normalizar
+from src.models.xlmr import CLASES, cargar_xlmr
 
 # Mapeo oficial de etiquetas del proyecto
-LABELS = [
-    "No Tóxico",
-    "Lenguaje Ofensivo",
-    "Discurso de Odio",
-    "Amenazas/Violencia",
-]
+LABELS = CLASES
 
 
-def cargar_modelo():
-    """Carga el modelo entrenado y el tokenizador desde las rutas disponibles."""
-    # Buscar en orden de prioridad
-    if NUEVO_MODELO_PATH.exists():
-        model_dir = NUEVO_MODELO_PATH
-    elif LEGACY_MODEL_PATH.exists():
-        model_dir = LEGACY_MODEL_PATH
-    else:
-        raise FileNotFoundError(
-            f"No se encontró ninguna carpeta de modelo válida.\n"
-            f"Se buscó en:\n"
-            f" - {NUEVO_MODELO_PATH}\n"
-            f" - {LEGACY_MODEL_PATH}"
-        )
-
-    print(f"Cargando tokenizador y modelo desde: {model_dir}")
-    tokenizer = AutoTokenizer.from_pretrained(str(model_dir))
-    model = AutoModelForSequenceClassification.from_pretrained(str(model_dir))
-
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    model.to(device)
-    model.eval()
+def cargar_modelo(ruta=None):
+    """Usa pesos locales completos o la revisión publicada que utiliza la API."""
+    tokenizer, model, device, _ = cargar_xlmr(ruta)
     print(f"Dispositivo activo: {device.type.upper()}")
 
     return tokenizer, model, device
@@ -47,7 +22,7 @@ def cargar_modelo():
 def predecir_toxicidad(texto: str, tokenizer, model, device):
     """Recibe una frase y retorna la clase predicha, confianza y probabilidades."""
     inputs = tokenizer(
-        texto,
+        normalizar(texto),
         return_tensors="pt",
         truncation=True,
         max_length=128,

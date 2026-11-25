@@ -2,6 +2,39 @@
 
 Fecha: 25 de noviembre de 2026. Referencias actualizadas con `git fetch origin --prune`.
 
+## Integración funcional posterior
+
+Por solicitud del usuario, se preparó la incorporación a `main` junto con
+correcciones de integración. El registro de importación inicial que sigue
+describe el commit `df908c1`; las afirmaciones sobre archivos idénticos y pruebas
+corresponden exclusivamente a esa primera importación.
+
+En esta segunda fase se realizó únicamente revisión y edición estática. No se
+ejecutaron pruebas, notebooks, aplicación, entrenamiento ni inferencia, ni se
+instalaron dependencias o descargaron pesos.
+
+- La API y ambos scripts utilizan el mismo cargador, revisión remota, validación
+  de etiquetas y normalización. Se eliminó la ruta personal de `prediccion3.py`
+  y se movió su inferencia al punto de entrada protegido por `__main__`.
+- El cargador omite carpetas sin pesos, reconoce pesos únicos o fragmentados y
+  admite `XLMR_MODEL_PATH`. Sin pesos locales utiliza el modelo publicado fijado
+  previamente en la API; una ruta explícita incompleta produce un error claro.
+- Si faltan los pesos de RoBERTuito y no se configuró `API_MODELO_DEFAULT`, la
+  API selecciona XLM-R local completo o, en su defecto, XLM-R publicado. Se
+  respeta cualquier selección explícita del usuario.
+- El notebook V4 lee sus particiones versionadas sin depender de Colab y
+  guarda sus pesos base en su propia carpeta. El notebook final guarda los
+  pesos large en la ruta que usa la API; su evaluación final resuelve las rutas
+  actuales de val/test. La documentación identifica su celda de entrada.
+- Los CSV, documentos y JSON históricos se conservan; el dataset vigente no se
+  modifica. No se cambia la lista de dependencias.
+
+El funcionamiento en ejecución depende de las dependencias instaladas, los
+pesos locales o el acceso al modelo publicado y la memoria disponible. La
+revisión estática no sustituye una comprobación en ejecución.
+
+## Registro de la importación inicial
+
 - Origen revisado: `newprotypeV3` / `origin/newprotypeV3`,
   `a962019f7d54ca67a8b9fed9ad684deea71502b3`.
 - Base revisada: `main` / `origin/main`,

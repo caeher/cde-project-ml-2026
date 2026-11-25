@@ -1,37 +1,36 @@
-import torch
-import torch.nn.functional as F
-from transformers import XLMRobertaTokenizer, XLMRobertaForSequenceClassification
+"""Inferencia XLM-R; importar este módulo no carga ni ejecuta modelos."""
+from functools import lru_cache
 
-# Asegúrate de que la carpeta local no tenga el punto al inicio
-model_path = r"C:\Users\Dresler\Documents\La U\MachineLearn\version3\xlm_roberta_hate_speech_sv"
+if __package__:
+    from .inferenciav2 import LABELS, cargar_modelo, predecir_toxicidad
+else:
+    from inferenciav2 import LABELS, cargar_modelo, predecir_toxicidad
 
-print("Cargando modelo y tokenizador localmente...")
-tokenizer = XLMRobertaTokenizer.from_pretrained(model_path)
-model = XLMRobertaForSequenceClassification.from_pretrained(model_path)
 
-device = "cuda" if torch.cuda.is_available() else "cpu"
-model.to(device)
-model.eval()
-print(f"✓ Modelo cargado exitosamente en dispositivo: {device.upper()}")
+@lru_cache(maxsize=1)
+def _recursos():
+    return cargar_modelo()
 
-# Función de prueba de fuego local
+
 def predecir_local(texto):
-    inputs = tokenizer(texto, return_tensors="pt", truncation=True, max_length=128, padding=True).to(device)
-    
-    with torch.no_grad():
-        outputs = model(**inputs)
-        probs = F.softmax(outputs.logits, dim=1).cpu().numpy()[0]
-        pred_idx = probs.argmax()
-        
-    clases = ['No Tóxico', 'Lenguaje Ofensivo', 'Discurso de Odio', 'Amenazas/Violencia']
-    
-    print(f"\nTexto: \"{texto}\"")
-    print(f"Predicción Principal: {clases[pred_idx]} (Confianza: {probs[pred_idx]*100:.2f}%)")
+    tokenizer, model, device = _recursos()
+    clase, confianza, probs = predecir_toxicidad(texto, tokenizer, model, device)
+    print(f'\nTexto: "{texto}"')
+    print(f"Predicción Principal: {clase} (Confianza: {confianza:.2%})")
     print("Distribución de Probabilidades:")
-    for cls, p in zip(clases, probs):
-        print(f"  - {cls:<20}: {p*100:6.2f}%")
+    for nombre, probabilidad in zip(LABELS, probs):
+        print(f"  - {nombre:<20}: {probabilidad.item():.2%}")
+    return clase, confianza, probs
 
-# Prueba de fuego local
-predecir_local("Pásame el reporte cuando tengás tiempo, porfa.")
-predecir_local("Ese mae es bien bayunco para manejar.")
-predecir_local("Te voy a ir a buscar a tu casa para desbaratarte a golpes.")
+
+def main():
+    for texto in (
+        "Pásame el reporte cuando tengás tiempo, porfa.",
+        "Ese mae es bien bayunco para manejar.",
+        "Te voy a ir a buscar a tu casa para desbaratarte a golpes.",
+    ):
+        predecir_local(texto)
+
+
+if __name__ == "__main__":
+    main()
