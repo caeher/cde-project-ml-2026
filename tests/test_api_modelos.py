@@ -26,8 +26,17 @@ class TestModelos(unittest.TestCase):
     def test_catalogo_oficial(self):
         self.assertEqual(
             [item['id'] for item in main.CATALOGO],
-            ['v3.6.0', 'mbert_v2', 'xlmr_hf'],
+            ['v3.6.0', 'mbert_v2', 'xlmr_hf', 'xlmr_local'],
         )
+
+    def test_obtener_xlmr_local(self):
+        state = {'id': 'xlmr_local'}
+        with patch.object(main, '_cache', {}), patch.object(
+            main, '_cargar_xlmr_local', return_value=state
+        ) as cargar:
+            self.assertIs(main._obtener('xlmr_local'), state)
+            self.assertIs(main._obtener('xlmr_local'), state)
+        cargar.assert_called_once_with()
 
     def test_mbert_promedia_tres_probabilidades(self):
         modelos = [Modelo(x) for x in ([2., 1., 0., 0.], [0., 3., 1., 0.], [1., 0., 2., 0.])]

@@ -1,5 +1,12 @@
 # Detección de Toxicidad y Discurso de Odio en Redes Sociales — El Salvador
 
+Los [aportes de Julio](prototype/README.md) incluyen sus prototipos, datasets e
+informes. La API y sus scripts comparten la carga de XLM-R: si no hay pesos de
+RoBERTuito y no se define `API_MODELO_DEFAULT`, la API utiliza XLM-R local o la
+revisión publicada. La primera carga remota requiere Internet. El
+[entrenamiento final HatEval](notebooks/train/xlmr_hateval/README.md) guarda el
+modelo en la misma ruta que consume la API.
+
 Trabajo de Fin de Máster / Especialización — Universidad de El Salvador, Facultad de Ingeniería y Arquitectura, Escuela de Sistemas Informáticos.
 
 **Equipo:** Julio Enrique De La Quadra Mata · Cristian Antonio Escalante Hernández · Willian Alexander Chávez Servellón

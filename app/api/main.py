@@ -26,11 +26,9 @@ from transformers import AutoModelForSequenceClassification, AutoTokenizer
 RAIZ = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(RAIZ))
 from src.features.normalization import normalizar  # noqa: E402
+from src.models.xlmr import CLASES, XLMR_HF_ID, XLMR_HF_REVISION, cargar_xlmr, resolver_local
 
-CLASES = ["No Tóxico", "Lenguaje Ofensivo", "Discurso de Odio", "Amenazas/Violencia"]
 MAX_LEN = 128
-XLMR_HF_ID = "TheArbite/xlmr-large-hateval-hate-speech-sv"
-XLMR_HF_REVISION = "9476aae3116cf3a2bde95b9a410284c5186a1f1f"
 MBERT_HF_ID = "caeher/mbert-toxicidad-sv-v2"
 MBERT_HF_REVISION = "a774917a5546a7da25fa6f57d3563881337dc90a"
 
@@ -49,6 +47,11 @@ CATALOGO: list[dict[str, str]] = [
         "id": "xlmr_hf",
         "etiqueta": "XLM-R Large (Hugging Face)",
         "descripcion": XLMR_HF_ID,
+    },
+    {
+        "id": "xlmr_local",
+        "etiqueta": "XLM-R (local)",
+        "descripcion": "Pesos en models/xlmr_hate_speech_sv/ (notebook notebooks/train/xlmr_hateval/)",
     },
 ]
 
@@ -128,25 +131,24 @@ def _cargar_mbert() -> dict[str, Any]:
     }
 
 
-def _cargar_xlmr_hf() -> dict[str, Any]:
-    tok = AutoTokenizer.from_pretrained(XLMR_HF_ID, revision=XLMR_HF_REVISION)
-    modelo = AutoModelForSequenceClassification.from_pretrained(
-        XLMR_HF_ID, revision=XLMR_HF_REVISION, low_cpu_mem_usage=True
-    )
-    etiquetas_cfg = modelo.config.id2label
-    etiquetas = [etiquetas_cfg.get(i, etiquetas_cfg.get(str(i))) for i in range(len(CLASES))]
-    etiquetas_genericas = [f"LABEL_{i}" for i in range(len(CLASES))]
-    if modelo.config.num_labels != len(CLASES) or etiquetas not in (CLASES, etiquetas_genericas):
-        raise RuntimeError(f"El modelo {XLMR_HF_ID} no coincide con las clases esperadas: {etiquetas}")
-    modelo = modelo.to(_dev).eval()
+def _estado_xlmr(*, solo_remoto: bool = False) -> dict[str, Any]:
+    tok, modelo, _, local = cargar_xlmr(solo_remoto=solo_remoto)
     return {
         "tipo": "hf",
-        "id": "xlmr_hf",
-        "nombre": XLMR_HF_ID,
+        "id": "xlmr_local" if local is not None else "xlmr_hf",
+        "nombre": str(local) if local is not None else XLMR_HF_ID,
         "tok": tok,
         "modelo": modelo,
-        "revision": XLMR_HF_REVISION,
+        "revision": None if local is not None else XLMR_HF_REVISION,
     }
+
+
+def _cargar_xlmr_hf() -> dict[str, Any]:
+    return _estado_xlmr(solo_remoto=True)
+
+
+def _cargar_xlmr_local() -> dict[str, Any]:
+    return _estado_xlmr()
 
 
 def _obtener(modelo_id: str) -> dict[str, Any]:
@@ -163,6 +165,8 @@ def _obtener(modelo_id: str) -> dict[str, Any]:
         st = _cargar_mbert()
     elif modelo_id == "xlmr_hf":
         st = _cargar_xlmr_hf()
+    elif modelo_id == "xlmr_local":
+        st = _cargar_xlmr_local()
     else:
         raise ValueError(f"modelo_id desconocido: {modelo_id}")
     _cache[modelo_id] = st
@@ -242,7 +246,14 @@ def _disponible_local(modelo_id: str) -> bool:
             return False
     if modelo_id == "xlmr_hf":
         return True
+    if modelo_id == "xlmr_local":
+        return resolver_local() is not None
     return False
+
+
+# Preserve explicit selections; a clean checkout has no RoBERTuito weights.
+if "API_MODELO_DEFAULT" not in os.environ and not _disponible_local(MODELO_DEFAULT):
+    MODELO_DEFAULT = "xlmr_local" if _disponible_local("xlmr_local") else "xlmr_hf"
 
 
 @app.get("/salud")
