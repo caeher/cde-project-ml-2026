@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""API FastAPI: varios backends (RoBERTuito v3.4.0 / v3.6.0, XLM-R HF o local).
+"""API FastAPI: RoBERTuito v3.6.0, mBERT ensemble y XLM-R Large.
 
 Usa la MISMA normalización del entrenamiento (src/features/normalization.py).
 
@@ -10,14 +10,16 @@ Variable de entorno opcional: API_MODELO_DEFAULT (p. ej. v3.6.0, xlmr_hf).
 from __future__ import annotations
 
 import json
+import gc
 import os
 import sys
+import threading
 from pathlib import Path
 from typing import Any, Optional
 
 import numpy as np
 import torch
-from fastapi import FastAPI, Query
+from fastapi import FastAPI, HTTPException, Query
 from pydantic import BaseModel, Field
 from transformers import AutoModelForSequenceClassification, AutoTokenizer
 
@@ -29,6 +31,8 @@ CLASES = ["No Tóxico", "Lenguaje Ofensivo", "Discurso de Odio", "Amenazas/Viole
 MAX_LEN = 128
 XLMR_HF_ID = "TheArbite/xlmr-large-hateval-hate-speech-sv"
 XLMR_HF_REVISION = "9476aae3116cf3a2bde95b9a410284c5186a1f1f"
+MBERT_HF_ID = "caeher/mbert-toxicidad-sv-v2"
+MBERT_HF_REVISION = "a774917a5546a7da25fa6f57d3563881337dc90a"
 
 CATALOGO: list[dict[str, str]] = [
     {
@@ -37,19 +41,14 @@ CATALOGO: list[dict[str, str]] = [
         "descripcion": "Destilado sobre dataset v2.0.0 (requiere carpeta models/v3.6.0/)",
     },
     {
-        "id": "v3.4.0",
-        "etiqueta": "RoBERTuito v3.4.0",
-        "descripcion": "Modelo único sobre dataset v1.8.0 (requiere models/v3.4.0/)",
+        "id": "mbert_v2",
+        "etiqueta": "mBERT Toxicidad SV v2 (3 semillas)",
+        "descripcion": MBERT_HF_ID,
     },
     {
         "id": "xlmr_hf",
         "etiqueta": "XLM-R Large (Hugging Face)",
         "descripcion": XLMR_HF_ID,
-    },
-    {
-        "id": "xlmr_local",
-        "etiqueta": "XLM-R Large (local)",
-        "descripcion": "Pesos en models/xlmr_hate_speech_sv/ (notebook notebooks/train/xlmr_hateval/)",
     },
 ]
 
@@ -58,6 +57,7 @@ MODELO_DEFAULT = os.environ.get("API_MODELO_DEFAULT", "v3.6.0")
 app = FastAPI(title="Toxicidad y discurso de odio — El Salvador", version="3.6.0-multi")
 _dev = "cuda" if torch.cuda.is_available() else "cpu"
 _cache: dict[str, dict[str, Any]] = {}
+_lock = threading.RLock()
 
 
 def _resolver_raiz(version: str) -> Path:
@@ -67,6 +67,9 @@ def _resolver_raiz(version: str) -> Path:
 def _dirs_robertuito(base: Path) -> tuple[list[Path], float]:
     man = base / "manifest.json"
     temperatura = 1.619
+    contrato = base / "semilla_42" / "modelo" / "inference_contract.json"
+    if contrato.exists():
+        temperatura = float(json.loads(contrato.read_text())["temperature"])
     if man.exists():
         cfg = json.loads(man.read_text(encoding="utf-8"))
         temperatura = float(cfg["temperatura"])
@@ -104,6 +107,27 @@ def _cargar_robertuito(modelo_id: str, version: str) -> dict[str, Any]:
     }
 
 
+def _cargar_mbert() -> dict[str, Any]:
+    if not _disponible_local("mbert_v2"):
+        raise HTTPException(status_code=503, detail="Los pesos de mBERT aún no están completamente descargados")
+    base = RAIZ / "models" / "mbert-toxicidad-sv-v2"
+    dirs = [base / f"semilla_{seed}" / "modelo" for seed in (42, 1337, 2026)]
+    tok = AutoTokenizer.from_pretrained(dirs[0], local_files_only=True)
+    modelos = []
+    for directory in dirs:
+        modelo = AutoModelForSequenceClassification.from_pretrained(
+            directory, local_files_only=True, low_cpu_mem_usage=True
+        ).to(_dev).eval()
+        if [modelo.config.id2label.get(i) for i in range(4)] != CLASES:
+            raise RuntimeError(f"Etiquetas mBERT incompatibles en {directory}")
+        modelos.append(modelo)
+    return {
+        "tipo": "ensemble", "id": "mbert_v2", "nombre": MBERT_HF_ID,
+        "tok": tok, "modelos": modelos, "temperatura": 1.0,
+        "revision": MBERT_HF_REVISION,
+    }
+
+
 def _cargar_xlmr_hf() -> dict[str, Any]:
     tok = AutoTokenizer.from_pretrained(XLMR_HF_ID, revision=XLMR_HF_REVISION)
     modelo = AutoModelForSequenceClassification.from_pretrained(
@@ -125,37 +149,20 @@ def _cargar_xlmr_hf() -> dict[str, Any]:
     }
 
 
-def _cargar_xlmr_local() -> dict[str, Any]:
-    local = RAIZ / "models" / "xlmr_hate_speech_sv"
-    if not local.is_dir() or not (local / "config.json").exists():
-        return _cargar_xlmr_hf()
-    weights = local / "model.safetensors"
-    if not weights.exists() and not any(local.glob("*.bin")):
-        return _cargar_xlmr_hf()
-    tok = AutoTokenizer.from_pretrained(local)
-    modelo = AutoModelForSequenceClassification.from_pretrained(local, low_cpu_mem_usage=True)
-    modelo = modelo.to(_dev).eval()
-    return {
-        "tipo": "hf",
-        "id": "xlmr_local",
-        "nombre": str(local.relative_to(RAIZ)).replace("\\", "/"),
-        "tok": tok,
-        "modelo": modelo,
-        "revision": None,
-    }
-
-
 def _obtener(modelo_id: str) -> dict[str, Any]:
+    if modelo_id not in {c["id"] for c in CATALOGO}:
+        raise HTTPException(status_code=422, detail="Modelo no incluido en el catálogo")
     if modelo_id in _cache:
         return _cache[modelo_id]
+    # Servidor CPU compartido: mantener solamente un backend en memoria.
+    _cache.clear()
+    gc.collect()
     if modelo_id == "v3.6.0":
         st = _cargar_robertuito(modelo_id, "v3.6.0")
-    elif modelo_id == "v3.4.0":
-        st = _cargar_robertuito(modelo_id, "v3.4.0")
+    elif modelo_id == "mbert_v2":
+        st = _cargar_mbert()
     elif modelo_id == "xlmr_hf":
         st = _cargar_xlmr_hf()
-    elif modelo_id == "xlmr_local":
-        st = _cargar_xlmr_local()
     else:
         raise ValueError(f"modelo_id desconocido: {modelo_id}")
     _cache[modelo_id] = st
@@ -176,9 +183,12 @@ def _predecir_con_estado(st: dict[str, Any], texto: str) -> dict[str, Any]:
             [torch.softmax(m(**enc).logits.double(), -1).cpu().numpy()[0] for m in st["modelos"]],
             0,
         )
-        z = np.log(np.clip(p, 1e-12, 1)) / st["temperatura"]
-        q = np.exp(z - z.max())
-        q /= q.sum()
+        if st["temperatura"] == 1.0:
+            q = p  # mBERT publicado: promedio de probabilidades, sin recalibrar.
+        else:
+            z = np.log(np.clip(p, 1e-12, 1)) / st["temperatura"]
+            q = np.exp(z - z.max())
+            q /= q.sum()
         n_modelos = len(st["modelos"])
     else:
         q = torch.softmax(st["modelo"](**enc).logits, dim=-1).cpu().numpy()[0]
@@ -197,8 +207,9 @@ def _predecir_con_estado(st: dict[str, Any], texto: str) -> dict[str, Any]:
 
 def predecir(texto: str, modelo_id: Optional[str] = None) -> dict[str, Any]:
     mid = modelo_id or MODELO_DEFAULT
-    st = _obtener(mid)
-    return _predecir_con_estado(st, texto)
+    with _lock:
+        st = _obtener(mid)
+        return _predecir_con_estado(st, texto)
 
 
 @app.get("/modelos")
@@ -216,7 +227,14 @@ def listar_modelos():
 
 
 def _disponible_local(modelo_id: str) -> bool:
-    if modelo_id in ("v3.6.0", "v3.4.0"):
+    if modelo_id == "mbert_v2":
+        base = RAIZ / "models" / "mbert-toxicidad-sv-v2"
+        return all(
+            (base / f"semilla_{seed}" / "modelo" / name).is_file()
+            for seed in (42, 1337, 2026)
+            for name in ("config.json", "model.safetensors", "tokenizer.json")
+        )
+    if modelo_id == "v3.6.0":
         try:
             _dirs_robertuito(_resolver_raiz(modelo_id))
             return True
@@ -224,9 +242,6 @@ def _disponible_local(modelo_id: str) -> bool:
             return False
     if modelo_id == "xlmr_hf":
         return True
-    if modelo_id == "xlmr_local":
-        local = RAIZ / "models" / "xlmr_hate_speech_sv"
-        return (local / "config.json").exists()
     return False
 
 
@@ -240,11 +255,10 @@ def salud(modelo_id: Optional[str] = Query(None)):
         "dispositivo": _dev,
     }
     try:
-        st = _obtener(mid)
-        payload["modelo"] = st["nombre"]
-        payload["modelos_cargados"] = len(st["modelos"]) if st["tipo"] == "ensemble" else 1
-        if st.get("revision"):
-            payload["revision"] = st["revision"]
+        meta = next(c for c in CATALOGO if c["id"] == mid)
+        payload["modelo"] = meta["etiqueta"]
+        payload["ok"] = _disponible_local(mid)
+        payload["cargado"] = mid in _cache
     except Exception as exc:
         payload["ok"] = False
         payload["error"] = str(exc)

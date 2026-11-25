@@ -3,10 +3,11 @@
     uvicorn app.api.main:app --port 8000
     streamlit run app/ui/app.py
 """
+import os
 import requests
 import streamlit as st
 
-API = "http://127.0.0.1:8000"
+API = os.environ.get("API_URL", "http://127.0.0.1:8000")
 UMBRAL_BAJA_CONFIANZA = 0.55
 COLORES = {"No Tóxico": "🟢", "Lenguaje Ofensivo": "🟠", "Discurso de Odio": "🔴", "Amenazas/Violencia": "⛔"}
 EJEMPLOS = {
@@ -45,9 +46,8 @@ if catalogo and catalogo.get("modelos"):
 if not opciones_modelo:
     opciones_modelo = [
         ("v3.6.0", "RoBERTuito v3.6.0"),
-        ("v3.4.0", "RoBERTuito v3.4.0"),
+        ("mbert_v2", "mBERT Toxicidad SV v2 (3 semillas)"),
         ("xlmr_hf", "XLM-R Large (Hugging Face)"),
-        ("xlmr_local", "XLM-R Large (local)"),
     ]
 
 if "modelo_id" not in st.session_state:
@@ -85,11 +85,12 @@ with col_in:
 with col_out:
     if ir:
         try:
-            r = requests.post(
-                f"{API}/predecir",
-                json={"texto": texto, "modelo_id": modelo_id},
-                timeout=120,
-            )
+            with st.spinner("Clasificando… Al cambiar de modelo, la primera consulta puede tardar mientras se cargan sus pesos."):
+                r = requests.post(
+                    f"{API}/predecir",
+                    json={"texto": texto, "modelo_id": modelo_id},
+                    timeout=300,
+                )
             r.raise_for_status()
             d = r.json()
             st.subheader(f"{COLORES[d['clase']]} {d['clase']}")

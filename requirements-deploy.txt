@@ -1,0 +1,12 @@
+# Runtime compartido existente: /root/cde-project-ml-2026/.venv
+torch>=2.3
+transformers>=4.44
+accelerate>=0.33
+sentencepiece>=0.2
+numpy>=1.26
+fastapi>=0.112
+uvicorn>=0.30
+streamlit>=1.37
+requests>=2.32
+emoji>=2.12
+ftfy>=6.3
