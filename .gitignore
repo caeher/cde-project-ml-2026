@@ -1,114 +1,63 @@
-# Entorno virtual
-.venv/
-venv/
-env/
+# Datos sensibles / pesados
+data/sources/stage1_corpus/*
+data/annotation/stage1/*
+data/history/v1.0.0/*
+data/sources/external/*
+!data/**/.gitkeep
 
-# Artefactos temporales / automatización local
-.tmp/
-
-# Exports locales en raíz (usar data/raw/ para datasets del proyecto)
-/Jira.csv
-/*.csv
-/*.extracted.txt
-/the_final_machine_*.csv
+# Modelos
+models/*
+!models/.gitkeep
+*.bin
+*.safetensors
+*.pt
+*.ckpt
 
 # Python
 __pycache__/
 *.py[cod]
-*$py.class
-*.so
-.Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-/lib/
-/lib64/
-parts/
-sdist/
-var/
-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
-
-# Herramientas de desarrollo
-.ruff_cache/
+.venv/
+venv/
+env/
+.ipynb_checkpoints/
+.pytest_cache/
 .mypy_cache/
 
-# Jupyter / IPython
-.ipynb_checkpoints/
-*.ipynb_checkpoints
-.ipython/
-profile_default/
+# Entorno / secretos
+.env
+*.key
+.tmp-app-setup/
 
-# Datos y modelos (no versionar datos sensibles)
-data/raw/*
-!data/raw/.gitkeep
-!data/raw/dataset_unificado.csv
-!data/raw/dataset_entrenamiento.csv
-!data/raw/dataset_pruebas.csv
-data/processed/*
-data/interim/*
-data/external/*
-!data/processed/.gitkeep
-!data/interim/.gitkeep
-!data/external/.gitkeep
+# Experimentos
+wandb/
+mlruns/
+runs/
+outputs/
 
-# Reporte LaTeX (no versionar)
-reports/latex/
-
-models/checkpoints/*
-!models/checkpoints/.gitkeep
-
+# Reportes generados
 reports/figures/*
 !reports/figures/.gitkeep
 
-# Formatos de datos y modelos (fuera de rutas ya ignoradas)
-*.joblib
-*.pkl
-*.pickle
-*.h5
-*.pt
-*.pth
-*.onnx
-*.parquet
-*.feather
-
-# Descargas NLTK locales
-nltk_data/
-
-# TensorBoard / experimentos locales
-runs/
-logs/
-
-# Variables de entorno
-.env
-.env.*
-!.env.example
-
-# IDE
-.idea/
-.vscode/
-*.swp
-*.swo
-*~
-
-# OS
+# SO / editores
 .DS_Store
 Thumbs.db
-ehthumbs.db
-desktop.ini
+.vscode/
+.idea/
 
-# Logs y caché
-*.log
-.cache/
-.mlflow/
-wandb/
+# PII: mapa ID -> URL real. Nunca versionar (ver informe, sección 3).
+data/annotation/stage1/mapa_procedencia.csv
+data/annotation/stage1/gold_standard_completo.csv
 
-# pytest
-.pytest_cache/
-.coverage
-htmlcov/
+# Material ajeno al proyecto / grabaciones / salidas locales
+Plusmo_*
+detalle_plusmo.md
+transcripcion*.txt
+Claude outputs/
+Métricas de Evaluación/
+logs/
+*.docx~
+
+# Salidas de trabajo del verificador de duplicados (tablas con fragmentos de texto)
+reports/improvement/dup_*.csv
+reports/improvement/verificacion_duplicados.csv
+reports/improvement/_test_*.csv

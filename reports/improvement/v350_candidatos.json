@@ -1,0 +1,122 @@
+{
+  "v3.4.0": {
+    "f1_banco": 0.7203412695633001,
+    "ic": [
+      0.6874947765539199,
+      0.754251461877952
+    ],
+    "recall": [
+      0.887719298245614,
+      0.8131487889273357,
+      0.6692307692307692,
+      0.4700854700854701
+    ],
+    "f1_amenazas": 0.5851063829787234,
+    "fpr": 0.11228070175438597,
+    "f1_test": 0.8317398909876706,
+    "fpr_jerga_test": 0.3793103448275862,
+    "n_nt_jerga": 29,
+    "fpr_sin_jerga_test": 0.07446808510638298,
+    "afectivas": 18,
+    "insultos": 17,
+    "T": 1.5819418424961378
+  },
+  "v3.5.0-rc1-sel": {
+    "f1_banco": 0.7355560359217264,
+    "ic": [
+      0.7033960415513797,
+      0.7658106138356267
+    ],
+    "recall": [
+      0.8760233918128655,
+      0.8408304498269896,
+      0.6153846153846154,
+      0.5897435897435898
+    ],
+    "f1_amenazas": 0.6831683168316832,
+    "fpr": 0.1239766081871345,
+    "f1_test": 0.8294441838649155,
+    "fpr_jerga_test": 0.3103448275862069,
+    "n_nt_jerga": 29,
+    "fpr_sin_jerga_test": 0.09574468085106383,
+    "afectivas": 16,
+    "insultos": 18,
+    "T": 1.5374312245703705,
+    "ic_delta_f1_amenazas": [
+      0.04387031376707627,
+      0.1556524419148368
+    ],
+    "ic_delta_f1": [
+      -0.008175565385831765,
+      0.03981494366271103
+    ],
+    "mcnemar": {
+      "b": 60,
+      "c": 55,
+      "discordantes": 115,
+      "p_exacta": 0.7093227303228259,
+      "p_chi2": 0.7091470125152433,
+      "significativo": false,
+      "metodo": "chi-cuadrado con corrección"
+    },
+    "criterios": {
+      "1a recall Amenazas ≥ 0.55": true,
+      "1b ΔF1 Amenazas IC > 0": true,
+      "2 FPR NT con jerga (test) ≤ 0.24": false,
+      "3a F1 banco no baja > 0.01": true,
+      "3b test oficial ≥ 0.83": false,
+      "3c FPR global ≤ 0.12": false,
+      "3d afectivas ≥ 17 e insultos ≥ 16": false,
+      "3e recall Odio no baja > 0.03": false
+    }
+  },
+  "profR3": {
+    "f1_banco": 0.7491144487127288,
+    "ic": [
+      0.7181247105033526,
+      0.7792846906458732
+    ],
+    "recall": [
+      0.8725146198830409,
+      0.8477508650519031,
+      0.6538461538461539,
+      0.6239316239316239
+    ],
+    "f1_amenazas": 0.7087378640776699,
+    "fpr": 0.12748538011695906,
+    "f1_test": 0.8315920609460734,
+    "fpr_jerga_test": 0.3448275862068966,
+    "n_nt_jerga": 29,
+    "fpr_sin_jerga_test": 0.06382978723404255,
+    "afectivas": 16,
+    "insultos": 18,
+    "T": 1.8937338425440964,
+    "ic_delta_f1_amenazas": [
+      0.06406413812677458,
+      0.18757661991500074
+    ],
+    "ic_delta_f1": [
+      0.0038257582379488376,
+      0.0537657123088044
+    ],
+    "mcnemar": {
+      "b": 67,
+      "c": 54,
+      "discordantes": 121,
+      "p_exacta": 0.2752533344023912,
+      "p_chi2": 0.2753128865219594,
+      "significativo": false,
+      "metodo": "chi-cuadrado con corrección"
+    },
+    "criterios": {
+      "1a recall Amenazas ≥ 0.55": true,
+      "1b ΔF1 Amenazas IC > 0": true,
+      "2 FPR NT con jerga (test) ≤ 0.24": false,
+      "3a F1 banco no baja > 0.01": true,
+      "3b test oficial ≥ 0.83": true,
+      "3c FPR global ≤ 0.12": false,
+      "3d afectivas ≥ 17 e insultos ≥ 16": false,
+      "3e recall Odio no baja > 0.03": true
+    }
+  }
+}

@@ -1,0 +1,242 @@
+{
+  "alias": "v3_twitter_b2",
+  "ruta": "models/v3/twitter_xlmr_b2_base",
+  "test": {
+    "n": 460,
+    "f1_macro": 0.8302127659157282,
+    "accuracy": 0.8326086956521739,
+    "aciertos": 383,
+    "mcc": 0.772762113912088,
+    "qwk": 0.7920872022607994,
+    "ece": 0.10590248950149703,
+    "log_loss": 0.672283999107106,
+    "matriz": [
+      [
+        91,
+        16,
+        11,
+        5
+      ],
+      [
+        10,
+        141,
+        5,
+        3
+      ],
+      [
+        3,
+        4,
+        82,
+        6
+      ],
+      [
+        1,
+        10,
+        3,
+        69
+      ]
+    ],
+    "por_clase": {
+      "No Tóxico": {
+        "precision": 0.8666666666666667,
+        "recall": 0.7398373983739838,
+        "f1": 0.7982456140350878,
+        "soporte": 123
+      },
+      "Lenguaje Ofensivo": {
+        "precision": 0.8245614035087719,
+        "recall": 0.8867924528301887,
+        "f1": 0.8545454545454545,
+        "soporte": 159
+      },
+      "Discurso de Odio": {
+        "precision": 0.8118811881188119,
+        "recall": 0.8631578947368421,
+        "f1": 0.8367346938775511,
+        "soporte": 95
+      },
+      "Amenazas/Violencia": {
+        "precision": 0.8313253012048193,
+        "recall": 0.8313253012048193,
+        "f1": 0.8313253012048193,
+        "soporte": 83
+      }
+    },
+    "ic_lo": 0.7940483043532408,
+    "ic_hi": 0.863340477332758,
+    "ic_media": 0.8295699794719067
+  },
+  "val": {
+    "n": 459,
+    "f1_macro": 0.8331242813383052,
+    "accuracy": 0.8344226579520697,
+    "aciertos": 383,
+    "mcc": 0.7756875181882392,
+    "qwk": 0.7768766310187791,
+    "ece": 0.11265606473733661,
+    "log_loss": 0.6835189101401268,
+    "matriz": [
+      [
+        96,
+        12,
+        7,
+        7
+      ],
+      [
+        7,
+        134,
+        8,
+        10
+      ],
+      [
+        3,
+        9,
+        80,
+        2
+      ],
+      [
+        3,
+        4,
+        4,
+        73
+      ]
+    ],
+    "por_clase": {
+      "No Tóxico": {
+        "precision": 0.8807339449541285,
+        "recall": 0.7868852459016393,
+        "f1": 0.8311688311688312,
+        "soporte": 122
+      },
+      "Lenguaje Ofensivo": {
+        "precision": 0.8427672955974843,
+        "recall": 0.8427672955974843,
+        "f1": 0.8427672955974843,
+        "soporte": 159
+      },
+      "Discurso de Odio": {
+        "precision": 0.8080808080808081,
+        "recall": 0.851063829787234,
+        "f1": 0.8290155440414507,
+        "soporte": 94
+      },
+      "Amenazas/Violencia": {
+        "precision": 0.7934782608695652,
+        "recall": 0.8690476190476191,
+        "f1": 0.8295454545454546,
+        "soporte": 84
+      }
+    }
+  },
+  "cortes": {
+    "plataforma_X": {
+      "n": 228,
+      "f1_macro": 0.8854367854367854
+    },
+    "plataforma_Facebook": {
+      "n": 232,
+      "f1_macro": 0.7604458749903124
+    },
+    "fpr_con_jerga": {
+      "n": 29,
+      "fpr": 0.3793103448275862
+    },
+    "fpr_sin_jerga": {
+      "n": 94,
+      "fpr": 0.22340425531914893
+    },
+    "brecha_fpr_dialectal": 0.15590608950843726
+  },
+  "bateria": {
+    "global": "125/144",
+    "aciertos": 125,
+    "n": 144,
+    "A. Ofuscación de groserías": {
+      "n": 20,
+      "aciertos": 20
+    },
+    "B. Emojis": {
+      "n": 18,
+      "aciertos": 17
+    },
+    "C. Amenazas ofuscadas": {
+      "n": 11,
+      "aciertos": 11
+    },
+    "D. Jerga salvadoreña inofensiva": {
+      "n": 14,
+      "aciertos": 13
+    },
+    "E. Control sin jerga": {
+      "n": 12,
+      "aciertos": 12
+    },
+    "F. Falsos amigos dialectales": {
+      "n": 34,
+      "aciertos": 27
+    },
+    "G. Pares mínimos de emoji": {
+      "n": 35,
+      "aciertos": 25
+    },
+    "brecha_D_E": 0.07142857142857142
+  },
+  "sonda": {
+    "global": "190/204",
+    "aciertos": 190,
+    "n": 204,
+    "1. Ofuscación de groserías": {
+      "n": 66,
+      "aciertos": 64
+    },
+    "2. Amenazas de muerte": {
+      "n": 72,
+      "aciertos": 67
+    },
+    "3. Emoji de amenaza": {
+      "n": 12,
+      "aciertos": 11
+    },
+    "4. Emoji de odio": {
+      "n": 4,
+      "aciertos": 4
+    },
+    "5. Emoji inofensivo": {
+      "n": 16,
+      "aciertos": 16
+    },
+    "6. Par mínimo de emoji": {
+      "n": 14,
+      "aciertos": 11
+    },
+    "7. Jerga inofensiva": {
+      "n": 10,
+      "aciertos": 8
+    },
+    "8. Control español estándar": {
+      "n": 10,
+      "aciertos": 9
+    },
+    "brecha_dialectal": 0.1
+  },
+  "mcnemar": {
+    "xlmr_v1": {
+      "b_solo_v3": 40,
+      "c_solo_ref": 28,
+      "p": 0.1818100545355934,
+      "favorece": "v3_twitter_b2"
+    },
+    "mbert_b2": {
+      "b_solo_v3": 53,
+      "c_solo_ref": 23,
+      "p": 0.0007645817391550476,
+      "favorece": "v3_twitter_b2"
+    },
+    "xlmr_mit": {
+      "b_solo_v3": 48,
+      "c_solo_ref": 28,
+      "p": 0.028626655508737896,
+      "favorece": "v3_twitter_b2"
+    }
+  }
+}

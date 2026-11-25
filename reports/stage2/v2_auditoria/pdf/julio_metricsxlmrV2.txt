@@ -1,0 +1,164 @@
+
+===== PÁGINA 1 =====
+UNIVERSIDAD DE EL SALVADOR
+FACULTAD DE INGENIER´IA Y ARQUITECTURA
+ESCUELA DE SISTEMAS INFORM ´ATICOS
+INFORME T´ECNICO DE MITIGACI ´ON Y CALIBRACI ´ON
+Estrategias H´ ıbridas de Mitigaci´ on del Sesgo Dialectal: Re-
+entrenamiento, Heur´ ısticas Contextuales y An´ alisis de Ca-
+libraci´ on
+Integrantes
+Julio Enrique De La Quadra Mata
+Cristian Antonio Escalante Hern´ andez
+Willian Alexander Ch´ avez Servell´ on
+Ciudad Universitaria, 12 de septiembre de 2026
+
+===== PÁGINA 2 =====
+´Indice
+1. Introducci´ on y Planteamiento del Problema 1
+2. Pipeline de Mitigaci´ on Multi-Nivel 1
+2.1. Nivel 1: Reentrenamiento Multiclase con Pesaje de P´ erdida . . . . . . . . . . . . 1
+2.2. Nivel 2: Ajuste Fino de Umbrales por Categor´ ıa . . . . . . . . . . . . . . . . . . . 2
+2.3. Nivel 3: Filtro Heur´ ıstico de Desambiguaci´ on Dialectal . . . . . . . . . . . . . . . 2
+2.4. Nivel 4: Evaluaci´ on y Salida Binaria . . . . . . . . . . . . . . . . . . . . . . . . . 2
+3. Resultados del Sistema Mitigado 2
+4. An´ alisis Cr´ ıtico de Limitaciones 3
+5. Recomendaciones y Plan de Mejora 3
+6. Conclusiones 4
+
+===== PÁGINA 3 =====
+Resumen
+Tras la detecci´ on de un elevado sesgo dialectal (FPR = 44,83 %) en el modelo baseline
+XLM-RoBERTa ante expresiones en caliche salvadore˜ no, se implement´ o una estrategia de
+mitigaci´ on h´ ıbrida en producci´ on. Este documento detalla la arquitectura multi-capa desple-
+gada, la cual integra: reentrenamiento con pesaje de clases (WeightedTrainer), sintonizaci´ on
+fina de umbrales por categor´ ıa, reglas de desambiguaci´ on heur´ ıstica post-hoc y reducci´ on a
+evaluaci´ on binaria. El sistema alcanz´ o una reducci´ on del FPR dialectal al 14,63 % con un
+Recall>80,7 % en clases cr´ ıticas. No obstante, se presenta un an´ alisis cr´ ıtico sobre las limi-
+taciones operativas de depender de heur´ ısticas manuales y se define una hoja de ruta para
+lograr un modelo puramente aprendido mediante calibraci´ on de probabilidades.
+1. Introducci´ on y Planteamiento del Problema
+La auditor´ ıa t´ ecnica inicial revel´ o que el modelo XLM-RoBERTa fine-tuned presentaba una
+alta fragilidad ante el uso de jerga regional salvadore˜ na. Palabras con alta carga polis´ emica o
+utilizadas como marcadores de solidaridad afectiva (ej.”maje”,¸ cerote”,”mae”) activaban falsos
+positivos masivos en instancias completamente neutras o afectivas.
+Para resolver este problema sin incurrir en costos computacionales desmedidos de re-preentrenamiento
+masivo desde cero, se dise˜ n´ o e implement´ o un pipeline de mitigaci´ on pragm´ atico de cuatro ni-
+veles.
+2. Pipeline de Mitigaci´ on Multi-Nivel
+La arquitectura final de inferencia combina componentes puramente aprendidos con capas
+de decisi´ on heur´ ıstica post-hoc:
+Texto de Entrada
+(Redes Sociales)
+1. Modelo XLM-RoBERTa
+(Reentrenado / Weighted Loss)
+Logits / Probabilidades Raw
+2. Umbrales Manuales
+(config umbrales.json)
+3. Desambiguaci´ on Contextual
+(Regex Regex/Afectivos)
+4. Mapeo / Evaluaci´ on Binaria
+(T´ oxicovsNoT´ oxico)
+Figura 1: Diagrama de flujo del pipeline h´ ıbrido de inferencia y mitigaci´ on.
+2.1. Nivel 1: Reentrenamiento Multiclase con Pesaje de P´ erdida
+Se reentren´ o la arquitectura implementando unWeightedTraineradaptativo. Se asignaron
+pesos inversamente proporcionales a las frecuencias de clase para penalizar con mayor fuerza los
+errores enDiscurso de OdioyAmenazas/Violencia, forzando al modelo a aprender fronteras de
+separaci´ on m´ as robustas.
+1
+
+===== PÁGINA 4 =====
+2.2. Nivel 2: Ajuste Fino de Umbrales por Categor´ ıa
+En lugar de utilizar la funci´ onargmaxest´ andar (umbral fijo de 0.5), se optimizaron los
+umbrales de decisi´ onTc para cada clase mediante b´ usqueda en cuadr´ ıcula (grid search) sobre el
+conjunto de validaci´ on:
+Tabla 1: Configuraci´ on de Umbrales´Optimos por Clase en Producci´ on
+Categor´ ıa Umbral (T c) Criterio de Selecci´ on
+No T´ oxico0.00 Clase base por defecto.
+Discurso de Odio0.36 Maximizar Recall (>80 %) sacrificando pre-
+cisi´ on marginal.
+Lenguaje Ofensivo0.45 Tolerar jerga suave sin sobre-clasificar como
+odio.
+Amenazas o Violencia0.48 Priorizar alta sensibilidad ante agresiones
+expl´ ıcitas.
+2.3. Nivel 3: Filtro Heur´ ıstico de Desambiguaci´ on Dialectal
+Se integr´ o un motor de reglas basado en expresiones regulares para detectar la presencia
+simult´ anea de palabras malsonantes regionales y **marcadores afectivos o conversacionales**:
+Patrones Afectivos:P={"qu´ e onda","todo bien","te quiero","mi hermano","gracias"}
+(1)
+Si una publicaci´ on clasificada inicialmente comoLenguajeOfensivocontiene alg´ un patr´ on
+p∈P, la regla de post-procesamiento fuerza la reasignaci´ on a la claseNo T´ oxico.
+2.4. Nivel 4: Evaluaci´ on y Salida Binaria
+Para la toma de decisiones operativa, las predicciones multiclase filtradas se colapsan en un
+esquema binario:{No T´ oxico}→0 y{LenguajeOfensivo,Discurso de Odio,Amenazas}→1.
+3. Resultados del Sistema Mitigado
+El despliegue de la soluci´ on h´ ıbrida permiti´ o alcanzar las metas de la auditor´ ıa t´ ecnica en el
+conjunto de validaci´ on dialectal salvadore˜ no (N= 1050):
+Tabla 2: M´ etricas Operativas del Sistema Mitigado v1.4
+M´ etrica de Evaluaci´ on Baseline XLM-RoBERTa Sistema Mitigado H´ ıbrido
+FPR en Jerga Salvadore˜ na Neutra 44.83 %14.63 %(↓30,20 %)
+Recall (Discurso de Odio) 82.11 %81.05 %
+Recall (Amenazas / Violencia) 77.38 %80.72 %
+Accuracy Global Multi-clase 81.09 %80.22 %
+2
+
+===== PÁGINA 5 =====
+Sistemas
+FPR ( %)
+44.83 %
+14.63 %
+Baseline
+Mitigado (H´ ıbrido)
+Figura 2: Reducci´ on de la Tasa de Falsos Positivos (FPR) en frases con jerga regional.
+4. An´ alisis Cr´ ıtico de Limitaciones
+A pesar de la efectividad pr´ actica demostrada, la arquitectura implementada posee fragili-
+dades estructurales que deben ser transparentadas:
+1.Acoplamiento Fuertemente Heur´ ıstico:El sistema no aprendi´ o de forma end´ ogena las
+sutilezas de la jerga salvadore˜ na; en su lugar, se le superpuso un parche l´ ogico. Esto provoca
+que el modelo siga siendo internamente ¸ ciego.al contexto regional en su capa de representaci´ on
+Transformer.
+2.Fragilidad de las Reglas Contextuales (Regex):Las heur´ ısticas basadas en patrones
+est´ aticos son vulnerables a variaciones morfol´ ogicas, faltas de ortograf´ ıa o sarcasmo complejo
+(ej.”Gracias por arruinarme el d´ ıa, cerote”, donde el marcador afectivo”gracias”desactivar´ ıa
+err´ oneamente la alerta).
+3.Falta de Calibraci´ on Probabil´ ıstica Real:Al combinar softmax, umbrales arbitrarios
+y sobreescrituras por reglas, las probabilidades resultantes carecen de calibraci´ on. Un valor
+de salida de 0,75 no representa una confianza real del 75 %, lo que dificulta la audotar´ ıa de
+sesgos por m´ etodos estad´ ısticos est´ andar como *Expected Calibration Error* (ECE).
+4.Degradaci´ on por Reducci´ on Binaria:Aunque el reentrenamiento es multiclase, el mapeo
+final a decisi´ on binaria oculta la incertidumbre entre clases contiguas (como la frontera difusa
+entre *Lenguaje Ofensivo* y *Discurso de Odio*).
+5. Recomendaciones y Plan de Mejora
+Para evolucionar de una **soluci´ on de ingenier´ ıa pragm´ atica** a un **modelo verdadera-
+mente calibrado y end´ ogeno**, se propone la siguiente hoja de ruta de tres fases:
+3
+
+===== PÁGINA 6 =====
+Tabla 3: Hoja de Ruta para la Soluci´ on Aprendida Definita
+Fase Iniciativa Descripci´ on T´ ecnica
+1 **Aumento Sint´ etico de
+Datos Dialectales**
+Reemplazar las reglas Regex creando un corpus de
+entrenamiento suplementario conN≥5,000 ejem-
+plos donde la jerga local est´ e etiquetada correcta-
+mente seg´ un el contexto.
+2 **Calibraci´ on de Pro-
+babilidades**
+Aplicar t´ ecnicas de *Platt Scaling* o *Temperature
+Scaling* sobre la salida Softmax para garantizar
+que las probabilidades reflejen la incertidumbre real
+del modelo.
+3 **Adaptaci´ on de
+Dominio Continua
+(DAPT)**
+Ejecutar una fase de Masked Language Modeling
+(MLM) exclusivamente sobre un corpus masivo de
+texto salvadore˜ no no etiquetado para reajustar el
+tokenizador de XLM-RoBERTa.
+6. Conclusiones
+1. La implementaci´ on del pipeline h´ ıbrido redujo el FPR por jerga del 44,83 % al 14,63 %,
+manteniendo un Recall superior al 80 % en las categor´ ıas de mayor riesgo.
+2. Se reconoce que la soluci´ on actual constituye una correcci´ on heur´ ıstica de ingenier´ ıa, ´ util para
+mitigar el impacto inmediato en producci´ on, pero que requiere ser sustituida gradualmente
+por un modelo con calibraci´ on de probabilidades y aumento end´ ogeno de datos dialectales.
+4

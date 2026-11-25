@@ -1,0 +1,5 @@
+﻿clase,F1_mBERT,F1_XLMR,Δ,n,mejor
+No Tóxico,0.7848,0.8155,0.0307,123,XLM-R
+Lenguaje Ofensivo,0.8086,0.8061,-0.0025,159,mBERT
+Discurso de Odio,0.7638,0.8041,0.0403,95,XLM-R
+Amenazas/Violencia,0.7875,0.7975,0.01,83,XLM-R

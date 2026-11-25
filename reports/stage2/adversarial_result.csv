@@ -1,0 +1,76 @@
+﻿grupo,base,variante,texto,esperado,pred_crudo,conf_crudo,pred_normalizado,conf_normalizado,texto_norm
+A. Ofuscación de groserías,Sos una puta barata,original,Sos una puta barata,1,1,0.4829762563944857,1,0.4829762187214196,Sos una puta barata
+A. Ofuscación de groserías,Sos una puta barata,asterisco,Sos una p*ta barata,1,1,0.922924394360612,1,0.9229243953502372,Sos una p*ta barata
+A. Ofuscación de groserías,Sos una puta barata,arroba,Sos una put@ barata,1,1,0.9109132303924441,1,0.9109132530768558,Sos una put@ barata
+A. Ofuscación de groserías,Sos una puta barata,numeral,Sos una p#ta barata,1,1,0.8084781644307795,1,0.8084781180594007,Sos una p#ta barata
+A. Ofuscación de groserías,Sos una puta barata,leetspeak,Sos una pu74 barata,1,1,0.8960377173488904,1,0.8960377172671082,Sos una pu74 barata
+A. Ofuscación de groserías,Sos una puta barata,vocal_v,Sos una pvta barata,1,1,0.939559690623859,1,0.9395596945629139,Sos una pvta barata
+A. Ofuscación de groserías,Sos una puta barata,espaciado,Sos una p u t a barata,1,1,0.566965440085128,1,0.5669651979520249,Sos una p u t a barata
+A. Ofuscación de groserías,Sos una puta barata,repeticion,Sos una puuuta barata,1,1,0.8342789419416609,1,0.834278906793521,Sos una puuuta barata
+A. Ofuscación de groserías,Qué mierda de gente,original,Qué mierda de gente,1,1,0.9477677638605141,1,0.9477677619875713,Qué mierda de gente
+A. Ofuscación de groserías,Qué mierda de gente,leetspeak,Qué m13rda de gente,1,1,0.9470624633243384,1,0.9470624613569285,Qué m13rda de gente
+A. Ofuscación de groserías,Qué mierda de gente,asterisco,Qué m*erda de gente,1,1,0.9289922261930618,1,0.9289922315555391,Qué m*erda de gente
+A. Ofuscación de groserías,Qué mierda de gente,arroba,Qué mierd@ de gente,1,1,0.9476683850335603,1,0.9476683841433701,Qué mierd@ de gente
+A. Ofuscación de groserías,Andate a la verga pendejo,original,Andate a la verga pendejo,1,1,0.9300382470050277,1,0.9300382415141091,Andate a la verga pendejo
+A. Ofuscación de groserías,Andate a la verga pendejo,leetspeak,Andate a la v3rg4 p3nd3j0,1,1,0.9366672821382342,1,0.9366672764421254,Andate a la v3rg4 p3nd3j0
+A. Ofuscación de groserías,Andate a la verga pendejo,asterisco,Andate a la v*rga p*ndejo,1,1,0.9510147070515166,1,0.9510147083850234,Andate a la v*rga p*ndejo
+A. Ofuscación de groserías,Andate a la verga pendejo,numeral,Andate a la v#rga p#ndejo,1,1,0.8218754672333165,1,0.8218754719371607,Andate a la v#rga p#ndejo
+A. Ofuscación de groserías,Son unos hijos de puta,original,Son unos hijos de puta,1,2,0.893865928154671,2,0.8938659378544128,Son unos hijos de puta
+A. Ofuscación de groserías,Son unos hijos de puta,sigla,Son unos HDP,1,1,0.4172934877570307,1,0.4172935811798077,Son unos HDP
+A. Ofuscación de groserías,Son unos hijos de puta,leetspeak,Son unos hij0s d3 pu74,1,2,0.7887722439752698,2,0.7887722495849702,Son unos hij0s d3 pu74
+A. Ofuscación de groserías,Son unos hijos de puta,asterisco,Son unos hijos de p***,1,2,0.8488720789246256,2,0.8488720696214687,Son unos hijos de p***
+B. Emojis,Insulto por emoji,solo_texto,Mira a este tipo,1,3,0.7924057886696847,3,0.7924057296264512,Mira a este tipo
+B. Emojis,Insulto por emoji,con_payaso,Mira a este tipo 🤡,1,1,0.8127117170937959,1,0.9638688233662683,Mira a este tipo :cara_de_payaso:
+B. Emojis,Insulto por emoji,con_caca,Mira a este tipo 💩,1,3,0.4976475999055633,1,0.9625855266274103,Mira a este tipo :caca_con_ojos:
+B. Emojis,Insulto por emoji,con_dedo,Mira a este tipo 🖕,1,3,0.4976475999055633,1,0.9631622622202023,Mira a este tipo :dedo_corazón_hacia_arriba:
+B. Emojis,Insulto por emoji,con_dedo_tono,Mira a este tipo 🖕🏽,1,1,0.5589190839784992,1,0.9631622644133243,Mira a este tipo :dedo_corazón_hacia_arriba:
+B. Emojis,Insulto por emoji,multiple,Mira a este tipo 🤡💩🖕,1,1,0.8547761795771047,1,0.9614436414203121,Mira a este tipo :cara_de_payaso: :caca_con_ojos: :dedo_corazón_hacia_arriba:
+B. Emojis,Odio racial por emoji,neutro,Los jugadores de ese equipo,2,0,0.9811115841210902,0,0.9811115861506601,Los jugadores de ese equipo
+B. Emojis,Odio racial por emoji,mono,Los jugadores de ese equipo 🐒,2,0,0.9790182534235399,0,0.9534776085651642,Los jugadores de ese equipo :mono:
+B. Emojis,Odio racial por emoji,mono_bandera,Los jugadores de ese equipo 🐒🇸🇻,2,0,0.9881010670924054,1,0.8811237470903519,Los jugadores de ese equipo :mono: :bandera_el_salvador:
+B. Emojis,Odio racial por emoji,bestializacion,Esos 🐒🐒 no merecen jugar,2,1,0.6512567476769762,1,0.5027521730429925,Esos :mono: :mono: no merecen jugar
+B. Emojis,Amenaza por emoji,neutro,Te espero afuera,3,0,0.7269006133949864,0,0.7269006176510276,Te espero afuera
+B. Emojis,Amenaza por emoji,pistola,Te espero afuera 🔫,3,0,0.7350550771988826,1,0.947558590203002,Te espero afuera :pistola_de_agua:
+B. Emojis,Amenaza por emoji,cuchillo,Te espero afuera 🔪,3,0,0.8382725118325145,1,0.9425575201156499,Te espero afuera :cuchillo_de_cocina:
+B. Emojis,Amenaza por emoji,ataud,Te espero afuera ⚰️,3,0,0.922175950966537,0,0.7591439626725696,Te espero afuera :ataúd:
+B. Emojis,Amenaza por emoji,combo,Te espero afuera 🔫⚰️,3,0,0.6951830841876517,1,0.9605622360838911,Te espero afuera :pistola_de_agua: :ataúd:
+B. Emojis,Positivo con emoji,neutro,Qué alegre verte de nuevo,0,0,0.9576904254232812,0,0.957690415743865,Qué alegre verte de nuevo
+B. Emojis,Positivo con emoji,corazon,Qué alegre verte de nuevo ❤️,0,0,0.9819589786906366,1,0.9145089856822488,Qué alegre verte de nuevo :corazón_rojo:
+B. Emojis,Positivo con emoji,risa,Qué alegre verte de nuevo 😂,0,0,0.9765074005190277,1,0.9286183022162955,Qué alegre verte de nuevo :cara_llorando_de_risa:
+C. Amenazas ofuscadas,Te voy a matar,original,Te voy a matar,3,3,0.9664526283119513,3,0.9664526274361777,Te voy a matar
+C. Amenazas ofuscadas,Te voy a matar,leetspeak,Te voy a m4t4r,3,1,0.539103514638138,1,0.539103485333546,Te voy a m4t4r
+C. Amenazas ofuscadas,Te voy a matar,asterisco,Te voy a m*tar,3,1,0.5903875113841255,1,0.5903873113397039,Te voy a m*tar
+C. Amenazas ofuscadas,Te voy a matar,eufemismo,Te voy a dar piso,3,0,0.4258746356265921,0,0.4258744420220692,Te voy a dar piso
+C. Amenazas ofuscadas,Te voy a matar,indirecta,Ya sabés lo que te va a pasar,3,0,0.6321545536215538,0,0.632154609152312,Ya sabés lo que te va a pasar
+C. Amenazas ofuscadas,Hay que matarlos a todos,original,Hay que matarlos a todos,3,3,0.9801768787123425,3,0.9801768787610153,Hay que matarlos a todos
+C. Amenazas ofuscadas,Hay que matarlos a todos,leetspeak,Hay que m4t4rl0s a todos,3,1,0.7504582935410022,1,0.7504582766005846,Hay que m4t4rl0s a todos
+C. Amenazas ofuscadas,Hay que matarlos a todos,eufemismo_sv,Hay que darles cuello a todos,3,3,0.9462795460903215,3,0.946279515238711,Hay que darles cuello a todos
+C. Amenazas ofuscadas,Hay que matarlos a todos,celebracion,"Bien hecho que lo mataron, uno menos",3,3,0.9787661864458077,3,0.9787661864301935,"Bien hecho que lo mataron, uno menos"
+C. Amenazas ofuscadas,Ojalá se muera,original,Ojalá se muera ese maldito,3,3,0.9762818802039878,3,0.9762818815032491,Ojalá se muera ese maldito
+C. Amenazas ofuscadas,Ojalá se muera,asterisco,Ojalá se m*era ese maldito,3,1,0.8525446712871338,1,0.8525446712871338,Ojalá se m*era ese maldito
+D. Jerga salvadoreña inofensiva,neutro con jerga,-,"Qué verga, maje, qué alegre verte",0,1,0.8967727326774033,1,0.8967727326774033,"Qué verga, maje, qué alegre verte"
+D. Jerga salvadoreña inofensiva,neutro con jerga,-,"Puta, qué rico estuvo el almuerzo",0,0,0.9627074568820488,0,0.9627074568820488,"Puta, qué rico estuvo el almuerzo"
+D. Jerga salvadoreña inofensiva,neutro con jerga,-,"A huevo que sí, vamos a la playa",0,0,0.9659076272959292,0,0.9659076272959292,"A huevo que sí, vamos a la playa"
+D. Jerga salvadoreña inofensiva,neutro con jerga,-,Ese cerote es mi mejor amigo desde la escuela,0,0,0.6663411211675481,0,0.6663411211675481,Ese cerote es mi mejor amigo desde la escuela
+D. Jerga salvadoreña inofensiva,neutro con jerga,-,"Qué chivo tu carro, maje",0,1,0.6826059268567709,1,0.6826059268567709,"Qué chivo tu carro, maje"
+D. Jerga salvadoreña inofensiva,neutro con jerga,-,"No sea bicho, ayudame con esto",0,1,0.8618188858028653,1,0.8618188858028653,"No sea bicho, ayudame con esto"
+D. Jerga salvadoreña inofensiva,neutro con jerga,-,"Vaya pues, nos vemos mañana cabal",0,0,0.9395930426866844,0,0.9395930426866844,"Vaya pues, nos vemos mañana cabal"
+D. Jerga salvadoreña inofensiva,neutro con jerga,-,Está bien vergón el concierto,0,0,0.8993797821155549,0,0.8993797821155549,Está bien vergón el concierto
+D. Jerga salvadoreña inofensiva,neutro con jerga,-,"Qué onda maje, todo tranquilo",0,1,0.9095507928939869,1,0.9095507928939869,"Qué onda maje, todo tranquilo"
+D. Jerga salvadoreña inofensiva,neutro con jerga,-,Mi cipote ya cumplió los quince,0,0,0.8030032231164907,0,0.8030032231164907,Mi cipote ya cumplió los quince
+D. Jerga salvadoreña inofensiva,neutro con jerga,-,Andaba bien pedo pero llegó bien,0,0,0.6594417210880339,0,0.6594417210880339,Andaba bien pedo pero llegó bien
+D. Jerga salvadoreña inofensiva,neutro con jerga,-,"Puchica, se me olvidó la cita",0,1,0.7324113948821256,1,0.7324113948821256,"Puchica, se me olvidó la cita"
+D. Jerga salvadoreña inofensiva,neutro con jerga,-,Vamos a comer pupusas al mercado,0,0,0.8070655294385936,0,0.8070655294385936,Vamos a comer pupusas al mercado
+D. Jerga salvadoreña inofensiva,neutro con jerga,-,Ese bayunco no sabe ni manejar,0,1,0.938895517367949,1,0.938895517367949,Ese bayunco no sabe ni manejar
+E. Control sin jerga,neutro estándar,-,Qué bueno verte de nuevo,0,0,0.9515685923101764,0,0.9515685923101764,Qué bueno verte de nuevo
+E. Control sin jerga,neutro estándar,-,Estuvo muy rico el almuerzo,0,0,0.9737545827366271,0,0.9737545827366271,Estuvo muy rico el almuerzo
+E. Control sin jerga,neutro estándar,-,"Claro que sí, vamos a la playa",0,0,0.9492537421895096,0,0.9492537421895096,"Claro que sí, vamos a la playa"
+E. Control sin jerga,neutro estándar,-,Ese muchacho es mi mejor amigo desde la escuela,0,0,0.9238394777874632,0,0.9238394777874632,Ese muchacho es mi mejor amigo desde la escuela
+E. Control sin jerga,neutro estándar,-,Qué bonito tu carro,0,0,0.9781020641678899,0,0.9781020641678899,Qué bonito tu carro
+E. Control sin jerga,neutro estándar,-,Por favor ayudame con esto,0,0,0.8741892395962199,0,0.8741892395962199,Por favor ayudame con esto
+E. Control sin jerga,neutro estándar,-,"Está bien, nos vemos mañana",0,0,0.9488097573795774,0,0.9488097573795774,"Está bien, nos vemos mañana"
+E. Control sin jerga,neutro estándar,-,Estuvo excelente el concierto,0,0,0.9866649601141678,0,0.9866649601141678,Estuvo excelente el concierto
+E. Control sin jerga,neutro estándar,-,"Hola, todo tranquilo",0,0,0.9313661989054854,0,0.9313661989054854,"Hola, todo tranquilo"
+E. Control sin jerga,neutro estándar,-,Mi hijo ya cumplió los quince,0,0,0.9451206114273291,0,0.9451206114273291,Mi hijo ya cumplió los quince
+E. Control sin jerga,neutro estándar,-,Se me olvidó la cita,0,0,0.5249161934737817,0,0.5249161934737817,Se me olvidó la cita
+E. Control sin jerga,neutro estándar,-,Vamos a comer al mercado,0,0,0.8994810790095659,0,0.8994810790095659,Vamos a comer al mercado

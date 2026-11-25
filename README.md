@@ -1,108 +1,213 @@
-# Análisis del Discurso de Odio en Redes Sociales en El Salvador
+# Detección de Toxicidad y Discurso de Odio en Redes Sociales — El Salvador
 
-Proyecto de Machine Learning para detectar, clasificar y analizar discurso de odio en contenido de redes sociales del contexto salvadoreño (UES — ESI 2026).
+Trabajo de Fin de Máster / Especialización — Universidad de El Salvador, Facultad de Ingeniería y Arquitectura, Escuela de Sistemas Informáticos.
 
-## Estructura del proyecto
+**Equipo:** Julio Enrique De La Quadra Mata · Cristian Antonio Escalante Hernández · Willian Alexander Chávez Servellón
+
+---
+
+## Problema
+
+En El Salvador, X y Facebook concentran buena parte del debate público, pero no existen herramientas de detección de toxicidad adaptadas al registro lingüístico local (modismos, voseo, sarcasmo, leetspeak, emojis con carga discriminatoria). Los modelos genéricos en español fallan ante este dialecto.
+
+## Objetivo general
+
+Desarrollar un sistema de clasificación automática de toxicidad y discurso de odio en publicaciones de X y Facebook del contexto salvadoreño, mediante *fine-tuning* de modelos multilingües (**mBERT** y **XLM-R**), alcanzando **F1-macro > 80%**.
+
+## Taxonomía
+
+| ID | Clase | Criterio |
+|---|---|---|
+| 0 | No Tóxico | Sin insulto, ataque ni agresión |
+| 1 | Lenguaje Ofensivo | Insulto o vulgaridad sin grupo protegido de por medio |
+| 2 | Discurso de Odio | Ataque a una persona por pertenecer a un grupo protegido |
+| 3 | Amenazas/Violencia | Amenaza, incitación, deseo o celebración de daño físico |
+
+Precedencia: `Amenazas/Violencia > Discurso de Odio > Lenguaje Ofensivo > No Tóxico`. Definiciones operativas y casos límite en [`docs/guia_anotacion.md`](docs/guia_anotacion.md).
+
+---
+
+## Estado del dataset
+
+**3,063 publicaciones** listas para entrenar, estratificadas por clase y plataforma.
+
+| Clase | n | % | vs mínimo 480 | vs alta precisión 771 |
+|---|---|---|---|---|
+| Lenguaje Ofensivo | 1,060 | 34.6 | cumple | cumple |
+| No Tóxico | 815 | 26.6 | cumple | cumple |
+| Discurso de Odio | 632 | 20.6 | cumple | faltan 139 |
+| Amenazas/Violencia | 556 | 18.2 | cumple | faltan 215 |
+
+Splits: `train` 2,144 · `val` 459 · `test` 460. Balance de plataforma ~50/50 en los tres. Sin solapamiento de IDs ni de textos.
+
+### Hallazgos que condicionan el modelado
+
+1. **X y Facebook son distribuciones distintas** (χ² = 145.1, p < 10⁻³⁰; V de Cramér 0.216). Hay domain shift interno: obliga a estratificar y a reportar métricas desagregadas por plataforma.
+2. **Lift de toxicidad asociado a jerga salvadoreña: 1.81x.** Riesgo de que el modelo aprenda el atajo «modismo local → tóxico». Debe medirse en el informe de *fairness*.
+3. **La mediana de longitud es mayor en X (20 palabras) que en Facebook (12)**, al revés de lo que asume el perfil del proyecto. Conviene corregirlo en la tesina.
+
+### Piso de referencia sin modelo
+
+Calculado de la pura distribución de clases, sin entrenar nada:
+
+| Estrategia trivial | F1-macro |
+|---|---|
+| Azar estratificado | 0.250 |
+| Azar uniforme | 0.246 |
+| Clase mayoritaria | 0.129 |
+
+Frente al objetivo de 0.80 quedan **0.55 puntos** que solo pueden salir de aprender del texto. Que el mayoritario rinda *peor* que el azar es justo lo que penaliza el F1-macro: acierta mucho en una clase y cero en las otras tres.
+
+> **Alcance.** Precisión, *recall* y F1 son métricas de predicción: requieren un modelo entrenado. Pertenecen a la fase de **Modelado** de CRISP-DM, no al EDA. Las únicas cifras de F1 en el informe de EDA son los pisos triviales de arriba. El notebook incluye un baseline clásico entrenado como **Anexo A**, fuera del alcance de ese documento.
+
+---
+
+## Criterio de preparación: preservación máxima
+
+No se aplica preprocesamiento clásico de PLN. Se conservan **tildes, mayúsculas, puntuación y la ortografía original**, porque:
+
+- mBERT y XLM-R fueron preentrenados sobre español real; el tokenizador subword ya modela esas formas.
+- La deformación ortográfica (`pvto`, `4güevo`) es evasión deliberada de moderación: es señal, no ruido.
+- En producción la API recibirá texto crudo. Normalizar en entrenamiento y no en inferencia produce *train/serve skew*.
+
+Sí se normaliza lo no lingüístico: Unicode NFC, caracteres invisibles, colapso de espacios, placeholders para menciones y URLs, y **demojización a español** (`🤡` → `:cara_de_payaso:`, porque el vocabulario de mBERT casi no cubre emojis).
+
+La pipeline vive en [`src/features/normalization.py`](src/features/normalization.py) y es la **misma función** que debe usar el endpoint de FastAPI.
+
+Cada split trae tres variantes de texto:
+
+| Campo | Uso |
+|---|---|
+| `texto_modelo` | Entrenamiento y producción. **Campo por defecto.** |
+| `texto_agresivo` | Grupo de control del estudio de ablación |
+| `texto_original` | Trazabilidad y análisis de errores |
+
+---
+
+## Configuración recomendada para el *fine-tuning*
+
+```python
+modelos      = ["bert-base-multilingual-cased", "xlm-roberta-base"]
+campo_texto  = "texto_modelo"
+num_labels   = 4
+max_length   = 128          # cubre sobre el p99; la atención escala O(n²)
+padding      = "dinámico"   # DataCollatorWithPadding
+batch_size   = 16
+lr           = 2e-5         # rango de búsqueda 1e-5 a 5e-5
+epochs       = 3-5          # early stopping sobre F1-macro en val
+loss         = CrossEntropyLoss(weight=pesos_clase)
+```
+
+> **Usar la variante `cased` de mBERT.** La `uncased` aplica `strip_accents=True` y destruye las tildes dentro del propio tokenizador.
+
+Pesos de clase (calculados solo sobre `train`, en `data/history/v1.0.0/metadata.json`):
+
+| Clase | Peso |
+|---|---|
+| Amenazas/Violencia | 1.3779 |
+| Discurso de Odio | 1.2099 |
+| No Tóxico | 0.9404 |
+| Lenguaje Ofensivo | 0.7224 |
+
+---
+
+## Estructura
+
+Reorganizada el 16 de octubre de 2026 por propósito (detalle y razones: `docs/improvement/Plan_refactorizacion.md`). Rutas en código: `src/paths.py`.
 
 ```
-├── config/              # Configuración (YAML)
-├── data/
-│   ├── raw/             # Datasets recolectados (CSV)
-│   ├── interim/         # Datos en transformación intermedia
-│   ├── processed/       # Datasets listos para modelado
-│   └── external/        # Fuentes externas
-├── docs/                # Documentación del proyecto
-├── models/
-│   └── checkpoints/     # Modelos entrenados
-├── notebooks/           # Jupyter notebooks de exploración
-├── reports/
-│   ├── figures/         # Gráficos EDA y evaluación
-│   └── latex/           # Reporte LaTeX (no versionado)
-├── scripts/             # Scripts ejecutables (CLI)
-├── src/
-│   └── discurso_odio/   # Código fuente del paquete
-│       ├── data/        # Carga, taxonomía, acuerdo Kappa
-│       ├── eda/         # Análisis exploratorio
-│       ├── features/    # Preprocesamiento y features
-│       ├── models/      # Baselines, evaluación, fine-tuning, interpretabilidad
-│       └── utils/       # Utilidades (rutas, helpers)
-└── tests/               # Pruebas unitarias
+.
+├── data/                          # ver data/README.md
+│   ├── sources/                   # lo recolectado: corpus Etapa I (privado), X oct. 2026, hilos de X
+│   ├── annotation/                # anotación: Etapa I (privado) e hilos (blind → labels por consenso)
+│   ├── dataset/                   # ★ EL dataset vigente (dataset v1.8.0)
+│   ├── history/                   # versiones anteriores v1.0.0 … v1.7.0 (VERSIONS.md)
+│   └── evaluation/                # banco congelado y casos difíciles: nunca entrenan
+├── src/                           # ver src/README.md
+│   ├── paths.py                   # todas las rutas
+│   ├── data/                      # constructores del dataset (build_dataset_final.py = vigente), mapeo de etiquetas, threads/
+│   ├── features/normalization.py  # normalización única (entrenamiento + inferencia)
+│   ├── models/inference.py        # probabilidades de los modelos propios + caché
+│   ├── train/                     # entrenar_v5, optuna_cv_hilo, destilar
+│   ├── evaluation/                # metrics.py, banco_externo, comparar_fase3, fairness, …
+│   ├── v3/                        # código de la Etapa II (RoBERTuito)
+│   └── audit/                     # auditoría 2v (mBERT / XLM-R)
+├── app/                           # api/ (FastAPI) · ui/ (Streamlit) · pruebas/
+├── scripts/                       # arrancar_demo.ps1, pipelines de entrenamiento
+├── tests/                         # pruebas rápidas sin GPU: python -m unittest discover tests
+├── notebooks/                     # EDA (01, 02) y Colab (03)
+├── reports/                       # stage1/ · stage2/ · improvement/ · figures/
+├── docs/                          # guia_anotacion.md · stage1/ · stage2/ · improvement/ · defense/ · prompts/
+├── archivo/                       # snapshots históricos (scripts de build v5–v8, normalización v1.1)
+└── models/                        # pesos (no versionados)
 ```
 
-## Requisitos
+## Instalación
 
-- Python 3.10 o superior
-- pip
-
-## Configuración del entorno
-
-```powershell
+```bash
 python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-pip install --upgrade pip
+source .venv/bin/activate    # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
-pip install -e .
+jupyter notebook notebooks/02_eda_y_preparacion_final.ipynb
 ```
 
-Sesión Hugging Face (`hf auth whoami`) para descarga de modelos base.
+## Siguientes pasos
 
-Verificación reproducible del entorno (TFM-21):
+1. Descargar y armonizar los datasets públicos en `data/sources/external/` con `armonizar_externo()` (notebook 02, sección 9).
+2. Ejecutar las celdas de tokenización con acceso a Hugging Face y confirmar `max_length`.
+3. *Fine-tuning* en dos etapas: datos públicos, luego corpus salvadoreño (*domain adaptation*). Comparar contra el baseline clásico del Anexo A.
+4. Reportar F1-macro global **y desagregado por plataforma**.
+5. Ablación `texto_modelo` vs `texto_agresivo` en ambos modelos.
+6. Generalización cruzada: entrenar en X, evaluar en Facebook, y viceversa.
+7. *Fairness*: medir si la jerga local dispara falsos positivos.
+
+## Requisitos de la Etapa II (rúbrica, 100 pts)
+
+| Criterio | Pts | Estado |
+|---|---|---|
+| Optimización de hiperparámetros | 20 | Pendiente |
+| Modelos avanzados y ensemble | 20 | Pendiente |
+| Evaluación rigurosa (CV + test set) | 15 | Splits listos; baseline en Anexo A |
+| Análisis de sesgos y ética (fairness) | 15 | Riesgo identificado y cuantificado |
+| Prototipo funcional y desplegado | 15 | Pendiente |
+| Impacto social y recomendaciones | 15 | Pendiente |
+
+## Consideraciones éticas
+
+Los datos se recolectaron por captura manual de publicaciones públicas, cumpliendo los términos de servicio de las plataformas. Los usuarios están seudonimizados y las URLs de origen quedan fuera del dataset publicable (contienen el *handle* real de la cuenta). El corpus contiene lenguaje ofensivo y discurso de odio explícito por la naturaleza de la tarea de investigación.
+
+## Sistema final (Etapa II, cierre del 7 de octubre de 2026)
+
+RoBERTuito (`pysentimiento/robertuito-base-cased`), ensemble de 5 semillas, sin los datos de octubre, con temperature scaling (T = 1.349, ajustada en val). Pesos en `models/v3.0.0/` (no versionados).
+
+| Métrica (test, n = 460) | Valor |
+|---|---|
+| F1-macro | 0.8499, IC 95 % [0.8143, 0.8820] |
+| Batería adversarial | 127 / 144 |
+| ECE | 0.0561 → 0.0271 |
+
+La comparación contra v4 (con datos de octubre) y contra la línea base de 3 semillas está en `reports/improvement/Resultado_reentrenamiento_v4.md`. Limitaciones: Facebook (F1 0.7686 frente a 0.9041 en X) y los cortes con sarcasmo/ironía.
 
 ```bash
-python scripts/verify_hf_env.py
+uvicorn app.api.main:app --port 8000      # API: POST /predecir {"texto": "..."}
+streamlit run app/ui/app.py               # dashboard
 ```
 
-### Google Colab GPU
+### Actualización (14 de octubre de 2026): modelo v5 en la API
+La API usa ahora `models/v3.1.0` (RoBERTuito, 5 semillas, + hilos reales de X y casos difíciles; T = 1.832). Frente al modelo anterior: F1-macro en el test oficial 0.8327 (antes 0.8499, Δ −0.017, p = 0.136) pero en un hilo real nuevo (CECOT, n = 209) 0.613 frente a 0.470 (p < 0.0001) y la batería sube de 127 a 129. Detalle, límites y estrategia: `reports/improvement/Resultado_reentrenamiento_v4.md`, `docs/improvement/Estrategia_mejora.md`. Las etiquetas de los hilos están sin validar por un segundo anotador.
 
-Abrir `notebooks/00_colab_setup.ipynb` en Colab con runtime **T4 GPU**. El notebook clona el repo, instala dependencias, autentica Hugging Face y ejecuta la verificación + smoke test de fine-tuning. Ver [docs/etapa1.md](docs/etapa1.md#entorno-reproducible-tfm-21).
+### Versiones (14 de octubre de 2026)
+Numeración en `CHANGELOG.md`: **v3.0.0** (Etapa II, 5 semillas), **v3.1.0** (+ hilos reales y casos difíciles; es la que usa la API), **v3.2.0-rc1** (candidato con etiquetas por consenso; no adoptado por no cumplir un criterio de frontera, p = 0.053).
 
-## Pipeline de ejecución (Etapa I)
+### Actualización: v3.2.0 (14 de octubre de 2026)
+La API usa el ensamble **v3.2.0** (10 modelos: v3.1.0 + v3.2.0-rc1; T = 1.619). Test oficial 0.8429; hilo de migrantes acierto 0.808; atajos 1.00 en las 6 familias; groserías afectivas 19/20. Los modelos públicos de odio no mejoraron la combinación. Detalle y límites: `CHANGELOG.md`.
 
-```bash
-python scripts/run_validation.py   # Validación cruzada + Kappa
-python scripts/run_eda.py              # EDA + reporte Kappa
-python scripts/run_baselines.py        # 3 baselines + métricas comparativas
-python scripts/run_tune.py             # GridSearchCV (TFM-29)
-python scripts/run_finetune.py         # Fine-tuning ligero mBERT + XLM-R
-python scripts/run_interpretability.py  # SHAP + LIME
-pytest
-```
+### Actualización: v3.3.0 (14 de octubre de 2026)
+La API usa el ensamble **v3.3.0** (10 modelos; T = 1.314): test oficial 0.8386, batería 129/144, Amenazas F1 0.618 en un hilo reservado (v3.2.0: 0.575), atajos 1.00 en 6 familias, groserías afectivas 19/20. Rollback a v3.2.0 en `CHANGELOG.md`.
 
-## Taxonomía de clases
 
-| Clase | Descripción |
-|-------|-------------|
-| `no_toxico` | Contenido neutro |
-| `ofensivo` | Lenguaje vulgar u ofensivo |
-| `odio` | Discurso de odio o acoso |
-| `amenazas` | Amenazas o incitación a la violencia |
+### Actualización: v3.4.0 (15 de octubre de 2026)
+La API usa **un solo modelo** (v3.4.0, 418 MB, destilado de un ensamble de 6 modelos con hiperparámetros de Optuna). Banco congelado (n = 1,391): F1-macro 0.720 [0.687, 0.754] (v3.3.0: 0.693), recall Odio 0.669 (media entre semillas 0.626), Amenazas 0.470, falsos positivos 0.112; test oficial 0.832. Arranque: `.\scripts\arrancar_demo.ps1`. Informe de sesgos: `reports/improvement/fairness.md`. Detalle y límites en `CHANGELOG.md`.
 
-## Datasets
-
-| Archivo | Registros | Uso |
-|---------|-----------|-----|
-| `dataset_unificado.csv` | ~2,286 | Corpus completo |
-| `dataset_entrenamiento.csv` | ~2,894 | Entrenamiento |
-| `dataset_pruebas.csv` | ~352 | Evaluación |
-
-## Cumplimiento Rúbrica Etapa I
-
-| Criterio | Evidencia |
-|----------|-----------|
-| Calidad y cantidad de datos | `data/raw/*.csv`, `docs/datos.md` |
-| EDA completo | `notebooks/01_eda.ipynb`, `reports/figures/` |
-| Preprocesamiento y features | `src/discurso_odio/features/` |
-| Baselines y métricas (≥3) | `scripts/run_baselines.py`, `reports/metricas_comparativas.csv` |
-| Interpretabilidad SHAP/LIME | `scripts/run_interpretability.py` |
-| Código reproducible | Repositorio, tests, README, `scripts/verify_hf_env.py`, `notebooks/00_colab_setup.ipynb` |
-
-## Documentación
-
-- [Etapa I — Alcance y pipeline](docs/etapa1.md)
-- [Colab GPU + Hugging Face (TFM-21)](notebooks/00_colab_setup.ipynb)
-- [Descripción del dataset](docs/datos.md)
-- [Reporte LaTeX Etapa I](reports/latex/reporte_etapa1.tex) — compilar con `reports/latex/build_report.ps1`
-
-## Licencia
-
-MIT — ver [LICENSE](LICENSE).
+### Actualización: dataset v2.0.0 y v3.6.0 (7 de noviembre de 2026)
+El dataset pasa a una distribución 75 / 10 / 15 con hilos apartados (`data/dataset/LEEME.md`). La API usa **v3.6.0**: un solo RoBERTuito destilado de 3 modelos entrenados con el dataset v2.0.0 (T = 1.415). En el test principal (test_hilos + banco congelado, n = 3,366): F1-macro **0.752** [0.728, 0.774] (v3.4.0: 0.708), falsos positivos 0.089 (0.097), recall de Amenazas 0.679 (0.539), falsos positivos con jerga 0.043 (0.128); test oficial 0.827. Cumple 7/7 criterios fijados antes de entrenar (`docs/improvement/Plan_v2_particion_hilos.md`). Pesos: huggingface.co/cs21004/robertuito-toxicidad-sv. Ficha técnica: `reports/final/Ficha_Tecnica_RoBERTuito_v3.6.0.docx`. Detalle: `CHANGELOG.md`.

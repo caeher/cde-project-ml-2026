@@ -1,0 +1,141 @@
+{
+  "n_test": 460,
+  "mbert": {
+    "f1_macro": 0.7862,
+    "accuracy": 0.7891,
+    "aciertos": 363,
+    "ic95": [
+      0.7473,
+      0.822
+    ],
+    "origen": "reconstruido de precision/recall/support publicados"
+  },
+  "xlmr": {
+    "f1_macro": 0.8058,
+    "accuracy": 0.8065,
+    "aciertos": 371,
+    "ic95": [
+      0.7665,
+      0.8414
+    ],
+    "origen": "predicciones reproducidas instancia por instancia"
+  },
+  "diferencia": {
+    "f1_macro": 0.0196,
+    "accuracy": 0.0174,
+    "aciertos_netos": 8
+  },
+  "mcnemar": {
+    "estado": "no calculable",
+    "motivo": "mBERT no exportó predicciones por instancia",
+    "b_menos_c": 8,
+    "umbral_significancia": 12,
+    "sensibilidad": [
+      {
+        "discordantes": 8,
+        "b": 8,
+        "c": 0,
+        "p_exacta": 0.0078,
+        "p_chi2_corr": 0.0133,
+        "significativo": "SÍ"
+      },
+      {
+        "discordantes": 12,
+        "b": 10,
+        "c": 2,
+        "p_exacta": 0.0386,
+        "p_chi2_corr": 0.0433,
+        "significativo": "SÍ"
+      },
+      {
+        "discordantes": 16,
+        "b": 12,
+        "c": 4,
+        "p_exacta": 0.0768,
+        "p_chi2_corr": 0.0801,
+        "significativo": "no"
+      },
+      {
+        "discordantes": 20,
+        "b": 14,
+        "c": 6,
+        "p_exacta": 0.1153,
+        "p_chi2_corr": 0.1175,
+        "significativo": "no"
+      },
+      {
+        "discordantes": 24,
+        "b": 16,
+        "c": 8,
+        "p_exacta": 0.1516,
+        "p_chi2_corr": 0.153,
+        "significativo": "no"
+      },
+      {
+        "discordantes": 30,
+        "b": 19,
+        "c": 11,
+        "p_exacta": 0.2005,
+        "p_chi2_corr": 0.2012,
+        "significativo": "no"
+      },
+      {
+        "discordantes": 40,
+        "b": 24,
+        "c": 16,
+        "p_exacta": 0.2682,
+        "p_chi2_corr": 0.2684,
+        "significativo": "no"
+      },
+      {
+        "discordantes": 50,
+        "b": 29,
+        "c": 21,
+        "p_exacta": 0.3222,
+        "p_chi2_corr": 0.3222,
+        "significativo": "no"
+      },
+      {
+        "discordantes": 60,
+        "b": 34,
+        "c": 26,
+        "p_exacta": 0.3663,
+        "p_chi2_corr": 0.3662,
+        "significativo": "no"
+      },
+      {
+        "discordantes": 80,
+        "b": 44,
+        "c": 36,
+        "p_exacta": 0.434,
+        "p_chi2_corr": 0.4338,
+        "significativo": "no"
+      },
+      {
+        "discordantes": 100,
+        "b": 54,
+        "c": 46,
+        "p_exacta": 0.4841,
+        "p_chi2_corr": 0.4839,
+        "significativo": "no"
+      },
+      {
+        "discordantes": 120,
+        "b": 64,
+        "c": 56,
+        "p_exacta": 0.523,
+        "p_chi2_corr": 0.5228,
+        "significativo": "no"
+      },
+      {
+        "discordantes": 140,
+        "b": 74,
+        "c": 66,
+        "p_exacta": 0.5543,
+        "p_chi2_corr": 0.5541,
+        "significativo": "no"
+      }
+    ]
+  },
+  "conclusion": "Sin evidencia estadística de diferencia entre mBERT y XLM-RoBERTa sobre el conjunto de prueba actual."
+}

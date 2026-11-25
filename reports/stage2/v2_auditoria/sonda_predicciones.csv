@@ -1,0 +1,205 @@
+﻿ID,familia,base,variante,texto,esperado,pred_mbert_v1,pred_mbert_b2,pred_xlmr_v1,pred_xlmr_mit,texto_norm,norm_mbert_v1,norm_mbert_b2,norm_xlmr_v1,norm_xlmr_mit
+SND-0001,1. Ofuscación de groserías,"Callate ya, puta",original,"Callate ya, puta",1,1,1,1,0,"Callate ya, puta",1,1,1,0
+SND-0002,1. Ofuscación de groserías,"Callate ya, puta",asterisco,"Callate ya, p**a",1,1,3,1,1,"Callate ya, p**a",1,3,1,1
+SND-0003,1. Ofuscación de groserías,"Callate ya, puta",arroba,"Callate ya, put@",1,1,3,1,2,"Callate ya, put@",1,3,1,2
+SND-0004,1. Ofuscación de groserías,"Callate ya, puta",numeral,"Callate ya, puta",1,1,1,1,0,"Callate ya, puta",1,1,1,0
+SND-0005,1. Ofuscación de groserías,"Callate ya, puta",leet_i,"Callate ya, put4",1,1,3,1,3,"Callate ya, put4",1,3,1,3
+SND-0006,1. Ofuscación de groserías,"Callate ya, puta",leet_s,"Callate ya, pu7a",1,1,1,1,3,"Callate ya, pu7a",1,1,1,3
+SND-0007,1. Ofuscación de groserías,"Callate ya, puta",punto,"Callate ya, p.u.t.a",1,1,1,1,3,"Callate ya, p.u.t.a",1,1,1,3
+SND-0008,1. Ofuscación de groserías,"Callate ya, puta",espaciado,"Callate ya, p u t a",1,1,3,3,3,"Callate ya, p u t a",1,3,3,3
+SND-0009,1. Ofuscación de groserías,"Callate ya, puta",repeticion,"Callate ya, puuuuta",1,1,1,1,3,"Callate ya, puuuuta",1,1,1,3
+SND-0010,1. Ofuscación de groserías,"Callate ya, puta",acento,"Callate ya, putá",1,1,0,3,3,"Callate ya, putá",1,0,3,3
+SND-0011,1. Ofuscación de groserías,"Callate ya, puta",mayus,"Callate ya, PUTA",1,1,1,0,3,"Callate ya, PUTA",1,1,0,3
+SND-0012,1. Ofuscación de groserías,Esas viejas son unas putas,original,Esas viejas son unas putas,1,1,1,2,2,Esas viejas son unas putas,1,1,2,2
+SND-0013,1. Ofuscación de groserías,Esas viejas son unas putas,asterisco,Esas viejas son unas p***s,1,1,1,1,2,Esas viejas son unas p***s,1,1,1,2
+SND-0014,1. Ofuscación de groserías,Esas viejas son unas putas,arroba,Esas viejas son unas put@s,1,1,1,1,2,Esas viejas son unas put@usuario,1,1,1,1
+SND-0015,1. Ofuscación de groserías,Esas viejas son unas putas,numeral,Esas viejas son unas putas,1,1,1,2,2,Esas viejas son unas putas,1,1,2,2
+SND-0016,1. Ofuscación de groserías,Esas viejas son unas putas,leet_i,Esas viejas son unas put4s,1,1,1,1,2,Esas viejas son unas put4s,1,1,1,2
+SND-0017,1. Ofuscación de groserías,Esas viejas son unas putas,leet_s,Esas viejas son unas pu7a5,1,1,1,1,1,Esas viejas son unas pu7a5,1,1,1,1
+SND-0018,1. Ofuscación de groserías,Esas viejas son unas putas,punto,Esas viejas son unas p.u.t.a.s,1,1,1,1,1,Esas viejas son unas p.u.t.a.s,1,1,1,1
+SND-0019,1. Ofuscación de groserías,Esas viejas son unas putas,espaciado,Esas viejas son unas p u t a s,1,1,1,1,2,Esas viejas son unas p u t a s,1,1,1,2
+SND-0020,1. Ofuscación de groserías,Esas viejas son unas putas,repeticion,Esas viejas son unas puuuutas,1,1,1,1,1,Esas viejas son unas puuuutas,1,1,1,1
+SND-0021,1. Ofuscación de groserías,Esas viejas son unas putas,acento,Esas viejas son unas putás,1,1,1,1,2,Esas viejas son unas putás,1,1,1,2
+SND-0022,1. Ofuscación de groserías,Esas viejas son unas putas,mayus,Esas viejas son unas PUTAS,1,1,1,1,2,Esas viejas son unas PUTAS,1,1,1,2
+SND-0023,1. Ofuscación de groserías,Qué pendejo sos,original,Qué pendejo sos,1,1,1,1,1,Qué pendejo sos,1,1,1,1
+SND-0024,1. Ofuscación de groserías,Qué pendejo sos,asterisco,Qué p*****o sos,1,0,1,1,1,Qué p*****o sos,0,1,1,1
+SND-0025,1. Ofuscación de groserías,Qué pendejo sos,arroba,Qué pendejo sos,1,1,1,1,1,Qué pendejo sos,1,1,1,1
+SND-0026,1. Ofuscación de groserías,Qué pendejo sos,numeral,Qué p#nd#j# sos,1,0,0,1,1,Qué p#nd#j# sos,0,0,1,1
+SND-0027,1. Ofuscación de groserías,Qué pendejo sos,leet_i,Qué p3nd3j0 sos,1,1,1,1,1,Qué p3nd3j0 sos,1,1,1,1
+SND-0028,1. Ofuscación de groserías,Qué pendejo sos,leet_s,Qué pendejo sos,1,1,1,1,1,Qué pendejo sos,1,1,1,1
+SND-0029,1. Ofuscación de groserías,Qué pendejo sos,punto,Qué p.e.n.d.e.j.o sos,1,2,1,1,1,Qué p.e.n.d.e.j.o sos,2,1,1,1
+SND-0030,1. Ofuscación de groserías,Qué pendejo sos,espaciado,Qué p e n d e j o sos,1,1,3,1,1,Qué p e n d e j o sos,1,3,1,1
+SND-0031,1. Ofuscación de groserías,Qué pendejo sos,repeticion,Qué peeeendejo sos,1,1,1,1,1,Qué peeeendejo sos,1,1,1,1
+SND-0032,1. Ofuscación de groserías,Qué pendejo sos,acento,Qué péndéjó sos,1,1,1,1,1,Qué péndéjó sos,1,1,1,1
+SND-0033,1. Ofuscación de groserías,Qué pendejo sos,mayus,Qué PENDEJO sos,1,1,1,1,1,Qué PENDEJO sos,1,1,1,1
+SND-0034,1. Ofuscación de groserías,Sos un cerote de mierda,original,Sos un cerote de mierda,1,1,1,1,2,Sos un cerote de mierda,1,1,1,2
+SND-0035,1. Ofuscación de groserías,Sos un cerote de mierda,asterisco,Sos un cerote de m****a,1,1,1,1,1,Sos un cerote de m****a,1,1,1,1
+SND-0036,1. Ofuscación de groserías,Sos un cerote de mierda,arroba,Sos un cerote de mierd@,1,1,1,1,2,Sos un cerote de mierd@,1,1,1,2
+SND-0037,1. Ofuscación de groserías,Sos un cerote de mierda,numeral,Sos un cerote de mi#rda,1,1,1,1,2,Sos un cerote de mi#rda,1,1,1,2
+SND-0038,1. Ofuscación de groserías,Sos un cerote de mierda,leet_i,Sos un cerote de m13rd4,1,1,1,1,2,Sos un cerote de m13rd4,1,1,1,2
+SND-0039,1. Ofuscación de groserías,Sos un cerote de mierda,leet_s,Sos un cerote de mierda,1,1,1,1,2,Sos un cerote de mierda,1,1,1,2
+SND-0040,1. Ofuscación de groserías,Sos un cerote de mierda,punto,Sos un cerote de m.i.e.r.d.a,1,1,1,1,1,Sos un cerote de m.i.e.r.d.a,1,1,1,1
+SND-0041,1. Ofuscación de groserías,Sos un cerote de mierda,espaciado,Sos un cerote de m i e r d a,1,1,3,1,2,Sos un cerote de m i e r d a,1,3,1,2
+SND-0042,1. Ofuscación de groserías,Sos un cerote de mierda,repeticion,Sos un cerote de miiiierda,1,1,1,1,2,Sos un cerote de miiiierda,1,1,1,2
+SND-0043,1. Ofuscación de groserías,Sos un cerote de mierda,acento,Sos un cerote de miérdá,1,1,1,2,2,Sos un cerote de miérdá,1,1,2,2
+SND-0044,1. Ofuscación de groserías,Sos un cerote de mierda,mayus,Sos un cerote de MIERDA,1,1,1,2,2,Sos un cerote de MIERDA,1,1,2,2
+SND-0045,1. Ofuscación de groserías,Andá a la verga,original,Andá a la verga,1,0,0,1,1,Andá a la verga,0,0,1,1
+SND-0046,1. Ofuscación de groserías,Andá a la verga,asterisco,Andá a la v***a,1,0,3,1,1,Andá a la v***a,0,3,1,1
+SND-0047,1. Ofuscación de groserías,Andá a la verga,arroba,Andá a la verg@,1,1,1,1,1,Andá a la verg@,1,1,1,1
+SND-0048,1. Ofuscación de groserías,Andá a la verga,numeral,Andá a la v#rga,1,0,0,1,1,Andá a la v#rga,0,0,1,1
+SND-0049,1. Ofuscación de groserías,Andá a la verga,leet_i,Andá a la v3rg4,1,1,1,1,1,Andá a la v3rg4,1,1,1,1
+SND-0050,1. Ofuscación de groserías,Andá a la verga,leet_s,Andá a la verga,1,0,0,1,1,Andá a la verga,0,0,1,1
+SND-0051,1. Ofuscación de groserías,Andá a la verga,punto,Andá a la v.e.r.g.a,1,0,0,1,1,Andá a la v.e.r.g.a,0,0,1,1
+SND-0052,1. Ofuscación de groserías,Andá a la verga,espaciado,Andá a la v e r g a,1,0,3,1,3,Andá a la v e r g a,0,3,1,3
+SND-0053,1. Ofuscación de groserías,Andá a la verga,repeticion,Andá a la veeeerga,1,0,0,1,3,Andá a la veeeerga,0,0,1,3
+SND-0054,1. Ofuscación de groserías,Andá a la verga,acento,Andá a la vérgá,1,1,1,1,1,Andá a la vérgá,1,1,1,1
+SND-0055,1. Ofuscación de groserías,Andá a la verga,mayus,Andá a la VERGA,1,0,0,1,1,Andá a la VERGA,0,0,1,1
+SND-0056,1. Ofuscación de groserías,Qué culero el tipo,original,Qué culero el tipo,1,1,1,1,1,Qué culero el tipo,1,1,1,1
+SND-0057,1. Ofuscación de groserías,Qué culero el tipo,asterisco,Qué c****o el tipo,1,0,0,1,1,Qué c****o el tipo,0,0,1,1
+SND-0058,1. Ofuscación de groserías,Qué culero el tipo,arroba,Qué culero el tipo,1,1,1,1,1,Qué culero el tipo,1,1,1,1
+SND-0059,1. Ofuscación de groserías,Qué culero el tipo,numeral,Qué cul#r# el tipo,1,0,0,1,1,Qué cul#r# el tipo,0,0,1,1
+SND-0060,1. Ofuscación de groserías,Qué culero el tipo,leet_i,Qué cul3r0 el tipo,1,1,1,1,1,Qué cul3r0 el tipo,1,1,1,1
+SND-0061,1. Ofuscación de groserías,Qué culero el tipo,leet_s,Qué culero el tipo,1,1,1,1,1,Qué culero el tipo,1,1,1,1
+SND-0062,1. Ofuscación de groserías,Qué culero el tipo,punto,Qué c.u.l.e.r.o el tipo,1,1,3,1,1,Qué c.u.l.e.r.o el tipo,1,3,1,1
+SND-0063,1. Ofuscación de groserías,Qué culero el tipo,espaciado,Qué c u l e r o el tipo,1,0,3,1,1,Qué c u l e r o el tipo,0,3,1,1
+SND-0064,1. Ofuscación de groserías,Qué culero el tipo,repeticion,Qué cuuuulero el tipo,1,1,1,1,1,Qué cuuuulero el tipo,1,1,1,1
+SND-0065,1. Ofuscación de groserías,Qué culero el tipo,acento,Qué culéró el tipo,1,1,1,1,2,Qué culéró el tipo,1,1,1,2
+SND-0066,1. Ofuscación de groserías,Qué culero el tipo,mayus,Qué CULERO el tipo,1,1,3,1,1,Qué CULERO el tipo,1,3,1,1
+SND-0067,2. Amenazas de muerte,Te voy a matar,original,Te voy a matar,3,3,3,3,3,Te voy a matar,3,3,3,3
+SND-0068,2. Amenazas de muerte,Te voy a matar,asterisco,Te voy a m***r,3,1,3,1,1,Te voy a m***r,1,3,1,1
+SND-0069,2. Amenazas de muerte,Te voy a matar,arroba,Te voy a m@t@r,3,1,3,1,1,Te voy a m@usuario@usuario,1,3,1,1
+SND-0070,2. Amenazas de muerte,Te voy a matar,numeral,Te voy a matar,3,3,3,3,3,Te voy a matar,3,3,3,3
+SND-0071,2. Amenazas de muerte,Te voy a matar,leet_i,Te voy a m4t4r,3,1,3,1,3,Te voy a m4t4r,1,3,1,3
+SND-0072,2. Amenazas de muerte,Te voy a matar,leet_s,Te voy a ma7ar,3,1,3,1,3,Te voy a ma7ar,1,3,1,3
+SND-0073,2. Amenazas de muerte,Te voy a matar,punto,Te voy a m.a.t.a.r,3,1,3,1,1,Te voy a m.a.t.a.r,1,3,1,1
+SND-0074,2. Amenazas de muerte,Te voy a matar,espaciado,Te voy a m a t a r,3,0,3,1,3,Te voy a m a t a r,0,3,1,3
+SND-0075,2. Amenazas de muerte,Te voy a matar,repeticion,Te voy a maaaatar,3,1,3,1,0,Te voy a maaaatar,1,3,1,0
+SND-0076,2. Amenazas de muerte,Te voy a matar,acento,Te voy a mátár,3,1,3,1,1,Te voy a mátár,1,3,1,1
+SND-0077,2. Amenazas de muerte,Te voy a matar,mayus,Te voy a MATAR,3,1,3,3,3,Te voy a MATAR,1,3,3,3
+SND-0078,2. Amenazas de muerte,Voy a ir a tu casa a matarte,original,Voy a ir a tu casa a matarte,3,3,3,3,3,Voy a ir a tu casa a matarte,3,3,3,3
+SND-0079,2. Amenazas de muerte,Voy a ir a tu casa a matarte,asterisco,Voy a ir a tu casa a m***rte,3,1,3,1,1,Voy a ir a tu casa a m***rte,1,3,1,1
+SND-0080,2. Amenazas de muerte,Voy a ir a tu casa a matarte,arroba,Voy a ir a tu casa a m@t@rte,3,1,3,1,1,Voy a ir a tu casa a m@usuario@usuario,0,3,0,1
+SND-0081,2. Amenazas de muerte,Voy a ir a tu casa a matarte,numeral,Voy a ir a tu casa a matarte,3,3,3,3,3,Voy a ir a tu casa a matarte,3,3,3,3
+SND-0082,2. Amenazas de muerte,Voy a ir a tu casa a matarte,leet_i,Voy a ir a tu casa a m4t4rte,3,1,3,1,3,Voy a ir a tu casa a m4t4rte,1,3,1,3
+SND-0083,2. Amenazas de muerte,Voy a ir a tu casa a matarte,leet_s,Voy a ir a tu casa a ma7arte,3,1,3,0,1,Voy a ir a tu casa a ma7arte,1,3,0,1
+SND-0084,2. Amenazas de muerte,Voy a ir a tu casa a matarte,punto,Voy a ir a tu casa a m.a.t.a.rte,3,1,3,1,1,Voy a ir a tu casa a m.a.t.a.rte,1,3,1,1
+SND-0085,2. Amenazas de muerte,Voy a ir a tu casa a matarte,espaciado,Voy a ir a tu casa a m a t a rte,3,0,3,1,3,Voy a ir a tu casa a m a t a rte,0,3,1,3
+SND-0086,2. Amenazas de muerte,Voy a ir a tu casa a matarte,repeticion,Voy a ir a tu casa a maaaatarte,3,3,3,0,3,Voy a ir a tu casa a maaaatarte,3,3,0,3
+SND-0087,2. Amenazas de muerte,Voy a ir a tu casa a matarte,acento,Voy a ir a tu casa a mátárte,3,1,3,1,1,Voy a ir a tu casa a mátárte,1,3,1,1
+SND-0088,2. Amenazas de muerte,Voy a ir a tu casa a matarte,mayus,Voy a ir a tu casa a MATARte,3,1,0,3,3,Voy a ir a tu casa a MATARte,1,0,3,3
+SND-0089,2. Amenazas de muerte,Ese hijueputa merece morir,original,Ese hijueputa merece morir,3,1,3,3,3,Ese hijueputa merece morir,1,3,3,3
+SND-0090,2. Amenazas de muerte,Ese hijueputa merece morir,asterisco,Ese hijueputa merece m***r,3,1,1,1,1,Ese hijueputa merece m***r,1,1,1,1
+SND-0091,2. Amenazas de muerte,Ese hijueputa merece morir,arroba,Ese hijueputa merece morir,3,1,3,3,3,Ese hijueputa merece morir,1,3,3,3
+SND-0092,2. Amenazas de muerte,Ese hijueputa merece morir,numeral,Ese hijueputa merece m#rir,3,1,1,1,1,Ese hijueputa merece m#rir,1,1,1,1
+SND-0093,2. Amenazas de muerte,Ese hijueputa merece morir,leet_i,Ese hijueputa merece m0r1r,3,1,1,1,1,Ese hijueputa merece m0r1r,1,1,1,1
+SND-0094,2. Amenazas de muerte,Ese hijueputa merece morir,leet_s,Ese hijueputa merece morir,3,1,3,3,3,Ese hijueputa merece morir,1,3,3,3
+SND-0095,2. Amenazas de muerte,Ese hijueputa merece morir,punto,Ese hijueputa merece m.o.r.i.r,3,1,1,1,1,Ese hijueputa merece m.o.r.i.r,1,1,1,1
+SND-0096,2. Amenazas de muerte,Ese hijueputa merece morir,espaciado,Ese hijueputa merece m o r i r,3,1,1,1,1,Ese hijueputa merece m o r i r,1,1,1,1
+SND-0097,2. Amenazas de muerte,Ese hijueputa merece morir,repeticion,Ese hijueputa merece moooorir,3,1,1,1,1,Ese hijueputa merece moooorir,1,1,1,1
+SND-0098,2. Amenazas de muerte,Ese hijueputa merece morir,acento,Ese hijueputa merece mórir,3,3,1,1,1,Ese hijueputa merece mórir,3,1,1,1
+SND-0099,2. Amenazas de muerte,Ese hijueputa merece morir,mayus,Ese hijueputa merece MORIR,3,1,1,3,3,Ese hijueputa merece MORIR,1,1,3,3
+SND-0100,2. Amenazas de muerte,Hay que quemarlos vivos a todos,original,Hay que quemarlos vivos a todos,3,3,3,3,3,Hay que quemarlos vivos a todos,3,3,3,3
+SND-0101,2. Amenazas de muerte,Hay que quemarlos vivos a todos,asterisco,Hay que q****rlos vivos a todos,3,3,3,3,3,Hay que q****rlos vivos a todos,3,3,3,3
+SND-0102,2. Amenazas de muerte,Hay que quemarlos vivos a todos,arroba,Hay que quem@rlos vivos a todos,3,3,3,3,3,Hay que quem@usuario vivos a todos,3,3,3,0
+SND-0103,2. Amenazas de muerte,Hay que quemarlos vivos a todos,numeral,Hay que qu#marlos vivos a todos,3,3,3,3,3,Hay que qu#marlos vivos a todos,3,3,3,3
+SND-0104,2. Amenazas de muerte,Hay que quemarlos vivos a todos,leet_i,Hay que qu3m4rlos vivos a todos,3,3,3,3,3,Hay que qu3m4rlos vivos a todos,3,3,3,3
+SND-0105,2. Amenazas de muerte,Hay que quemarlos vivos a todos,leet_s,Hay que quemarlos vivos a todos,3,3,3,3,3,Hay que quemarlos vivos a todos,3,3,3,3
+SND-0106,2. Amenazas de muerte,Hay que quemarlos vivos a todos,punto,Hay que q.u.e.m.a.rlos vivos a todos,3,3,3,3,3,Hay que q.u.e.m.a.rlos vivos a todos,3,3,3,3
+SND-0107,2. Amenazas de muerte,Hay que quemarlos vivos a todos,espaciado,Hay que q u e m a rlos vivos a todos,3,3,3,3,3,Hay que q u e m a rlos vivos a todos,3,3,3,3
+SND-0108,2. Amenazas de muerte,Hay que quemarlos vivos a todos,repeticion,Hay que quuuuemarlos vivos a todos,3,3,3,3,3,Hay que quuuuemarlos vivos a todos,3,3,3,3
+SND-0109,2. Amenazas de muerte,Hay que quemarlos vivos a todos,acento,Hay que quémárlos vivos a todos,3,3,3,3,3,Hay que quémárlos vivos a todos,3,3,3,3
+SND-0110,2. Amenazas de muerte,Hay que quemarlos vivos a todos,mayus,Hay que QUEMARlos vivos a todos,3,3,3,3,3,Hay que QUEMARlos vivos a todos,3,3,3,3
+SND-0111,2. Amenazas de muerte,Te voy a partir la cara cuando te vea,original,Te voy a partir la cara cuando te vea,3,0,3,3,1,Te voy a partir la cara cuando te vea,0,3,3,1
+SND-0112,2. Amenazas de muerte,Te voy a partir la cara cuando te vea,asterisco,Te voy a p****r la cara cuando te vea,3,1,3,1,1,Te voy a p****r la cara cuando te vea,1,3,1,1
+SND-0113,2. Amenazas de muerte,Te voy a partir la cara cuando te vea,arroba,Te voy a p@rtir la cara cuando te vea,3,1,3,1,1,Te voy a p@usuario la cara cuando te vea,1,3,1,1
+SND-0114,2. Amenazas de muerte,Te voy a partir la cara cuando te vea,numeral,Te voy a partir la cara cuando te vea,3,0,3,3,1,Te voy a partir la cara cuando te vea,0,3,3,1
+SND-0115,2. Amenazas de muerte,Te voy a partir la cara cuando te vea,leet_i,Te voy a p4rt1r la cara cuando te vea,3,1,3,1,1,Te voy a p4rt1r la cara cuando te vea,1,3,1,1
+SND-0116,2. Amenazas de muerte,Te voy a partir la cara cuando te vea,leet_s,Te voy a par7ir la cara cuando te vea,3,1,3,1,1,Te voy a par7ir la cara cuando te vea,1,3,1,1
+SND-0117,2. Amenazas de muerte,Te voy a partir la cara cuando te vea,punto,Te voy a p.a.r.t.i.r la cara cuando te vea,3,1,3,1,1,Te voy a p.a.r.t.i.r la cara cuando te vea,1,3,1,1
+SND-0118,2. Amenazas de muerte,Te voy a partir la cara cuando te vea,espaciado,Te voy a p a r t i r la cara cuando te vea,3,0,3,1,3,Te voy a p a r t i r la cara cuando te vea,0,3,1,3
+SND-0119,2. Amenazas de muerte,Te voy a partir la cara cuando te vea,repeticion,Te voy a paaaartir la cara cuando te vea,3,1,3,1,1,Te voy a paaaartir la cara cuando te vea,1,3,1,1
+SND-0120,2. Amenazas de muerte,Te voy a partir la cara cuando te vea,acento,Te voy a pártir la cara cuando te vea,3,1,3,1,1,Te voy a pártir la cara cuando te vea,1,3,1,1
+SND-0121,2. Amenazas de muerte,Te voy a partir la cara cuando te vea,mayus,Te voy a PARTIR la cara cuando te vea,3,1,3,1,1,Te voy a PARTIR la cara cuando te vea,1,3,1,1
+SND-0122,2. Amenazas de muerte,Ojalá te maten,original,Ojalá te maten,3,3,3,0,3,Ojalá te maten,3,3,0,3
+SND-0123,2. Amenazas de muerte,Ojalá te maten,asterisco,Ojalá te m***n,3,0,3,1,3,Ojalá te m***n,0,3,1,3
+SND-0124,2. Amenazas de muerte,Ojalá te maten,arroba,Ojalá te m@ten,3,1,3,1,3,Ojalá te m@usuario,1,3,0,1
+SND-0125,2. Amenazas de muerte,Ojalá te maten,numeral,Ojalá te mat#n,3,0,3,1,3,Ojalá te mat#n,0,3,1,3
+SND-0126,2. Amenazas de muerte,Ojalá te maten,leet_i,Ojalá te m4t3n,3,1,3,1,3,Ojalá te m4t3n,1,3,1,3
+SND-0127,2. Amenazas de muerte,Ojalá te maten,leet_s,Ojalá te ma7en,3,1,3,1,3,Ojalá te ma7en,1,3,1,3
+SND-0128,2. Amenazas de muerte,Ojalá te maten,punto,Ojalá te m.a.t.e.n,3,0,3,1,3,Ojalá te m.a.t.e.n,0,3,1,3
+SND-0129,2. Amenazas de muerte,Ojalá te maten,espaciado,Ojalá te m a t e n,3,0,3,1,3,Ojalá te m a t e n,0,3,1,3
+SND-0130,2. Amenazas de muerte,Ojalá te maten,repeticion,Ojalá te maaaaten,3,3,3,3,3,Ojalá te maaaaten,3,3,3,3
+SND-0131,2. Amenazas de muerte,Ojalá te maten,acento,Ojalá te mátén,3,1,3,0,0,Ojalá te mátén,1,3,0,0
+SND-0132,2. Amenazas de muerte,Ojalá te maten,mayus,Ojalá te MATEN,3,3,3,1,3,Ojalá te MATEN,3,3,1,3
+SND-0133,2. Amenazas de muerte,Te voy a dar piso,eufemismo,Te voy a dar piso,3,3,3,0,3,Te voy a dar piso,3,3,0,3
+SND-0134,2. Amenazas de muerte,Le vamos a dar cuello a ese maje,eufemismo,Le vamos a dar cuello a ese maje,3,1,3,3,1,Le vamos a dar cuello a ese maje,1,3,3,1
+SND-0135,2. Amenazas de muerte,"Ya lo mandé a traer, ya sabés",eufemismo,"Ya lo mandé a traer, ya sabés",3,3,3,1,3,"Ya lo mandé a traer, ya sabés",3,3,1,3
+SND-0136,2. Amenazas de muerte,"Te vamos a bajar del bus, vos sabés",eufemismo,"Te vamos a bajar del bus, vos sabés",3,0,0,0,0,"Te vamos a bajar del bus, vos sabés",0,0,0,0
+SND-0137,2. Amenazas de muerte,Ese ya está rayado,eufemismo,Ese ya está rayado,3,1,1,2,0,Ese ya está rayado,1,1,2,0
+SND-0138,2. Amenazas de muerte,Lo van a poner a dormir,eufemismo,Lo van a poner a dormir,3,3,3,3,3,Lo van a poner a dormir,3,3,3,3
+SND-0139,3. Emoji de amenaza,amenaza pistola,emoji_crudo,Te espero en la esquina 🔫,3,1,0,0,0,Te espero en la esquina :pistola_de_agua:,1,3,1,1
+SND-0140,3. Emoji de amenaza,amenaza pistola,emoji_crudo,Ya sabés lo que sigue 🔫🔫,3,1,3,1,0,Ya sabés lo que sigue :pistola_de_agua: :pistola_de_agua:,1,3,1,1
+SND-0141,3. Emoji de amenaza,amenaza cuchillo,emoji_crudo,Te espero en la esquina 🔪,3,1,0,0,0,Te espero en la esquina :cuchillo_de_cocina:,1,3,1,1
+SND-0142,3. Emoji de amenaza,amenaza cuchillo,emoji_crudo,Ya sabés lo que sigue 🔪🔪,3,1,3,0,0,Ya sabés lo que sigue :cuchillo_de_cocina: :cuchillo_de_cocina:,1,3,1,1
+SND-0143,3. Emoji de amenaza,amenaza ataúd,emoji_crudo,Te espero en la esquina ⚰️,3,1,0,0,0,Te espero en la esquina :ataúd:,1,3,0,0
+SND-0144,3. Emoji de amenaza,amenaza ataúd,emoji_crudo,Ya sabés lo que sigue ⚰️⚰️,3,1,3,0,0,Ya sabés lo que sigue :ataúd: :ataúd:,1,3,1,1
+SND-0145,3. Emoji de amenaza,amenaza calavera,emoji_crudo,Te espero en la esquina 💀,3,1,0,0,0,Te espero en la esquina :calavera:,1,3,1,0
+SND-0146,3. Emoji de amenaza,amenaza calavera,emoji_crudo,Ya sabés lo que sigue 💀💀,3,1,3,1,0,Ya sabés lo que sigue :calavera: :calavera:,1,3,1,1
+SND-0147,3. Emoji de amenaza,amenaza lápida,emoji_crudo,Te espero en la esquina 🪦,3,1,0,0,0,Te espero en la esquina :lápida:,1,3,0,0
+SND-0148,3. Emoji de amenaza,amenaza lápida,emoji_crudo,Ya sabés lo que sigue 🪦🪦,3,1,3,0,0,Ya sabés lo que sigue :lápida: :lápida:,1,3,1,1
+SND-0149,3. Emoji de amenaza,amenaza bomba,emoji_crudo,Te espero en la esquina 💣,3,1,0,0,0,Te espero en la esquina :bomba:,1,3,0,0
+SND-0150,3. Emoji de amenaza,amenaza bomba,emoji_crudo,Ya sabés lo que sigue 💣💣,3,1,3,0,0,Ya sabés lo que sigue :bomba: :bomba:,1,3,1,1
+SND-0151,4. Emoji de odio,odio mono,emoji_crudo,No soporto a los negros 🐒,2,2,2,2,2,No soporto a los negros :mono:,2,2,2,2
+SND-0152,4. Emoji de odio,odio jabón,emoji_crudo,No soporto a los judíos 🧼,2,2,2,2,2,No soporto a los judíos :jabón:,2,2,2,2
+SND-0153,4. Emoji de odio,odio cerdo,emoji_crudo,No soporto a los musulmanes 🐷,2,0,2,2,2,No soporto a los musulmanes :cara_de_cerdo:,1,2,2,2
+SND-0154,4. Emoji de odio,odio ballena,emoji_crudo,No soporto a las gordas 🐋,2,0,2,2,2,No soporto a las gordas :ballena:,0,2,2,2
+SND-0155,5. Emoji inofensivo,amable,emoji_crudo,"Qué alegre verte, hermano ❤️",0,1,0,0,0,"Qué alegre verte, hermano :corazón_rojo:",1,0,1,0
+SND-0156,5. Emoji inofensivo,amable,emoji_crudo,❤️ Felicidades por el logro,0,0,0,0,0,:corazón_rojo: Felicidades por el logro,0,0,1,0
+SND-0157,5. Emoji inofensivo,amable,emoji_crudo,"Qué alegre verte, hermano 😂",0,1,0,0,0,"Qué alegre verte, hermano :cara_llorando_de_risa:",1,0,1,1
+SND-0158,5. Emoji inofensivo,amable,emoji_crudo,😂 Felicidades por el logro,0,0,0,0,0,:cara_llorando_de_risa: Felicidades por el logro,1,0,1,1
+SND-0159,5. Emoji inofensivo,amable,emoji_crudo,"Qué alegre verte, hermano 🎉",0,1,0,0,0,"Qué alegre verte, hermano :cañón_de_confeti:",1,0,1,1
+SND-0160,5. Emoji inofensivo,amable,emoji_crudo,🎉 Felicidades por el logro,0,0,0,0,0,:cañón_de_confeti: Felicidades por el logro,1,0,1,1
+SND-0161,5. Emoji inofensivo,amable,emoji_crudo,"Qué alegre verte, hermano 🙏",0,1,0,0,0,"Qué alegre verte, hermano :manos_en_oración:",1,0,1,1
+SND-0162,5. Emoji inofensivo,amable,emoji_crudo,🙏 Felicidades por el logro,0,0,0,0,0,:manos_en_oración: Felicidades por el logro,1,0,0,0
+SND-0163,5. Emoji inofensivo,amable,emoji_crudo,"Qué alegre verte, hermano 👏",0,1,0,0,0,"Qué alegre verte, hermano :manos_aplaudiendo:",1,0,0,0
+SND-0164,5. Emoji inofensivo,amable,emoji_crudo,👏 Felicidades por el logro,0,0,0,0,0,:manos_aplaudiendo: Felicidades por el logro,1,0,0,0
+SND-0165,5. Emoji inofensivo,amable,emoji_crudo,"Qué alegre verte, hermano 🌮",0,1,0,0,0,"Qué alegre verte, hermano :taco:",1,0,0,0
+SND-0166,5. Emoji inofensivo,amable,emoji_crudo,🌮 Felicidades por el logro,0,0,0,0,0,:taco: Felicidades por el logro,0,0,0,0
+SND-0167,5. Emoji inofensivo,amable,emoji_crudo,"Qué alegre verte, hermano ⚽",0,1,0,0,0,"Qué alegre verte, hermano :balón_de_fútbol:",1,0,1,1
+SND-0168,5. Emoji inofensivo,amable,emoji_crudo,⚽ Felicidades por el logro,0,0,0,0,0,:balón_de_fútbol: Felicidades por el logro,1,0,1,0
+SND-0169,5. Emoji inofensivo,amable,emoji_crudo,"Qué alegre verte, hermano ☕",0,1,0,0,0,"Qué alegre verte, hermano :bebida_caliente:",1,0,1,1
+SND-0170,5. Emoji inofensivo,amable,emoji_crudo,☕ Felicidades por el logro,0,0,0,0,0,:bebida_caliente: Felicidades por el logro,0,0,1,1
+SND-0171,6. Par mínimo de emoji,Ahí te espero,par_minimo,Ahí te espero ❤️,0,1,3,0,0,Ahí te espero :corazón_rojo:,1,0,1,1
+SND-0172,6. Par mínimo de emoji,Ya sabés cómo soy,par_minimo,Ya sabés cómo soy ❤️,0,1,0,0,0,Ya sabés cómo soy :corazón_rojo:,1,0,1,1
+SND-0173,6. Par mínimo de emoji,Ahí te espero,par_minimo,Ahí te espero 😂,0,1,3,0,0,Ahí te espero :cara_llorando_de_risa:,1,0,1,1
+SND-0174,6. Par mínimo de emoji,Ya sabés cómo soy,par_minimo,Ya sabés cómo soy 😂,0,1,0,0,0,Ya sabés cómo soy :cara_llorando_de_risa:,1,0,1,1
+SND-0175,6. Par mínimo de emoji,Ahí te espero,par_minimo,Ahí te espero 🔫,3,1,3,0,0,Ahí te espero :pistola_de_agua:,1,3,1,1
+SND-0176,6. Par mínimo de emoji,Ya sabés cómo soy,par_minimo,Ya sabés cómo soy 🔫,3,1,0,0,0,Ya sabés cómo soy :pistola_de_agua:,1,3,1,1
+SND-0177,6. Par mínimo de emoji,Ahí te espero,par_minimo,Ahí te espero 🔪,3,1,3,0,0,Ahí te espero :cuchillo_de_cocina:,1,3,1,1
+SND-0178,6. Par mínimo de emoji,Ya sabés cómo soy,par_minimo,Ya sabés cómo soy 🔪,3,1,0,0,0,Ya sabés cómo soy :cuchillo_de_cocina:,1,3,1,1
+SND-0179,6. Par mínimo de emoji,Ahí te espero,par_minimo,Ahí te espero 💀,3,1,3,0,0,Ahí te espero :calavera:,1,3,1,0
+SND-0180,6. Par mínimo de emoji,Ya sabés cómo soy,par_minimo,Ya sabés cómo soy 💀,3,1,0,0,0,Ya sabés cómo soy :calavera:,1,3,1,1
+SND-0181,6. Par mínimo de emoji,Ahí te espero,par_minimo,Ahí te espero 🖕,1,1,3,0,0,Ahí te espero :dedo_corazón_hacia_arriba:,1,1,1,1
+SND-0182,6. Par mínimo de emoji,Ya sabés cómo soy,par_minimo,Ya sabés cómo soy 🖕,1,1,0,0,0,Ya sabés cómo soy :dedo_corazón_hacia_arriba:,1,1,1,1
+SND-0183,6. Par mínimo de emoji,Ahí te espero,par_minimo,Ahí te espero 🐒,2,1,3,0,0,Ahí te espero :mono:,2,2,0,0
+SND-0184,6. Par mínimo de emoji,Ya sabés cómo soy,par_minimo,Ya sabés cómo soy 🐒,2,1,0,0,0,Ya sabés cómo soy :mono:,2,2,1,1
+SND-0185,7. Jerga inofensiva,Ese cerote es mi mejor amigo,jerga,Ese cerote es mi mejor amigo,0,1,0,1,1,Ese cerote es mi mejor amigo,1,0,1,1
+SND-0186,7. Jerga inofensiva,"Qué onda maje, todo bien",jerga,"Qué onda maje, todo bien",0,1,0,1,1,"Qué onda maje, todo bien",1,0,1,1
+SND-0187,7. Jerga inofensiva,"Vamos por unas pupusas, chero",jerga,"Vamos por unas pupusas, chero",0,1,0,0,0,"Vamos por unas pupusas, chero",1,0,0,0
+SND-0188,7. Jerga inofensiva,Prestame pisto para el bus,jerga,Prestame pisto para el bus,0,0,0,3,3,Prestame pisto para el bus,0,0,3,3
+SND-0189,7. Jerga inofensiva,El bicho ya se durmió,jerga,El bicho ya se durmió,0,1,1,1,2,El bicho ya se durmió,1,1,1,2
+SND-0190,7. Jerga inofensiva,"No sea pajero, contá la verdad",jerga,"No sea pajero, contá la verdad",0,1,0,1,1,"No sea pajero, contá la verdad",1,0,1,1
+SND-0191,7. Jerga inofensiva,Ese chucho es bien tranquilo,jerga,Ese chucho es bien tranquilo,0,1,0,1,0,Ese chucho es bien tranquilo,1,0,1,0
+SND-0192,7. Jerga inofensiva,Andá traeme el chunche ese,jerga,Andá traeme el chunche ese,0,1,3,3,3,Andá traeme el chunche ese,1,3,3,3
+SND-0193,7. Jerga inofensiva,Qué chivo te quedó la casa,jerga,Qué chivo te quedó la casa,0,0,0,1,1,Qué chivo te quedó la casa,0,0,1,1
+SND-0194,7. Jerga inofensiva,"Puchica, qué bonito día",jerga,"Puchica, qué bonito día",0,1,0,0,0,"Puchica, qué bonito día",1,0,0,0
+SND-0195,8. Control español estándar,Ese amigo es mi mejor amigo,control,Ese amigo es mi mejor amigo,0,0,0,0,0,Ese amigo es mi mejor amigo,0,0,0,0
+SND-0196,8. Control español estándar,"Qué tal amigo, todo bien",control,"Qué tal amigo, todo bien",0,0,0,0,0,"Qué tal amigo, todo bien",0,0,0,0
+SND-0197,8. Control español estándar,"Vamos por unas pupusas, amigo",control,"Vamos por unas pupusas, amigo",0,0,0,0,0,"Vamos por unas pupusas, amigo",0,0,0,0
+SND-0198,8. Control español estándar,Préstame dinero para el autobús,control,Préstame dinero para el autobús,0,0,0,0,0,Préstame dinero para el autobús,0,0,0,0
+SND-0199,8. Control español estándar,El niño ya se durmió,control,El niño ya se durmió,0,1,2,0,0,El niño ya se durmió,1,2,0,0
+SND-0200,8. Control español estándar,"No sea mentiroso, cuente la verdad",control,"No sea mentiroso, cuente la verdad",0,1,0,1,1,"No sea mentiroso, cuente la verdad",1,0,1,1
+SND-0201,8. Control español estándar,Ese perro es bien tranquilo,control,Ese perro es bien tranquilo,0,1,1,1,0,Ese perro es bien tranquilo,1,1,1,0
+SND-0202,8. Control español estándar,Ve a traerme ese objeto,control,Ve a traerme ese objeto,0,3,3,3,1,Ve a traerme ese objeto,3,3,3,1
+SND-0203,8. Control español estándar,Qué bonito te quedó la casa,control,Qué bonito te quedó la casa,0,0,0,0,0,Qué bonito te quedó la casa,0,0,0,0
+SND-0204,8. Control español estándar,"Vaya, qué bonito día",control,"Vaya, qué bonito día",0,0,0,0,0,"Vaya, qué bonito día",0,0,0,0

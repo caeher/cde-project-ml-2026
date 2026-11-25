@@ -1,0 +1,70 @@
+﻿bateria,base,variante,texto,esperado,motivo,pred,conf,ok,clase_esperada,clase_predicha
+F. Falsos amigos dialectales,pajero,cotidiano,"No sea pajero, contame la verdad",0,En SV «pajero» = mentiroso. Reproche coloquial entre amigos,1,0.6741779325395769,False,No Tóxico,Lenguaje Ofensivo
+F. Falsos amigos dialectales,pajero,cotidiano,"Ese maje es bien pajero, nunca cumple",0,"Describe a alguien poco confiable, registro cotidiano",1,0.958528207085517,False,No Tóxico,Lenguaje Ofensivo
+F. Falsos amigos dialectales,paja,cotidiano,Qué paja tan buena la que contó anoche,0,"«Paja» = cuento, anécdota. Elogio, no insulto",1,0.9623678375095381,False,No Tóxico,Lenguaje Ofensivo
+F. Falsos amigos dialectales,paja,cotidiano,Dejate de pajas y andá a trabajar,0,«Dejate de pajas» = deja de perder el tiempo,1,0.4487877554464332,False,No Tóxico,Lenguaje Ofensivo
+F. Falsos amigos dialectales,paja,cotidiano,Puras pajas las que dice ese noticiero,0,"Crítica a un medio, sin insulto a persona",1,0.958423464948888,False,No Tóxico,Lenguaje Ofensivo
+F. Falsos amigos dialectales,cerote,cotidiano,Ese cerote me ayudó cuando más lo necesitaba,0,"Uso afectivo entre amigos, muy común en SV",1,0.5701389347245872,False,No Tóxico,Lenguaje Ofensivo
+F. Falsos amigos dialectales,cerote,cotidiano,"Qué onda cerote, cómo has estado",0,Saludo entre conocidos,1,0.7825298250936558,False,No Tóxico,Lenguaje Ofensivo
+F. Falsos amigos dialectales,bicho,cotidiano,Los bichos ya salieron de vacaciones,0,«Bicho» = niño en SV. En Puerto Rico es vulgar,2,0.5039505838089168,False,No Tóxico,Discurso de Odio
+F. Falsos amigos dialectales,cipote,cotidiano,Mi cipote entra a la universidad este año,0,«Cipote» = niño en SV. En España es vulgar,0,0.9665626133434383,True,No Tóxico,No Tóxico
+F. Falsos amigos dialectales,bicho,cotidiano,"No sea bicho, présteme el cuaderno un ratito",0,"Aquí «bicho» = tonto, en tono de broma",1,0.9045518473428128,False,No Tóxico,Lenguaje Ofensivo
+F. Falsos amigos dialectales,vergón,cotidiano,Está bien vergón el carro que te compraste,0,«Vergón» = excelente. Elogio pese a la raíz vulgar,1,0.9208790563407505,False,No Tóxico,Lenguaje Ofensivo
+F. Falsos amigos dialectales,verga,cotidiano,"Qué verga, ni me acordaba de la reunión",0,"Interjección de sorpresa, sin destinatario",1,0.895681665240118,False,No Tóxico,Lenguaje Ofensivo
+F. Falsos amigos dialectales,puta,cotidiano,"A la gran puta, qué frío está haciendo",0,"Interjección meteorológica, no dirigida a nadie",0,0.6355953651272888,True,No Tóxico,No Tóxico
+F. Falsos amigos dialectales,puchica,cotidiano,"Puchica, se me olvidó el cumpleaños",0,"Eufemismo suavizado, equivale a «caramba»",0,0.9600155361616516,True,No Tóxico,No Tóxico
+F. Falsos amigos dialectales,pedo,cotidiano,Anoche andaba bien pedo en la fiesta del barrio,0,"«Pedo» = ebrio. Descripción, no insulto",0,0.9651653690724052,True,No Tóxico,No Tóxico
+F. Falsos amigos dialectales,chero,cotidiano,Mi chero me acompañó al hospital toda la noche,0,«Chero» = amigo,0,0.9758877947696385,True,No Tóxico,No Tóxico
+F. Falsos amigos dialectales,pisto,cotidiano,Prestame pisto para el pasaje porfa,0,«Pisto» = dinero,1,0.5127551511429544,False,No Tóxico,Lenguaje Ofensivo
+F. Falsos amigos dialectales,chivo,cotidiano,Qué chivo quedó el mural de la escuela,0,"«Chivo» = bonito, chévere",1,0.5061197090220206,False,No Tóxico,Lenguaje Ofensivo
+F. Falsos amigos dialectales,bayunco,cotidiano,Ese bayunco no sabe bailar pero se anima,0,"«Bayunco» = torpe, en tono cariñoso",2,0.6247987889828502,False,No Tóxico,Discurso de Odio
+F. Falsos amigos dialectales,chucho,cotidiano,El chucho de la vecina ladra toda la noche,0,"«Chucho» = perro, literal",1,0.8667131160292337,False,No Tóxico,Lenguaje Ofensivo
+F. Falsos amigos dialectales,chucho,cotidiano,No sea chucho y convide del almuerzo,0,"«Chucho» = tacaño, reproche leve",1,0.8423920851846989,False,No Tóxico,Lenguaje Ofensivo
+F. Falsos amigos dialectales,guaro,cotidiano,Vamos por unos guaros el viernes,0,«Guaro» = licor,0,0.5258041224659871,True,No Tóxico,No Tóxico
+F. Falsos amigos dialectales,chuco,cotidiano,Quedó bien chuco el patio con el lodo,0,"«Chuco» = sucio, describe un patio",0,0.8430302542723326,True,No Tóxico,No Tóxico
+F. Falsos amigos dialectales,cabal,cotidiano,Cabal a las seis nos vemos entonces,0,"«Cabal» = exacto, confirmación",0,0.7385633797473472,True,No Tóxico,No Tóxico
+F. Falsos amigos dialectales,cachimbo,cotidiano,Había un cachimbo de gente en el mercado,0,«Cachimbo» = mucho,2,0.46483214074999996,False,No Tóxico,Discurso de Odio
+F. Falsos amigos dialectales,chele,cotidiano,Mi chele ya cumplió el añito,0,«Chele» = de piel clara. Aquí afectivo hacia un bebé,0,0.9379931610697411,True,No Tóxico,No Tóxico
+F. Falsos amigos dialectales,chibola,cotidiano,Se nos reventó la chibola en pleno partido,0,«Chibola» = pelota,1,0.8502792136290782,False,No Tóxico,Lenguaje Ofensivo
+F. Falsos amigos dialectales,desmadre,cotidiano,Se armó el desmadre en la fiesta pero todo bien,0,"«Desmadre» = alboroto, sin agresión",2,0.653699990917939,False,No Tóxico,Discurso de Odio
+F. Falsos amigos dialectales,codo,cotidiano,"Ese maje es bien codo, nunca invita",0,"«Codo» = tacaño, comentario ligero",1,0.9596168813421101,False,No Tóxico,Lenguaje Ofensivo
+F. Falsos amigos dialectales,minutas,cotidiano,Nos tomamos unas minutas en el parque ayer,0,«Minuta» = raspado de hielo,0,0.954167191666219,True,No Tóxico,No Tóxico
+F. Falsos amigos dialectales,pajero,agresivo,"Sos un pajero de mierda, no volvás a hablarme",1,CONTRASTE: la misma palabra dirigida como agresión,1,0.6277416826669842,True,Lenguaje Ofensivo,Lenguaje Ofensivo
+F. Falsos amigos dialectales,cerote,agresivo,Callate cerote hijo de puta,1,CONTRASTE: «cerote» como insulto real,1,0.9357648253904997,True,Lenguaje Ofensivo,Lenguaje Ofensivo
+F. Falsos amigos dialectales,bicho,agresivo,"Ese bicho no sirve para nada, es un inútil",1,CONTRASTE: descalificación directa a una persona,1,0.9581704763826794,True,Lenguaje Ofensivo,Lenguaje Ofensivo
+F. Falsos amigos dialectales,verga,agresivo,Andá a la gran verga vos y tu familia,1,CONTRASTE: mandar a la verga a alguien es ofensivo,1,0.7645510129095227,True,Lenguaje Ofensivo,Lenguaje Ofensivo
+G. Pares mínimos de emoji,Ya sabés lo que te espera,(sin emoji),Ya sabés lo que te espera,0,Sin emoji es ambiguo pero inocuo: puede ser una sorpresa,0,0.8205715886426875,True,No Tóxico,No Tóxico
+G. Pares mínimos de emoji,Ya sabés lo que te espera,🎂,Ya sabés lo que te espera 🎂,0,El pastel lo vuelve claramente una sorpresa de cumpleaños,1,0.9405374609004781,False,No Tóxico,Lenguaje Ofensivo
+G. Pares mínimos de emoji,Ya sabés lo que te espera,🎉,Ya sabés lo que te espera 🎉,0,Celebración,1,0.9579271304627638,False,No Tóxico,Lenguaje Ofensivo
+G. Pares mínimos de emoji,Ya sabés lo que te espera,🔫,Ya sabés lo que te espera 🔫,3,El arma lo convierte en amenaza explícita,1,0.9331196735412519,False,Amenazas/Violencia,Lenguaje Ofensivo
+G. Pares mínimos de emoji,Ya sabés lo que te espera,⚰️,Ya sabés lo que te espera ⚰️,3,El ataúd lo convierte en amenaza de muerte,1,0.49473208341081093,False,Amenazas/Violencia,Lenguaje Ofensivo
+G. Pares mínimos de emoji,Te voy a buscar mañana,(sin emoji),Te voy a buscar mañana,0,Frase cotidiana: pasar a recoger a alguien,0,0.7313152173440942,True,No Tóxico,No Tóxico
+G. Pares mínimos de emoji,Te voy a buscar mañana,❤️,Te voy a buscar mañana ❤️,0,Afectivo: una cita,1,0.9451898895647968,False,No Tóxico,Lenguaje Ofensivo
+G. Pares mínimos de emoji,Te voy a buscar mañana,🚗,Te voy a buscar mañana 🚗,0,Literal: ir en carro,0,0.7545399059219499,True,No Tóxico,No Tóxico
+G. Pares mínimos de emoji,Te voy a buscar mañana,🔪,Te voy a buscar mañana 🔪,3,El cuchillo lo convierte en amenaza,1,0.9303459188396398,False,Amenazas/Violencia,Lenguaje Ofensivo
+G. Pares mínimos de emoji,Te voy a buscar mañana,💀,Te voy a buscar mañana 💀,3,La calavera señala amenaza de muerte,0,0.6625873581733893,False,Amenazas/Violencia,No Tóxico
+G. Pares mínimos de emoji,Mirá a este,(sin emoji),Mirá a este,0,"Señalar a alguien, neutro",3,0.7676019138441134,False,No Tóxico,Amenazas/Violencia
+G. Pares mínimos de emoji,Mirá a este,😍,Mirá a este 😍,0,Admiración,1,0.9660259216872593,False,No Tóxico,Lenguaje Ofensivo
+G. Pares mínimos de emoji,Mirá a este,👏,Mirá a este 👏,0,Reconocimiento,1,0.8879554972032806,False,No Tóxico,Lenguaje Ofensivo
+G. Pares mínimos de emoji,Mirá a este,🤡,Mirá a este 🤡,1,El payaso lo convierte en burla,1,0.9687464683249094,True,Lenguaje Ofensivo,Lenguaje Ofensivo
+G. Pares mínimos de emoji,Mirá a este,💩,Mirá a este 💩,1,Desprecio explícito,1,0.9676078754912791,True,Lenguaje Ofensivo,Lenguaje Ofensivo
+G. Pares mínimos de emoji,Los que vienen del sur,(sin emoji),Los que vienen del sur,0,Descripción geográfica neutra,2,0.8996621820749007,False,No Tóxico,Discurso de Odio
+G. Pares mínimos de emoji,Los que vienen del sur,⚽,Los que vienen del sur ⚽,0,Contexto deportivo,1,0.9449571439225638,False,No Tóxico,Lenguaje Ofensivo
+G. Pares mínimos de emoji,Los que vienen del sur,🇸🇻,Los que vienen del sur 🇸🇻,0,Referencia nacional neutra,1,0.9669151177760497,False,No Tóxico,Lenguaje Ofensivo
+G. Pares mínimos de emoji,Los que vienen del sur,🐒,Los que vienen del sur 🐒,2,El mono deshumaniza: bestialización racial,2,0.9455985581020746,True,Discurso de Odio,Discurso de Odio
+G. Pares mínimos de emoji,Los que vienen del sur,🪳,Los que vienen del sur 🪳,2,La cucaracha deshumaniza al grupo,2,0.7687131352297253,True,Discurso de Odio,Discurso de Odio
+G. Pares mínimos de emoji,Ahí viene el grupo de siempre,(sin emoji),Ahí viene el grupo de siempre,0,Comentario cotidiano,0,0.9810864205136065,True,No Tóxico,No Tóxico
+G. Pares mínimos de emoji,Ahí viene el grupo de siempre,🙌,Ahí viene el grupo de siempre 🙌,0,Entusiasmo por ver a los amigos,1,0.5590249312509167,False,No Tóxico,Lenguaje Ofensivo
+G. Pares mínimos de emoji,Ahí viene el grupo de siempre,🐀,Ahí viene el grupo de siempre 🐀,2,Las ratas deshumanizan al colectivo,0,0.8885086678631846,False,Discurso de Odio,No Tóxico
+G. Pares mínimos de emoji,Ahí viene el grupo de siempre,🧹,Ahí viene el grupo de siempre 🧹,3,La escoba evoca «limpieza» eliminacionista,0,0.6609839783524327,False,Amenazas/Violencia,No Tóxico
+G. Pares mínimos de emoji,No lo quiero ver más por aquí,(sin emoji),No lo quiero ver más por aquí,1,Rechazo fuerte pero sin ataque a grupo,0,0.5145021631085882,False,Lenguaje Ofensivo,No Tóxico
+G. Pares mínimos de emoji,No lo quiero ver más por aquí,🙏,No lo quiero ver más por aquí 🙏,0,Con el rezo suena a hartazgo resignado,1,0.957833350690045,False,No Tóxico,Lenguaje Ofensivo
+G. Pares mínimos de emoji,No lo quiero ver más por aquí,🔫,No lo quiero ver más por aquí 🔫,3,El arma lo vuelve amenaza,1,0.8968580892154989,False,Amenazas/Violencia,Lenguaje Ofensivo
+G. Pares mínimos de emoji,Qué bonita familia,(sin emoji),Qué bonita familia,0,Elogio,0,0.9636491204338519,True,No Tóxico,No Tóxico
+G. Pares mínimos de emoji,Qué bonita familia,❤️,Qué bonita familia ❤️,0,Elogio afectuoso,0,0.7618227452267504,True,No Tóxico,No Tóxico
+G. Pares mínimos de emoji,Qué bonita familia,🤮,Qué bonita familia 🤮,1,El vómito lo convierte en burla despectiva,1,0.6335491625235972,True,Lenguaje Ofensivo,Lenguaje Ofensivo
+G. Pares mínimos de emoji,Qué bonita familia,🐷,Qué bonita familia 🐷,2,El cerdo señala gordofobia hacia la familia,1,0.9165636718839159,False,Discurso de Odio,Lenguaje Ofensivo
+G. Pares mínimos de emoji,Ese es el vecino nuevo,(sin emoji),Ese es el vecino nuevo,0,Presentación neutra,0,0.732118949400497,True,No Tóxico,No Tóxico
+G. Pares mínimos de emoji,Ese es el vecino nuevo,👋,Ese es el vecino nuevo 👋,0,Saludo cordial,1,0.7570486461988364,False,No Tóxico,Lenguaje Ofensivo
+G. Pares mínimos de emoji,Ese es el vecino nuevo,🌑,Ese es el vecino nuevo 🌑,2,La luna negra alude despectivamente a la tez,1,0.9451520038226524,False,Discurso de Odio,Lenguaje Ofensivo
+G. Pares mínimos de emoji,Ese es el vecino nuevo,🦶,Ese es el vecino nuevo 🦶,2,Referencia despectiva racializada,0,0.4372368490498266,False,Discurso de Odio,No Tóxico

@@ -1,0 +1,2 @@
+﻿modelo_a,modelo_b,n,f1_a,f1_b,delta,b,c,discordantes,p_exacta,p_chi2,significativo,metodo,bootstrap_ic_lo,bootstrap_ic_hi
+XLM-R,XLM-R-copia,460,0.8058,0.8058,0.0,0,0,0,1.0,1.0,False,sin discordancia,0.0,0.0

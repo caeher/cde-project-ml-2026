@@ -1,0 +1,17 @@
+{
+  "train_total": 9195,
+  "filas_nuevas": 644,
+  "nuevas_por_clase": {
+    "No Tóxico": 343,
+    "Lenguaje Ofensivo": 161,
+    "Discurso de Odio": 101,
+    "Amenazas/Violencia": 39
+  },
+  "xenofobia_reservado": {
+    "No Tóxico": 72,
+    "Lenguaje Ofensivo": 64,
+    "Discurso de Odio": 94,
+    "Amenazas/Violencia": 7
+  },
+  "verificacion": "0 textos de train en val, test, batería ni externos (crudo y normalizado)"
+}

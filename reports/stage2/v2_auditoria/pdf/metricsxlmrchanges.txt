@@ -1,0 +1,53 @@
+Informe T´ ecnico: Correcciones y Auditor´ ıa de
+Modelo XLM-RoBERTa
+Proyecto de Clasificaci´ on de Texto
+Universidad de El Salvador
+26 de agosto de 2026
+1. Resumen Informativo
+En el presente documento se detalla el plan de correcciones aplicadas al pipeline de eva-
+luaci´ on, procesamiento de m´ etricas y control de versiones del modeloXLM-RoBER T a, luego
+de completar una auditor´ ıa t´ ecnica integral. Las modificaciones abordan inconsistencias meto-
+dol´ ogicas, errores de codificaci´ on en variables de prueba y la optimizaci´ on del repositorio.
+2. Desglose de Modificaciones y Justificaci´ on T´ ecnica
+Cuadro 1: Resumen del Estado de Auditor´ ıa
+Item T area Realizada Severidad Estado
+1 Recalculaci´ on din´ amica de FPR por jerga local Cr´ ıtica Completado
+2 Normalizaci´ on de variables de sarcasmo/iron´ ıa Cr´ ıtica Completado
+3 Correcci´ on de m´ etricas reportadas por plataforma Cr´ ıtica Completado
+4 Unificaci´ on del par´ ametromax length = 128Alta Completado
+5 Integraci´ on de Bootstrap CI, Matriz Num´ erica y Precisi´ on Alta Completado
+6 Configuraci´ on expl´ ıcita deid2labelMedia Completado
+7 Depuraci´ on de Git y exclusi´ on de artefactos pesados Media Completado
+2.1. 1 y 3. Correcci´ on de M´ etricas Reales (FPR y Plataforma)
+Se elimin´ o la asignaci´ on est´ atica (hardcoded) del False Positive Rate (FPR) por jerga local,
+sustituyendo los valores previos por los datos emp´ ıricos reales obtenidos durante la evaluaci´ on
+(15,96 % sin jerga y 44,83 % con jerga). Asimismo, se actualizaron los reportes de rendimiento por
+plataforma en la secci´ on correspondiente, ajustando elF1-macro a 0,867 y 0,715 respectivamente.
+2.2. 2. Estandarizaci´ on de Etiquetas Slicing
+Se corrigi´ o la desalineaci´ on de nombres de columnas en las pruebas por cortes (slices). Las re-
+ferencias obsoletasPresencia SaryPresencia Irofueron actualizadas aPresencia Sarcasmo
+yPresencia Ironia. Adicionalmente, se cambi´ o la evaluaci´ on booleana r´ ıgida de enteros (1)
+por una funci´ on de normalizaci´ on textual que valida expl´ ıcitamente cadenas["SI", "S´I"].
+1
+2.3. 4. Unificaci´ on de Longitud de Secuencia
+Se resolvi´ o la discrepancia de dimensi´ on en el tokenizador, fijando el l´ ımitemaxlength = 128
+en todo el pipeline (entrenamiento e inferencia), garantizando consistencia en el truncamiento y
+padding.
+2.4. 5 y 6. Rigor Estad´ ıstico y Metadatos del Modelo
+Para robustecer la evaluaci´ on:
+Se implement´ o la estimaci´ on de intervalos de confianza al 95 % mediantebootstrapping(n=
+2000) sobre la m´ etricaF1-macro.
+Se configur´ o la exportaci´ on de m´ etricas tabulares con precisi´ on fija a 4 decimales y visualiza-
+ciones con etiquetas absolutas en la Matriz de Confusi´ on.
+Se vincul´ o el diccionarioid2labelcon los nombres sem´ anticos de las clases durante la ins-
+tanciaci´ on de la arquitectura.
+2.5. 7. Depuraci´ on del Control de Versiones
+Se reestructur´ o la gesti´ on de Git mediante la inclusi´ on de reglas globales y locales en
+.gitignore. Se extrajeron del ´ arbol de seguimiento los pesos binarios (.safetensors,.bin), en-
+tornos virtuales (venv/), datasets pesados (.csv) y checkpoints de entrenamiento (resultsxlmr/),
+ejecutando el desacople mediantegit rm -r --cached.
+3. Conclusi´ on
+El pipeline de inferencia y evaluaci´ on ha sido estandarizado satisfactoriamente, corrigiendo
+los sesgos de reporte y garantizando un entorno de control de versiones limpio, preparado para
+la fase final de reentrenamiento.
+2

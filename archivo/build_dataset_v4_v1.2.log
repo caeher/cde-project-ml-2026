@@ -1,0 +1,37 @@
+{
+  "train_base": "data/dataset_v3/train.csv",
+  "normalizador": "v1.2",
+  "filas_recibidas": 4328,
+  "reetiquetadas_politica_odio_a_ofensivo": 384,
+  "eliminadas_fuga_val_test_bateria": 80,
+  "eliminadas_conflicto_etiqueta": 0,
+  "eliminadas_duplicado_interno": 6,
+  "eliminadas_fuga_heredada_train_base": 21,
+  "eliminadas_ya_en_train": 168,
+  "verificacion_solape": "0 textos de train en val, test o batería (texto crudo y normalizado)",
+  "nuevas_incorporadas": 4074,
+  "nuevas_fuera_de_sv": 230,
+  "train_v4_total": 10469,
+  "train_v4_reales": 6217,
+  "train_v4_sinteticos": 4252,
+  "distribucion_train_v4": {
+    "No Tóxico": 2583,
+    "Lenguaje Ofensivo": 3487,
+    "Discurso de Odio": 2293,
+    "Amenazas/Violencia": 2106
+  },
+  "nuevas_por_clase": {
+    "No Tóxico": 795,
+    "Lenguaje Ofensivo": 1709,
+    "Discurso de Odio": 613,
+    "Amenazas/Violencia": 957
+  },
+  "pesos_clase": [
+    1.0133,
+    0.7506,
+    1.1414,
+    1.2428
+  ],
+  "val_n": 459,
+  "test_n": 460
+}

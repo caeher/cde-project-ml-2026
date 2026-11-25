@@ -1,0 +1,25 @@
+configuración ganadora (val F1 0.8523):
+  lr               5.069511908694935e-05
+  bs               32
+  epochs           4
+  weight_decay     0.1342454527746128
+  warmup           0.13647045600326557
+  peso_sintetico   1.0
+  fases_reales     3
+  pesos_clase      True
+
+>>> semilla 42
+<<< val F1 = 0.8374
+
+>>> semilla 1337
+<<< val F1 = 0.8409
+
+>>> semilla 2026
+<<< val F1 = 0.8555
+
+============================================================
+  semilla    42  val F1 = 0.8374
+  semilla  1337  val F1 = 0.8409  <- mediana, elegido
+  semilla  2026  val F1 = 0.8555
+
+modelo final -> /home/willian/ues/esp/proyecto/models/v3/final

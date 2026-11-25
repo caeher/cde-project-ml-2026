@@ -1,0 +1,150 @@
+{
+  "tamanos": {
+    "train": 20028,
+    "val": 459,
+    "test": 460,
+    "bateria": 144,
+    "banco": 1391,
+    "sonda": 38,
+    "val_hilos": 2314,
+    "test_hilos": 1975
+  },
+  "clases": {
+    "train": {
+      "0": 8914,
+      "1": 5453,
+      "2": 2876,
+      "3": 2785
+    },
+    "val": {
+      "0": 122,
+      "1": 159,
+      "2": 94,
+      "3": 84
+    },
+    "test": {
+      "0": 123,
+      "1": 159,
+      "2": 95,
+      "3": 83
+    },
+    "banco": {
+      "0": 855,
+      "1": 289,
+      "2": 130,
+      "3": 117
+    }
+  },
+  "origen_train": {
+    "real_etapa1": 2143,
+    "real_hilo": 13545,
+    "caso_dificil": 88,
+    "sintetico": 4252
+  },
+  "plataforma_train": {
+    "X": 15259,
+    "sintetico": 3127,
+    "Facebook": 1642
+  },
+  "validado_train": {
+    "CONSENSO": 13545,
+    "SI": 6395,
+    "NO": 88
+  },
+  "origen_val_test": {
+    "val": {
+      "real": 459
+    },
+    "test": {
+      "real": 460
+    }
+  },
+  "dup_exactos_train": 0,
+  "dup_normalizados_train": 1087,
+  "conflictos_etiqueta_train": 2,
+  "ejemplos_conflicto": [
+    [
+      "Que ASCO",
+      1,
+      "real_hilo"
+    ],
+    [
+      "Que se vuelvan a Paraguay",
+      0,
+      "real_hilo"
+    ],
+    [
+      "Qué asco.",
+      0,
+      "real_hilo"
+    ],
+    [
+      "Qué se vuelvan a Paraguay!",
+      2,
+      "real_hilo"
+    ]
+  ],
+  "ids_repetidos_train": 0,
+  "fugas": {
+    "val": {
+      "exactas": 0,
+      "normalizadas": 0,
+      "ngrama8": 5,
+      "n": 459
+    },
+    "test": {
+      "exactas": 0,
+      "normalizadas": 1,
+      "ngrama8": 3,
+      "n": 460
+    },
+    "bateria": {
+      "exactas": 0,
+      "normalizadas": 0,
+      "ngrama8": 1,
+      "n": 144
+    },
+    "banco": {
+      "exactas": 0,
+      "normalizadas": 0,
+      "ngrama8": 2,
+      "n": 1391
+    },
+    "sonda": {
+      "exactas": 0,
+      "normalizadas": 0,
+      "ngrama8": 0,
+      "n": 38
+    },
+    "val_hilos": {
+      "exactas": 0,
+      "normalizadas": 0,
+      "ngrama8": 2,
+      "n": 2314
+    },
+    "test_hilos": {
+      "exactas": 0,
+      "normalizadas": 0,
+      "ngrama8": 5,
+      "n": 1975
+    },
+    "val_vs_test": 1
+  },
+  "ids_train_en_val_test": 0,
+  "plantillas_compartidas": {
+    "train_val": [],
+    "train_test": []
+  },
+  "hilos_banco_en_train": [],
+  "hilos_eval_v2_en_train": [],
+  "val_hilos_vs_test_hilos": 0,
+  "ejemplos_ngrama_test": [
+    "A diferencia del resto del mundo, a mi si me da alegría que la selección de argentina gane. Creo que vivir en un país hundido en la miseria donde no hay comida, no hay oportunidades de trabajo, su moneda se devalúa día a día, no hay inversiones, etc... los triunfos deportivos son su única alegría, así que me alegro por Hambrientina",
+    "El unico Marero bueno es un marero Muerto!!!!!!.",
+    "Abelardo Perez A diferencia del resto del mundo, a mi si me da alegría que la selección de argentina gane.. creo que vivir en un país hundido en la miseria donde no hay comida, no hay oportunidades de trabajo, su moneda se devalúa día a día, no hay inversiones etc.. los triunfos deportivos son su única alegría, así que bien por ellos y ojalá argentina sea campeón mundial!!"
+  ],
+  "ejemplos_ngrama_banco": [
+    "Ahora si lloran y piden perdón, imagino que sus víctimas hicieron lo mismo y estas bestias se burlaban, entonces el que a hierro mata, a hierro muere",
+    "Veneco tenía que ser ..así son todos ...pues que se vaya a su puto país d e mierda"
+  ]
+}

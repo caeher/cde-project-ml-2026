@@ -1,0 +1,107 @@
+{
+  "test_oficial": {
+    "archivo": "data/dataset/test.csv",
+    "sha256": "b63a04906bedda1befb41a7d147c582dc0ebee2f02f0cb3617ab461bdf932294",
+    "n": 460
+  },
+  "militares": {
+    "archivo": "data/evaluation/frozen_bank/militares.csv",
+    "sha256": "30b70a1056b76b25d3af6a2a9095010357fd2227c1d2a56bf3a945877ba5e173",
+    "n": 202,
+    "clases": {
+      "No Tóxico": 84,
+      "Lenguaje Ofensivo": 11,
+      "Discurso de Odio": 1,
+      "Amenazas/Violencia": 106
+    }
+  },
+  "xenofobia": {
+    "archivo": "data/evaluation/frozen_bank/xenofobia.csv",
+    "sha256": "1faeef4158b039aed40fae254234efeafc3782e2e969af85d37c047125175796",
+    "n": 236,
+    "clases": {
+      "No Tóxico": 71,
+      "Lenguaje Ofensivo": 64,
+      "Discurso de Odio": 94,
+      "Amenazas/Violencia": 7
+    }
+  },
+  "externo2": {
+    "archivo": "data/evaluation/frozen_bank/externo2.csv",
+    "sha256": "853cd689f0e365cf8cd2b3256a1022a83252ce6f1f466900f56870c1dd167eef",
+    "n": 647,
+    "clases": {
+      "No Tóxico": 558,
+      "Lenguaje Ofensivo": 86,
+      "Discurso de Odio": 2,
+      "Amenazas/Violencia": 1
+    }
+  },
+  "migrantes": {
+    "archivo": "data/evaluation/frozen_bank/migrantes.csv",
+    "sha256": "484d9581d280be0a3e0a37de77ef43ddddfc77f3e4688a3d619ed148b40339f4",
+    "n": 306,
+    "clases": {
+      "No Tóxico": 142,
+      "Lenguaje Ofensivo": 128,
+      "Discurso de Odio": 33,
+      "Amenazas/Violencia": 3
+    }
+  },
+  "val_hilos": {
+    "archivo": "data/dataset/val_hilos.csv",
+    "sha256": "d2309e183be12f8368dd79c8a7dd2c388999ca10ba7fe5ce175b6b5b86ab9150",
+    "n": 2314,
+    "hilos": [
+      "aniversario_presidencial",
+      "apoyar_bukele",
+      "busqueda_achis",
+      "busqueda_cachimbon",
+      "busqueda_cerote",
+      "busqueda_chulon",
+      "busqueda_jana",
+      "busqueda_que_onda_vos",
+      "capturas_4_dias",
+      "cena_navidad_cecot",
+      "diputadas_oposicion",
+      "mensaje_criminales",
+      "mexicano_dictadura",
+      "partido_puerto_rico",
+      "zavaleta_roldan"
+    ],
+    "clases": {
+      "No Tóxico": 1559,
+      "Lenguaje Ofensivo": 594,
+      "Discurso de Odio": 29,
+      "Amenazas/Violencia": 132
+    }
+  },
+  "test_hilos": {
+    "archivo": "data/dataset/test_hilos.csv",
+    "sha256": "14eefebc1a70c0ba8e91c32d2c09b0fbb7a025dcbc560fa9eab29785763e846d",
+    "n": 1975,
+    "hilos": [
+      "aficionados_fito",
+      "analista_oposicion",
+      "busqueda_achis",
+      "busqueda_cachimbon",
+      "busqueda_cerote",
+      "busqueda_chulon",
+      "busqueda_jana",
+      "busqueda_que_onda_vos",
+      "chivo_wallet",
+      "duro_golpe_pandilleros",
+      "emma_dejar_morir_hambre",
+      "intolerancia_calle",
+      "mensaje_prensa",
+      "pena_muerte_gallegos",
+      "propuesta_retornados"
+    ],
+    "clases": {
+      "No Tóxico": 1307,
+      "Lenguaje Ofensivo": 514,
+      "Discurso de Odio": 28,
+      "Amenazas/Violencia": 126
+    }
+  }
+}
